@@ -1,9 +1,18 @@
 .header-container {
-  display: flex;
-  align-items: center;
   width: 100%;
   color: #fff;
   background: #0b0c0c;
+  display: flex;
+  justify-content: center;
+}
+
+.main-container {
+  display: flex;
+  align-items: center;
+  max-width: 960px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .left-container, .right-container {
@@ -13,4 +22,67 @@
 .service-name {
   font-size: 24px;
   font-weight: 700;
+}
+
+.accent-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.accent-bar {
+  background-color: #1A747A;
+  height: 10px;
+  max-width: 960px;
+  width: 100%;
+}
+
+.system-message-container {
+  background-color: #D5E8F3;
+  display: flex;
+  justify-content: center;
+}
+
+.system-message-content {
+  max-width: 960px;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.phase-banner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.phase-banner-content-container {
+  display: flex;
+  align-items: center;
+  max-width: 960px;
+  width: 100%;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #BFC1C3;
+}
+
+.status-tag {
+  background-color: #125EA5;
+}
+
+.status-tag-label {
+  padding: 7px;
+  color: white;
+}
+
+.status-feedback-link {
+  font-size: 16px;
+  color: #2B8CC4;
+  text-decoration: underline;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.status-feedback-text {
+  margin-left: 5px;
 }
