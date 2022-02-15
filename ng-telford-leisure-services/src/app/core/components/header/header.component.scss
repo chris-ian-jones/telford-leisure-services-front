@@ -1,9 +1,13 @@
 .header-container {
   width: 100%;
-  color: #fff;
   background: #0b0c0c;
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 .main-container {
@@ -19,9 +23,16 @@
   flex: 1;
 }
 
+.right-container {
+  @media screen and (max-width: 450px) {
+    display: none;
+  }
+}
+
 .service-name {
   font-size: 24px;
   font-weight: 700;
+  color: #fff;
 }
 
 .accent-bar-container {
@@ -41,6 +52,11 @@
   background-color: #D5E8F3;
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 .system-message-content {
@@ -54,6 +70,11 @@
 .phase-banner-container {
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 .phase-banner-content-container {
@@ -75,6 +96,15 @@
   color: white;
 }
 
+.status-feedback-container {
+  display: flex;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    margin-top: 5px;
+  }
+}
+
 .status-feedback-link {
   font-size: 16px;
   color: #2B8CC4;
@@ -85,4 +115,8 @@
 
 .status-feedback-text {
   margin-left: 5px;
+
+  @media screen and (max-width: 480px) {
+    margin-left: 10px;
+  }
 }
