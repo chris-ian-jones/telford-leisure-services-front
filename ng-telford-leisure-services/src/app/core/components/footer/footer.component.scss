@@ -10,6 +10,7 @@
 
 .footer-content-container {
   display: flex;
+  justify-content: space-between;
   max-width: 960px;
   width: 100%;
 }
@@ -70,4 +71,10 @@
   font-size: 16px;
   margin-top: 15px;
   margin-bottom: 30px;
+}
+
+.footer-content-right-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
