@@ -2,6 +2,11 @@
   display: flex;
   justify-content: center;
   width: 100%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 .body-container {
@@ -67,6 +72,10 @@
   border-radius: 0px;
   font-size: 19px;
   line-height: 1.31579;
+
+  @media screen and (max-width: 475px) {
+    width: 95%;
+  }
 }
 
 .text-input:focus {
@@ -107,7 +116,11 @@
 }
 
 .inset-help-text {
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 15px;
   font-size: 19px;
+}
+
+.bottom-inset {
+  margin-bottom: 80px;
 }
