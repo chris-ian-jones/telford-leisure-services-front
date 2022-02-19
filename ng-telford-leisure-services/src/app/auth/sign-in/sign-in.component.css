@@ -1,0 +1,50 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 960px;
+  width: 100%;
+}
+
+.page-header {
+  font-size: 48px;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.inset-container {
+  display: flex;
+  flex-direction: column;
+  border-left: 10px solid #C4C4C4;
+}
+
+.inset-content {
+  margin-left: 15px;
+  font-size: 19px;
+}
+
+.inset-content:first-of-type {
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.inset-content:last-of-type {
+  margin-bottom: 25px;
+}
+
+.inset-link {
+  color: #2B8CC4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sign-in-form {
+  
+}
