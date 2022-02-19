@@ -42,22 +42,39 @@
 .footer-social-container {
   margin: 15px 0px;
 
+  @media screen and (max-width: 900px) {
+    margin: 20px 0px;
+  }
+
   .social-link {
     cursor: pointer;
   }
 
   .facebook-logo {
     margin-right: 4px;
+
+    @media screen and (max-width: 900px) {
+      margin-right: 15px;
+    }
   }
 
   .twitter-logo,
   .instagram-logo {
     margin-left: 4px;
     margin-right: 4px;
+
+    @media screen and (max-width: 900px) {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
   }
 
   .email-icon {
     margin-left: 4px;
+
+    @media screen and (max-width: 900px) {
+      margin-left: 15px;
+    }
   }
 }
 
@@ -71,7 +88,6 @@
   padding-inline-start: 0px;
 
   @media screen and (max-width: 900px) {
-    border: 1px solid red;
     flex-wrap: wrap;
   }
 
@@ -91,7 +107,7 @@
 
   @media screen and (max-width: 900px) {
     li {
-      margin-bottom: 5px;
+      margin-bottom: 15px;
     }
   }
 }
