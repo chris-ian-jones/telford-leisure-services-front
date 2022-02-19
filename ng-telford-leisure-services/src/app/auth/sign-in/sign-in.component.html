@@ -1,4 +1,4 @@
-<main class="main-container" role="main">
+<div class="main-container">
   <div class="body-container">
     <h1 class="page-header">
       Sign in to your Leisure Services account
@@ -7,8 +7,33 @@
       <span class="inset-content">Sign in or <a class="inset-link" href="/sign-up">create an account</a> to get started.</span>
       <span class="inset-content">By using the site you agree to the <a class="inset-link" href="#">terms and conditions.</a></span>
     </div>
-    <form class="sign-in-form">
-      
+    <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
+      <div class="input-container">
+        <label for="memberNumber" class="input-label">
+          Member Number
+        </label>
+        <div>
+          <input formControlName="memberNumber" id="memberNumber" type="number" class="text-input">
+        </div>
+      </div>
+      <div class="input-container">
+        <label for="password" class="input-label">
+          Password
+        </label>
+        <div>
+          <input formControlName="password" id="password" type="password" class="text-input">
+        </div>
+      </div>
+      <div>
+        <button class="default-btn" type="submit">
+          Sign in
+        </button>
+      </div>
     </form>
+    <p class="inset-help-text">Help signing in</p>
+    <div class="inset-container">
+      <span class="inset-content"><a class="inset-link" href="#">Forgotten your username?</a></span>
+      <span class="inset-content"><a class="inset-link" href="#">Forgotten your password?</a></span>
+    </div>
   </div>
-</main>
+</div>
