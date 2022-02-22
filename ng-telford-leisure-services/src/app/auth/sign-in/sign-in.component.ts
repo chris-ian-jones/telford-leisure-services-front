@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -10,7 +10,9 @@ import { AuthService } from '../auth.service';
 })
 export class SignInComponent implements OnInit {
 
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv: ElementRef;
   signInForm: FormGroup;
+  errorSummary: any = [];
 
   constructor(
     private router: Router, 
@@ -30,6 +32,7 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
+    this.errorSummary.length = 0;
     if (this.signInForm.valid) {
       const payload = {
         'memberNumber': this.signInForm.get('memberNumber').value,
@@ -41,8 +44,26 @@ export class SignInComponent implements OnInit {
         console.log('error')
       })
     } else {
-      console.log('sign in form invalid')
+      this.getAllFormValidationErrors();
+      console.log('this.errorSummary: ', this.errorSummary)
     }
   }
 
+  getAllFormValidationErrors() {
+    Object.keys(this.signInForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.signInForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        // this.errorSummaryDiv.nativeElement.focus()
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
 }

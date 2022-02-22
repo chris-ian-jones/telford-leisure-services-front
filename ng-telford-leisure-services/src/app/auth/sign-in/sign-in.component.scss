@@ -50,6 +50,18 @@
   cursor: pointer;
 }
 
+.inset-link:hover {
+  color: #003078;
+}
+
+.inset-link:focus {
+  color: #0b0c0c;
+  background-color: #fd0;
+  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  text-decoration: none;
+  outline: 3px solid transparent;
+}
+
 .sign-in-form {
   margin-top: 30px;
 }
@@ -132,6 +144,10 @@
   max-width: 600px;
 }
 
+.error-summary-container:focus {
+  outline: 3px solid #ffdd00;
+}
+
 .error-summary-title {
   margin: 0px 0px 20px 0px;
 }
@@ -155,6 +171,14 @@
       font-size: 19px;
       line-height: 25px;
       cursor: pointer;
+    }
+
+    a:focus {
+      color: #0b0c0c;
+      outline: 3px solid transparent;
+      background-color: #ffdd00;
+      box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+      text-decoration: none;
     }
   }
 }
