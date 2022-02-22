@@ -12,7 +12,8 @@ export class SignInComponent implements OnInit {
 
   @ViewChild('errorSummary', {static: false}) errorSummaryDiv: ElementRef;
   signInForm: FormGroup;
-  errorSummary: any = [];
+  frontErrorSummary: any = [];
+  backErrorSummary: any = [];
 
   constructor(
     private router: Router, 
@@ -27,25 +28,27 @@ export class SignInComponent implements OnInit {
   initSignInForm() {
     this.signInForm = this.formBuilder.group({
       memberNumber: ['', Validators.required],
-      password: ['', Validators.required]
-    })
+      password: ['', Validators.required],
+    }, {updateOn: 'submit'})
   }
 
   signIn() {
-    this.errorSummary.length = 0;
+    this.frontErrorSummary.length = 0;
+    this.backErrorSummary.length = 0;
     if (this.signInForm.valid) {
+      const unformattedMemberNumber = this.signInForm.get('memberNumber').value
       const payload = {
-        'memberNumber': this.signInForm.get('memberNumber').value,
+        'memberNumber': unformattedMemberNumber.toString(),
         'password': this.signInForm.get('password').value
       }
       this.authService.memberSignIn(payload).subscribe(response => {
         this.router.navigateByUrl('dashboard')
       }, error => {
-        console.log('error')
+        this.backErrorSummary.push(error.error.message)
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
       })
     } else {
       this.getAllFormValidationErrors();
-      console.log('this.errorSummary: ', this.errorSummary)
     }
   }
 
@@ -54,14 +57,13 @@ export class SignInComponent implements OnInit {
       const controlErrors: ValidationErrors = this.signInForm.get(control).errors;
       if (controlErrors != null) {
         Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
+          this.frontErrorSummary.push(
             {
               control,
               error
             }
           )
         });
-        // this.errorSummaryDiv.nativeElement.focus()
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
       }
     });
