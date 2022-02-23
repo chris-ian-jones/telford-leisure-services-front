@@ -1,3 +1,69 @@
-<p>
-  sign-in works!
-</p>
+<div class="main-container">
+  <div class="body-container">
+    <ng-container *ngIf="frontErrorSummary.length > 0 || backErrorSummary.length > 0">
+      <div #errorSummary class="error-summary-container" tabindex="1">
+        <h2 class="error-summary-title">
+          There is a problem
+        </h2>
+        <ng-container *ngIf="frontErrorSummary.length > 0">
+          <ul class="error-summary-list">
+            <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required')">
+              <a routerLink="./" fragment="memberNumber" class="error-link">
+                Enter your member number
+              </a>
+            </li>
+            <li *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required')">
+              <a routerLink="./" fragment="password" class="error-link">
+                Enter your password
+              </a>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="backErrorSummary.length > 0">
+          <ul class="error-summary-list">
+            <li *ngFor="let error of backErrorSummary">
+              <a routerLink="./" fragment="memberNumber" class="error-link">
+                {{error}}
+              </a>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </ng-container>
+    <h1 class="page-header">
+      Sign in to your Leisure Services account
+    </h1>
+    <div class="inset-container">
+      <span class="inset-content">Sign in or <a class="inset-link" href="/sign-up">create an account</a> to get started.</span>
+      <span class="inset-content">By using the site you agree to the <a class="inset-link" href="#">terms and conditions.</a></span>
+    </div>
+    <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
+      <div class="input-container">
+        <label for="memberNumber" class="input-label">
+          Member number
+        </label>
+        <div>
+          <input id="memberNumber" formControlName="memberNumber" id="memberNumber" type="number" class="text-input">
+        </div>
+      </div>
+      <div class="input-container">
+        <label for="password" class="input-label">
+          Password
+        </label>
+        <div>
+          <input id="password" formControlName="password" id="password" type="password" class="text-input">
+        </div>
+      </div>
+      <div>
+        <button class="default-btn" type="submit">
+          Sign in
+        </button>
+      </div>
+    </form>
+    <p class="inset-help-text">Help signing in</p>
+    <div class="inset-container bottom-inset">
+      <span class="inset-content"><a class="inset-link" href="#">Forgotten your username?</a></span>
+      <span class="inset-content"><a class="inset-link" href="#">Forgotten your password?</a></span>
+    </div>
+  </div>
+</div>
