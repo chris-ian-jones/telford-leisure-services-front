@@ -7,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 1;
+  currentPageNumber: number = 2;
   totalPageNumbers: number = 9;
   firstName:string = '';
   lastName:string = '';
+  dateOfBirth:string = '';
 
   constructor() { }
 
@@ -20,11 +21,17 @@ export class SignUpComponent implements OnInit {
   onClickBack() {
     console.log('firstName: ', this.firstName)
     console.log('lastName: ', this.lastName)
+    console.log('dateOfBirth: ', this.dateOfBirth)
   }
 
   receiveAnswerOne($event: any) {
     this.firstName = $event.firstName;
     this.lastName = $event.lastName;
+    this.currentPageNumber++
+  }
+
+  receiveAnswerTwo($event: any) {
+    this.dateOfBirth = $event;
     this.currentPageNumber++
   }
 

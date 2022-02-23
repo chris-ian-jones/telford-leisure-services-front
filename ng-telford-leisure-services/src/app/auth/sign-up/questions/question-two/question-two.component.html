@@ -1,3 +1,42 @@
 <h2 class="page-question-number">
   Question {{currentPage}} of {{totalPages}}
 </h2>
+<h1 class="page-question">
+  What is your date of birth?
+</h1>
+<h3 class="hint-text">
+  For example, 31 3 1980
+</h3>
+<form class="question-two-form" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
+  <div class="date-inputs-container">
+    <div class="input-container">
+      <label for="day" class="input-label">
+        Day
+      </label>
+      <div>
+        <input id="day" formControlName="day" type="text" class="text-input">
+      </div>
+    </div>
+    <div class="input-container">
+      <label for="month" class="input-label">
+        Month
+      </label>
+      <div>
+        <input id="month" formControlName="month" type="text" class="text-input">
+      </div>
+    </div>
+    <div class="input-container">
+      <label for="year" class="input-label">
+        Year
+      </label>
+      <div>
+        <input id="year" formControlName="year" type="text" class="text-input text-input-year">
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>
