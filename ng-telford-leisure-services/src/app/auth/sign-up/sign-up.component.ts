@@ -9,6 +9,8 @@ export class SignUpComponent implements OnInit {
 
   currentPageNumber: number = 1;
   totalPageNumbers: number = 9;
+  firstName:string = '';
+  lastName:string = '';
 
   constructor() { }
 
@@ -16,7 +18,14 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickBack() {
-    console.log('back clicked')
+    console.log('firstName: ', this.firstName)
+    console.log('lastName: ', this.lastName)
+  }
+
+  receiveAnswerOne($event: any) {
+    this.firstName = $event.firstName;
+    this.lastName = $event.lastName;
+    this.currentPageNumber++
   }
 
 }

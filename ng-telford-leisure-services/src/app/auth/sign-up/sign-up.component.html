@@ -1,13 +1,14 @@
 <div class="main-container">
   <div class="body-container">
     <div class="backlink-container">
-      <a class="back-link" href="javascript:void(0)" (click)="onClickBack()">Back</a>
+      <a class="back-link" href="javascript:void(0)" (click)="onClickBack()" tabindex="1">Back</a>
     </div>
     <ng-container [ngSwitch]="currentPageNumber">
       <app-question-one 
         *ngSwitchCase="1"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        (answerOneEvent)="receiveAnswerOne($event)"
       ></app-question-one>
       <app-question-two 
         *ngSwitchCase="2"
