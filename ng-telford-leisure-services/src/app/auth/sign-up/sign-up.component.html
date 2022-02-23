@@ -1,3 +1,19 @@
-<p>
-  sign-up works!
-</p>
+<div class="main-container">
+  <div class="body-container">
+    <div class="backlink-container">
+      <a class="back-link" href="javascript:void(0)" (click)="onClickBack()">Back</a>
+    </div>
+    <ng-container [ngSwitch]="currentPageNumber">
+      <app-question-one 
+        *ngSwitchCase="1"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+      ></app-question-one>
+      <app-question-two 
+        *ngSwitchCase="2"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+      ></app-question-two>
+    </ng-container>
+  </div>
+</div>
