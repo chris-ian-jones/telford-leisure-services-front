@@ -46,33 +46,20 @@
 
   .social-link {
     cursor: pointer;
-  }
-
-  .facebook-logo {
-    margin-right: 4px;
+    margin: 10px;
 
     @media screen and (max-width: 900px) {
-      margin-right: 15px;
+      margin: 20px;
     }
   }
 
-  .twitter-logo,
-  .instagram-logo {
-    margin-left: 4px;
-    margin-right: 4px;
-
-    @media screen and (max-width: 900px) {
-      margin-left: 15px;
-      margin-right: 15px;
-    }
-  }
-
-  .email-icon {
-    margin-left: 4px;
-
-    @media screen and (max-width: 900px) {
-      margin-left: 15px;
-    }
+  .social-link:focus {
+    outline: 3px solid transparent;
+    background-color: #fd0;
+    box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+    text-decoration: none;
+    height: 20px;
+    width: 20px;
   }
 }
 
