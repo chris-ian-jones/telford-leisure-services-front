@@ -7,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class QuestionTwoComponent implements OnInit {
 
-  @Input() currentPage: number;
-  @Input() totalPages: number;
+  @Input() currentPage!: number;
+  @Input() totalPages!: number;
 
   constructor() { }
 

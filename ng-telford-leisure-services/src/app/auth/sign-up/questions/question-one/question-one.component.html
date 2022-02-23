@@ -1,3 +1,29 @@
 <h2 class="page-question-number">
   Question {{currentPage}} of {{totalPages}}
 </h2>
+<h1 class="page-question">
+  What is your name?
+</h1>
+<form class="question-one-form" [formGroup]="questionOneForm" (ngSubmit)="submitQuestionOne()">
+  <div class="input-container">
+    <label for="firstName" class="input-label">
+      First name(s)
+    </label>
+    <div>
+      <input id="firstName" formControlName="firstName" id="firstName" type="text" class="text-input">
+    </div>
+  </div>
+  <div class="input-container">
+    <label for="lastName" class="input-label">
+      Last name
+    </label>
+    <div>
+      <input id="lastName" formControlName="lastName" id="lastName" type="text" class="text-input">
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>

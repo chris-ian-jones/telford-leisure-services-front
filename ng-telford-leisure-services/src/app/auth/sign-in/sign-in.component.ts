@@ -10,8 +10,8 @@ import { AuthService } from '../auth.service';
 })
 export class SignInComponent implements OnInit {
 
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv: ElementRef;
-  signInForm: FormGroup;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  signInForm!: FormGroup;
   frontErrorSummary: any = [];
   backErrorSummary: any = [];
 

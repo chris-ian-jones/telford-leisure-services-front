@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-one',
@@ -7,12 +8,26 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class QuestionOneComponent implements OnInit {
 
-  @Input() currentPage: number;
-  @Input() totalPages: number;
+  @Input() currentPage!: number;
+  @Input() totalPages!: number;
+  questionOneForm!: FormGroup;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.initQuestionOneForm();
+  }
+
+  initQuestionOneForm() {
+    this.questionOneForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+    }, {updateOn: 'submit'})
+  }
+
+  submitQuestionOne() {
   }
 
 }
