@@ -37,20 +37,47 @@
       <span class="inset-content">By using the site you agree to the <a class="inset-link" href="#">terms and conditions.</a></span>
     </div>
     <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
-      <div class="input-container">
+      <div class="input-container" [class.input-container-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0">
         <label for="memberNumber" class="input-label">
           Member number
         </label>
+        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+          Enter your member number
+        </label>
+        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+          Incorrect member number or password
+        </label>
+        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('error') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+          Server error
+        </label>
         <div>
-          <input id="memberNumber" formControlName="memberNumber" id="memberNumber" type="number" class="text-input number-input">
+          <input 
+            id="memberNumber" 
+            formControlName="memberNumber"
+            type="number" 
+            class="text-input number-input"
+            [class.text-input-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0"
+          >
         </div>
       </div>
-      <div class="input-container">
+      <div class="input-container" [class.input-container-error] = "(signInForm.get('password').errors || signInForm.get('memberNumber').hasError('unauthorized')) && this.errorSummary.length > 0">
         <label for="password" class="input-label">
           Password
         </label>
+        <label *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+          Enter your password
+        </label>
+        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+          Incorrect member number or password
+        </label>
         <div>
-          <input id="password" formControlName="password" id="password" type="password" class="text-input">
+          <input 
+            id="password" 
+            formControlName="password" 
+            type="password" 
+            class="text-input"
+            [class.text-input-error] = "signInForm.get('password').errors && this.errorSummary.length > 0"
+          >
         </div>
       </div>
       <div>
