@@ -10,10 +10,9 @@ import { AuthService } from './../auth.service';
 })
 export class SignInComponent implements OnInit {
 
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   signInForm!: FormGroup;
-  frontErrorSummary: any = [];
-  backErrorSummary: any = [];
+  errorSummary: any = [];
 
   constructor(
     private router: Router, 
@@ -33,8 +32,7 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.frontErrorSummary.length = 0;
-    this.backErrorSummary.length = 0;
+    this.errorSummary.length = 0;
     if (this.signInForm.valid) {
       const unformattedMemberNumber = this.signInForm.get('memberNumber').value
       const payload = {
@@ -44,7 +42,13 @@ export class SignInComponent implements OnInit {
       this.authService.memberSignIn(payload).subscribe(response => {
         this.router.navigateByUrl('dashboard')
       }, error => {
-        this.backErrorSummary.push(error.error.message)
+        if (error.error.error === 'Unauthorized') {
+          this.signInForm.controls['memberNumber'].setErrors({'unauthorized': true});
+          this.getAllFormValidationErrors();
+        } else {
+          this.signInForm.controls['memberNumber'].setErrors({'error': true});
+          this.getAllFormValidationErrors();
+        }
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
       })
     } else {
@@ -57,7 +61,7 @@ export class SignInComponent implements OnInit {
       const controlErrors: ValidationErrors = this.signInForm.get(control).errors;
       if (controlErrors != null) {
         Object.keys(controlErrors).forEach(error => {
-          this.frontErrorSummary.push(
+          this.errorSummary.push(
             {
               control,
               error
