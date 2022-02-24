@@ -1,33 +1,32 @@
 <div class="main-container">
   <div class="body-container">
-    <ng-container *ngIf="frontErrorSummary.length > 0 || backErrorSummary.length > 0">
+    <ng-container *ngIf="errorSummary.length > 0">
       <div #errorSummary class="error-summary-container" tabindex="1">
         <h2 class="error-summary-title">
           There is a problem
         </h2>
-        <ng-container *ngIf="frontErrorSummary.length > 0">
-          <ul class="error-summary-list">
-            <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required')">
-              <a routerLink="./" fragment="memberNumber" class="error-link">
-                Enter your member number
-              </a>
-            </li>
-            <li *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required')">
-              <a routerLink="./" fragment="password" class="error-link">
-                Enter your password
-              </a>
-            </li>
-          </ul>
-        </ng-container>
-        <ng-container *ngIf="backErrorSummary.length > 0">
-          <ul class="error-summary-list">
-            <li *ngFor="let error of backErrorSummary">
-              <a routerLink="./" fragment="memberNumber" class="error-link">
-                {{error}}
-              </a>
-            </li>
-          </ul>
-        </ng-container>
+        <ul class="error-summary-list">
+          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required')">
+            <a routerLink="./" fragment="memberNumber" class="error-link">
+              Enter your member number
+            </a>
+          </li>
+          <li *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required')">
+            <a routerLink="./" fragment="password" class="error-link">
+              Enter your password
+            </a>
+          </li>
+          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized')">
+            <a routerLink="./" fragment="memberNumber" class="error-link">
+              Incorrect member number or password
+            </a>
+          </li>
+          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('error')">
+            <a routerLink="./" fragment="memberNumber" class="error-link">
+              Server error
+            </a>
+          </li>
+        </ul>
       </div>
     </ng-container>
     <h1 class="page-header">
@@ -43,7 +42,7 @@
           Member number
         </label>
         <div>
-          <input id="memberNumber" formControlName="memberNumber" id="memberNumber" type="number" class="text-input">
+          <input id="memberNumber" formControlName="memberNumber" id="memberNumber" type="number" class="text-input number-input">
         </div>
       </div>
       <div class="input-container">
