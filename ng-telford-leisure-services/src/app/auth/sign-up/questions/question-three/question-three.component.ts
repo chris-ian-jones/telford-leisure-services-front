@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-three',
@@ -14,6 +14,8 @@ export class QuestionThreeComponent implements OnInit {
   questionThreeForm!: FormGroup;
   @ViewChild('maleInput', {static: false}) maleInput: ElementRef;
   @ViewChild('femaleInput', {static: false}) femaleInput: ElementRef;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +33,7 @@ export class QuestionThreeComponent implements OnInit {
 
   selectInput(value:string) {
     this.questionThreeForm.controls['gender'].setValue(value)
+    this.errorSummary.length = 0;
     if (value === 'Male') {
       setTimeout(() => this.maleInput.nativeElement.focus());
     } else if (value === 'Female') {
@@ -39,11 +42,31 @@ export class QuestionThreeComponent implements OnInit {
   }
 
   onClickContinue() {
-    // if (this.questionThreeForm.valid) {
-    //   this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
-    // } else {
-        
-    // }
-    console.log('gender = ', this.questionThreeForm.get('gender').value)
+    if (this.questionThreeForm.valid) {
+      this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
+    } else {
+      this.getAllFormValidationErrors();
+    }
+  }
+
+  getAllFormValidationErrors() {
+    Object.keys(this.questionThreeForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionThreeForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
+
+  onClickGenderRequiredError() {
+    setTimeout(() => this.maleInput.nativeElement.focus());
   }
 }
