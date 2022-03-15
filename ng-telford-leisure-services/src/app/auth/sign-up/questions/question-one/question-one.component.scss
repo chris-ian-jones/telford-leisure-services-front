@@ -1,0 +1,129 @@
+.page-question-number {
+  font-weight: 400;
+  color: #505a5f;
+  margin: 40px 0px 0px 0px;
+  font-size: 24px;
+}
+
+.page-question {
+  font-size: 36px;
+  margin: 5px 0px 20px 0px;
+}
+
+.question-one-form {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.input-label {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+
+.text-input {
+  width: 420px;
+  border: 2px solid #0b0c0c;
+  padding: 5px;
+  border-radius: 0px;
+  font-size: 19px;
+  line-height: 1.31579;
+
+  @media screen and (max-width: 475px) {
+    width: 95%;
+  }
+}
+
+.text-input-third {
+  width: 130px;
+}
+
+.text-input:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 2px;
+}
+
+.default-btn {
+  display: inline-block;
+  position: relative;
+  padding: 8px 10px 7px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #fff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002d18;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  font-size: 19px;
+}
+
+.default-btn:hover {
+  background-color: #005a30;
+}
+
+.default-btn:focus {
+  border-color: #fd0;
+  outline: 3px solid transparent;
+  -webkit-box-shadow: inset 0 0 0 1px #fd0;
+  box-shadow: inset 0 0 0 1px #fd0;
+}
+
+.default-btn:active {
+  top: 2px;
+}
+
+
+.error-summary-container {
+  margin: 60px 0px 50px 0px;
+  padding: 20px;
+  border: 5px solid #d4351c;
+  max-width: 600px;
+}
+
+.error-summary-container:focus {
+  outline: 3px solid #ffdd00;
+}
+
+.error-summary-title {
+  margin: 0px 0px 20px 0px;
+}
+
+.error-summary-list {
+  display: list-item;
+  list-style-type: none;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+
+  li {
+    margin-bottom: 5px;
+
+    a {
+      color: #d4351c;
+      font-weight: 700;
+      text-decoration: underline;
+      font-size: 19px;
+      line-height: 25px;
+      cursor: pointer;
+    }
+
+    a:focus {
+      color: #0b0c0c;
+      outline: 3px solid transparent;
+      background-color: #ffdd00;
+      box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+      text-decoration: none;
+    }
+  }
+}
