@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-three',
@@ -10,10 +11,27 @@ export class QuestionThreeComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Output() answerThreeEvent = new EventEmitter<any>();
+  questionThreeForm!: FormGroup;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit() {
+    this.initQuestionThreeForm();
   }
 
+  initQuestionThreeForm() {
+    this.questionThreeForm = this.formBuilder.group({
+      gender: ['', [Validators.required]],
+    }, {updateOn: 'submit'})
+  }
+
+  onClickContinue() {
+    if (this.questionThreeForm.valid) {
+      this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
+    } else {
+        
+    }
+  }
 }
