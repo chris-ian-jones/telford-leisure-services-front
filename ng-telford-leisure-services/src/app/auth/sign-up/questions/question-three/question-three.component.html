@@ -6,10 +6,8 @@
 </h1>
 <form class="question-three-form" [formGroup]="questionThreeForm" (ngSubmit)="onClickContinue()">
   <div class="radio-inputs-container">
-    <div class="input-container">
-      <div>
-        <input id="male" value="Male" formControlName="gender" type="radio" class="radio-input">
-      </div>
+    <div #maleInput class="input-container" tabindex="0" (click)="selectInput('Male')" (keydown.space)="selectInput('Male')">
+      <input id="male" value="Male" formControlName="gender" type="radio" class="radio-input" tabindex="-1">
       <label 
         for="male" 
         class="input-label"
@@ -18,10 +16,8 @@
         Male
       </label>
     </div>
-    <div class="input-container">
-      <div>
-        <input id="female" value="Female" formControlName="gender" type="radio" class="radio-input">
-      </div>
+    <div #femaleInput class="input-container" tabindex="0" (click)="selectInput('Female')" (keydown.space)="selectInput('Female')">
+      <input id="female" value="Female" formControlName="gender" type="radio" class="radio-input" tabindex="-1">
       <label 
         for="female" 
         class="input-label"

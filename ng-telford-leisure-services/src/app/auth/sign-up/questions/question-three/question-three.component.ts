@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,8 @@ export class QuestionThreeComponent implements OnInit {
   @Input() totalPages!: number;
   @Output() answerThreeEvent = new EventEmitter<any>();
   questionThreeForm!: FormGroup;
+  @ViewChild('maleInput', {static: false}) maleInput: ElementRef;
+  @ViewChild('femaleInput', {static: false}) femaleInput: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,6 +27,15 @@ export class QuestionThreeComponent implements OnInit {
     this.questionThreeForm = this.formBuilder.group({
       gender: ['', [Validators.required]],
     })
+  }
+
+  selectInput(value:string) {
+    this.questionThreeForm.controls['gender'].setValue(value)
+    if (value === 'Male') {
+      setTimeout(() => this.maleInput.nativeElement.focus());
+    } else if (value === 'Female') {
+      setTimeout(() => this.femaleInput.nativeElement.focus());
+    }
   }
 
   onClickContinue() {
