@@ -10,7 +10,11 @@
       <div>
         <input id="male" value="Male" formControlName="gender" type="radio" class="radio-input">
       </div>
-      <label for="male" class="input-label">
+      <label 
+        for="male" 
+        class="input-label"
+        [ngClass]="questionThreeForm.get('gender').value === 'Male' ? 'checked' : 'unchecked'"
+      >
         Male
       </label>
     </div>
@@ -18,7 +22,11 @@
       <div>
         <input id="female" value="Female" formControlName="gender" type="radio" class="radio-input">
       </div>
-      <label for="female" class="input-label">
+      <label 
+        for="female" 
+        class="input-label"
+        [ngClass]="questionThreeForm.get('gender').value === 'Female' ? 'checked' : 'unchecked'"
+      >
         Female
       </label>
     </div>

@@ -24,14 +24,15 @@ export class QuestionThreeComponent implements OnInit {
   initQuestionThreeForm() {
     this.questionThreeForm = this.formBuilder.group({
       gender: ['', [Validators.required]],
-    }, {updateOn: 'submit'})
+    })
   }
 
   onClickContinue() {
-    if (this.questionThreeForm.valid) {
-      this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
-    } else {
+    // if (this.questionThreeForm.valid) {
+    //   this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
+    // } else {
         
-    }
+    // }
+    console.log('gender = ', this.questionThreeForm.get('gender').value)
   }
 }
