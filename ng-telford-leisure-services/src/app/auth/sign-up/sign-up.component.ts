@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 1;
+  currentPageNumber: number = 3;
   totalPageNumbers: number = 9;
   firstName:string = '';
   lastName:string = '';
   dateOfBirth:string = '';
+  gender:string = '';
 
   constructor() { }
 
@@ -22,6 +23,7 @@ export class SignUpComponent implements OnInit {
     console.log('firstName: ', this.firstName)
     console.log('lastName: ', this.lastName)
     console.log('dateOfBirth: ', this.dateOfBirth)
+    console.log('gender: ', this.gender)
   }
 
   receiveAnswerOne($event: any) {
@@ -32,6 +34,11 @@ export class SignUpComponent implements OnInit {
 
   receiveAnswerTwo($event: any) {
     this.dateOfBirth = $event;
+    this.currentPageNumber++
+  }
+
+  receiveAnswerThree($event: any) {
+    this.gender = $event;
     this.currentPageNumber++
   }
 

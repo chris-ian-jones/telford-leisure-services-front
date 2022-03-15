@@ -5,6 +5,7 @@ import { SignUpComponent } from './sign-up.component';
 import { SignUpRoutingModule } from './sign-up-routing.module';
 import { QuestionOneComponent } from './questions/question-one/question-one.component';
 import { QuestionTwoComponent } from './questions/question-two/question-two.component';
+import { QuestionThreeComponent } from './questions/question-three/question-three.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { QuestionTwoComponent } from './questions/question-two/question-two.comp
   declarations: [
     SignUpComponent,
     QuestionOneComponent,
-    QuestionTwoComponent
+    QuestionTwoComponent,
+    QuestionThreeComponent
   ]
 })
 export class SignUpModule { }

@@ -16,6 +16,12 @@
         [totalPages]="totalPageNumbers"
         (answerTwoEvent)="receiveAnswerTwo($event)"
       ></app-question-two>
+      <app-question-three 
+        *ngSwitchCase="3"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+        (answerThreeEvent)="receiveAnswerThree($event)"
+      ></app-question-three>
     </ng-container>
   </div>
 </div>
