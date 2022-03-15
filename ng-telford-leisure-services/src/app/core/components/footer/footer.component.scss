@@ -49,15 +49,17 @@
     margin: 10px;
 
     @media screen and (max-width: 900px) {
-      margin-right: 20px;
+      margin: 20px;
     }
   }
 
   .social-link:focus {
     outline: 3px solid transparent;
-    background-color: #ffdd00;
-    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    background-color: #fd0;
+    box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
     text-decoration: none;
+    height: 20px;
+    width: 20px;
   }
 }
 
