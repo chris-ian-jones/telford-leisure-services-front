@@ -358,3 +358,32 @@ p {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+
+.page-question-number {
+  font-weight: 400;
+  color: #505a5f;
+  margin: 40px 0px 0px 0px;
+  font-size: 24px;
+}
+
+.page-question {
+  font-size: 36px;
+  margin: 5px 0px 20px 0px;
+}
+
+.page-question-with-hint {
+  font-size: 36px;
+  margin: 5px 0px 10px 0px;
+}
+
+.hint-text {
+  font-size: 19px;
+  color: #505a5f;
+  font-weight: 400;
+  margin: 0px 0px 20px 0px;
+}
+
+.question-form-container {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}

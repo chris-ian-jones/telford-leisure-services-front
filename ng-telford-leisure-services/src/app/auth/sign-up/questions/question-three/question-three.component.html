@@ -18,7 +18,7 @@
 <h1 class="page-question">
   What is your gender?
 </h1>
-<form class="question-three-form" [formGroup]="questionThreeForm" (ngSubmit)="onClickContinue()">
+<form class="question-form-container" [formGroup]="questionThreeForm" (ngSubmit)="onClickContinue()">
   <div class="radio-inputs-container">
     <div #maleInput class="input-container" tabindex="0" (click)="selectInput('Male')" (keydown.space)="selectInput('Male')">
       <input id="male" value="Male" formControlName="gender" type="radio" class="radio-input" tabindex="-1">

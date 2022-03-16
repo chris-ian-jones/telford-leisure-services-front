@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 4;
+  currentPageNumber: number = 1;
   totalPageNumbers: number = 9;
   firstName:string = '';
   lastName:string = '';

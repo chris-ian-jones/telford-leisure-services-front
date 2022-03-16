@@ -45,13 +45,13 @@
 <h2 class="page-question-number">
   Question {{currentPage}} of {{totalPages}}
 </h2>
-<h1 class="page-question">
+<h1 class="page-question-with-hint">
   What is your date of birth?
 </h1>
 <h3 class="hint-text">
   For example, 31 3 1980
 </h3>
-<form class="question-two-form" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
+<form class="question-form-container" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
   <div class="date-inputs-container">
     <div class="input-container">
       <label for="day" class="input-label">
