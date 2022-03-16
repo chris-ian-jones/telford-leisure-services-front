@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import * as moment from 'moment'
+import { SignUpService } from '../../sign-up.service';
 @Component({
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
@@ -17,6 +18,7 @@ export class QuestionTwoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private signUpService: SignUpService
   ) { }
 
   ngOnInit() {
@@ -33,6 +35,7 @@ export class QuestionTwoComponent implements OnInit {
 
   onClickContinue() {
     if (this.questionTwoForm.valid) {
+      this.signUpService.removeHashPathFromCurrentPath();
       const day = this.questionTwoForm.get('day').value;
       const month = this.questionTwoForm.get('month').value;
       const year = this.questionTwoForm.get('year').value;

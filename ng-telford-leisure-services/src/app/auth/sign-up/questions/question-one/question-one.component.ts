@@ -1,6 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { SignUpService } from '../../sign-up.service';
 
 @Component({
   selector: 'app-question-one',
@@ -18,7 +18,7 @@ export class QuestionOneComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private location: Location
+    private signUpService: SignUpService
   ) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class QuestionOneComponent implements OnInit {
 
   onClickContinue() {
     this.errorSummary.length = 0;
-    this.removeHashPathFromCurrentPath();
+    this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionOneForm.valid) {
       const answerOneObj = {
         firstName: '',
@@ -63,11 +63,6 @@ export class QuestionOneComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
       }
     });
-  }
-
-  removeHashPathFromCurrentPath() {
-    const pathWithoutHash = this.location.path(false);
-    this.location.replaceState(pathWithoutHash);
   }
 
 }

@@ -1,6 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { SignUpService } from '../../sign-up.service';
 
 @Component({
   selector: 'app-question-four',
@@ -18,7 +18,7 @@ export class QuestionFourComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private location: Location
+    private signUpService: SignUpService
   ) { }
 
   ngOnInit() {
@@ -33,9 +33,8 @@ export class QuestionFourComponent implements OnInit {
   }
 
   onClickContinue() {
-    console.log('this.questionFourForm: ', this.questionFourForm)
     this.errorSummary.length = 0;
-    this.removeHashPathFromCurrentPath();
+    this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionFourForm.valid) {
       const answerFourObj = {
         email: '',
@@ -47,11 +46,6 @@ export class QuestionFourComponent implements OnInit {
     } else {
       this.getAllFormValidationErrors();
     }
-  }
-
-  removeHashPathFromCurrentPath() {
-    const pathWithoutHash = this.location.path(false);
-    this.location.replaceState(pathWithoutHash);
   }
 
   getAllFormValidationErrors() {

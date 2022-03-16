@@ -7,6 +7,7 @@ import { QuestionOneComponent } from './questions/question-one/question-one.comp
 import { QuestionTwoComponent } from './questions/question-two/question-two.component';
 import { QuestionThreeComponent } from './questions/question-three/question-three.component';
 import { QuestionFourComponent } from './questions/question-four/question-four.component';
+import { SignUpService } from './sign-up.service';
 
 @NgModule({
   imports: [
@@ -21,6 +22,9 @@ import { QuestionFourComponent } from './questions/question-four/question-four.c
     QuestionTwoComponent,
     QuestionThreeComponent,
     QuestionFourComponent
+  ],
+  providers: [
+    SignUpService
   ]
 })
 export class SignUpModule { }
