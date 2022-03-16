@@ -1,3 +1,29 @@
-<p>
-  question-four works!
-</p>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  What are your contact details?
+</h1>
+<form class="question-four-form" [formGroup]="questionFourForm" (ngSubmit)="onClickContinue()">
+  <div class="input-container">
+    <label for="email" class="input-label">
+      Email address
+    </label>
+    <div>
+      <input id="email" formControlName="email" type="text" class="text-input">
+    </div>
+  </div>
+  <div class="input-container">
+    <label for="phone" class="input-label">
+      Phone number (Optional)
+    </label>
+    <div>
+      <input id="phone" formControlName="phone" type="text" class="text-input">
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>
