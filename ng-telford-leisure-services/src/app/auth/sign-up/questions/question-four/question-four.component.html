@@ -5,20 +5,20 @@
   What are your contact details?
 </h1>
 <form class="question-form-container" [formGroup]="questionFourForm" (ngSubmit)="onClickContinue()">
-  <div class="input-container">
-    <label for="email" class="input-label">
+  <div class="default-text-input-container">
+    <label for="email" class="default-input-label">
       Email address
     </label>
     <div>
-      <input id="email" formControlName="email" type="text" class="text-input">
+      <input id="email" formControlName="email" type="text" class="default-text-input">
     </div>
   </div>
-  <div class="input-container">
-    <label for="phone" class="input-label">
+  <div class="default-text-input-container">
+    <label for="phone" class="default-input-label">
       Phone number (Optional)
     </label>
     <div>
-      <input id="phone" formControlName="phone" type="text" class="text-input">
+      <input id="phone" formControlName="phone" type="text" class="default-text-input three-quarters-text-input">
     </div>
   </div>
   <div>

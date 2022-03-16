@@ -53,28 +53,28 @@
 </h3>
 <form class="question-form-container" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
   <div class="date-inputs-container">
-    <div class="input-container">
-      <label for="day" class="input-label">
+    <div class="default-text-input-container">
+      <label for="day" class="default-input-label">
         Day
       </label>
       <div>
-        <input id="day" formControlName="day" type="text" class="text-input">
+        <input id="day" formControlName="day" type="text" class="default-text-input two-char-text-input">
       </div>
     </div>
-    <div class="input-container">
-      <label for="month" class="input-label">
+    <div class="default-text-input-container">
+      <label for="month" class="default-input-label">
         Month
       </label>
       <div>
-        <input id="month" formControlName="month" type="text" class="text-input">
+        <input id="month" formControlName="month" type="text" class="default-text-input two-char-text-input">
       </div>
     </div>
-    <div class="input-container">
-      <label for="year" class="input-label">
+    <div class="default-text-input-container">
+      <label for="year" class="default-input-label">
         Year
       </label>
       <div>
-        <input id="year" formControlName="year" type="text" class="text-input text-input-year">
+        <input id="year" formControlName="year" type="text" class="default-text-input four-char-text-input">
       </div>
     </div>
   </div>
