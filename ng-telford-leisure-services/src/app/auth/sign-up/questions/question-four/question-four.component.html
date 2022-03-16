@@ -1,0 +1,53 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionFourForm.get('email').errors && questionFourForm.get('email').hasError('required')">
+        <a routerLink="./" fragment="email" class="error-link" tabindex="3">
+          Enter your email address
+        </a>
+      </li>
+      <li *ngIf="questionFourForm.get('email').errors && questionFourForm.get('email').hasError('email')">
+        <a routerLink="./" fragment="email" class="error-link" tabindex="3">
+          Enter a valid email address
+        </a>
+      </li>
+      <li *ngIf="questionFourForm.get('phone').errors && questionFourForm.get('phone').hasError('pattern')">
+        <a routerLink="./" fragment="phone" class="error-link" tabindex="4">
+          Enter a valid phone number
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  What are your contact details?
+</h1>
+<form class="question-form-container" [formGroup]="questionFourForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <label for="email" class="default-input-label">
+      Email address
+    </label>
+    <div>
+      <input id="email" formControlName="email" type="text" class="default-text-input">
+    </div>
+  </div>
+  <div class="default-input-container">
+    <label for="phone" class="default-input-label">
+      Phone number (Optional)
+    </label>
+    <div>
+      <input id="phone" formControlName="phone" type="text" class="default-text-input three-quarters-text-input">
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>

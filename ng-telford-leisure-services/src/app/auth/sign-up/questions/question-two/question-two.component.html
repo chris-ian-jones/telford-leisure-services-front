@@ -45,36 +45,36 @@
 <h2 class="page-question-number">
   Question {{currentPage}} of {{totalPages}}
 </h2>
-<h1 class="page-question">
+<h1 class="page-question-with-hint">
   What is your date of birth?
 </h1>
 <h3 class="hint-text">
   For example, 31 3 1980
 </h3>
-<form class="question-two-form" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
+<form class="question-form-container" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
   <div class="date-inputs-container">
-    <div class="input-container">
-      <label for="day" class="input-label">
+    <div class="default-input-container">
+      <label for="day" class="default-input-label">
         Day
       </label>
       <div>
-        <input id="day" formControlName="day" type="text" class="text-input">
+        <input id="day" formControlName="day" type="text" class="default-text-input two-char-text-input">
       </div>
     </div>
-    <div class="input-container">
-      <label for="month" class="input-label">
+    <div class="default-input-container">
+      <label for="month" class="default-input-label">
         Month
       </label>
       <div>
-        <input id="month" formControlName="month" type="text" class="text-input">
+        <input id="month" formControlName="month" type="text" class="default-text-input two-char-text-input">
       </div>
     </div>
-    <div class="input-container">
-      <label for="year" class="input-label">
+    <div class="default-input-container">
+      <label for="year" class="default-input-label">
         Year
       </label>
       <div>
-        <input id="year" formControlName="year" type="text" class="text-input text-input-year">
+        <input id="year" formControlName="year" type="text" class="default-text-input four-char-text-input">
       </div>
     </div>
   </div>

@@ -23,21 +23,21 @@
 <h1 class="page-question">
   What is your name?
 </h1>
-<form class="question-one-form" [formGroup]="questionOneForm" (ngSubmit)="onClickContinue()">
-  <div class="input-container">
-    <label for="firstName" class="input-label">
+<form class="question-form-container" [formGroup]="questionOneForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <label for="firstName" class="default-input-label">
       First name(s)
     </label>
     <div>
-      <input id="firstName" formControlName="firstName"type="text" class="text-input">
+      <input id="firstName" formControlName="firstName"type="text" class="default-text-input">
     </div>
   </div>
-  <div class="input-container">
-    <label for="lastName" class="input-label">
+  <div class="default-input-container">
+    <label for="lastName" class="default-input-label">
       Last name
     </label>
     <div>
-      <input id="lastName" formControlName="lastName" type="text" class="text-input">
+      <input id="lastName" formControlName="lastName" type="text" class="default-text-input">
     </div>
   </div>
   <div>

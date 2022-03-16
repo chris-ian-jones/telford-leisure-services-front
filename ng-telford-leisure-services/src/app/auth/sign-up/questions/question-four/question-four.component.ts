@@ -3,18 +3,18 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { SignUpService } from '../../sign-up.service';
 
 @Component({
-  selector: 'app-question-one',
-  templateUrl: './question-one.component.html',
-  styleUrls: ['./question-one.component.scss']
+  selector: 'app-question-four',
+  templateUrl: './question-four.component.html',
+  styleUrls: ['./question-four.component.scss']
 })
-export class QuestionOneComponent implements OnInit {
+export class QuestionFourComponent implements OnInit {
 
   @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
-  questionOneForm!: FormGroup;
+  questionFourForm!: FormGroup;
+  @Output() answerFourEvent = new EventEmitter<any>();
   errorSummary: any = [];
-  @Output() answerOneEvent = new EventEmitter<any>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,35 +22,35 @@ export class QuestionOneComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initQuestionOneForm();
+    this.initQuestionFourForm();
   }
 
-  initQuestionOneForm() {
-    this.questionOneForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+  initQuestionFourForm() {
+    this.questionFourForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.pattern('[- +()0-9]+')],
     }, {updateOn: 'submit'})
   }
 
   onClickContinue() {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.questionOneForm.valid) {
-      const answerOneObj = {
-        firstName: '',
-        lastName: ''
+    if (this.questionFourForm.valid) {
+      const answerFourObj = {
+        email: '',
+        phone: ''
       };
-      answerOneObj.firstName = this.questionOneForm.get('firstName').value;
-      answerOneObj.lastName = this.questionOneForm.get('lastName').value;
-      this.answerOneEvent.emit(answerOneObj)
+      answerFourObj.email = this.questionFourForm.get('email').value;
+      answerFourObj.phone = this.questionFourForm.get('phone').value;
+      this.answerFourEvent.emit(answerFourObj)
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionOneForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionOneForm.get(control).errors;
+    Object.keys(this.questionFourForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionFourForm.get(control).errors;
       if (controlErrors != null) {
         Object.keys(controlErrors).forEach(error => {
           this.errorSummary.push(
