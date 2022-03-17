@@ -1,0 +1,19 @@
+.placeholder-margin {
+  margin-top: 70px;
+}
+
+.summary-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-list-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.change-link {
+  color: #1d70b8;
+  font-size: 19px;
+  text-decoration: underline;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Member } from './../../core/models/Member';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +11,22 @@ export class SignUpComponent implements OnInit {
 
   currentPageNumber: number = 9;
   totalPageNumbers: number = 8;
-  newMemberData = {};
+  newMemberData: Member = {
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    gender: '',
+    email: '',
+    phone: '',
+    addressLineOne: '',
+    addressLineTwo: '',
+    townOrCity: '',
+    county: '',
+    postcode: '',
+    ethnicity: '',
+    mainCenter: '',
+    membershipType: '',
+  };
 
   constructor(
     private router: Router

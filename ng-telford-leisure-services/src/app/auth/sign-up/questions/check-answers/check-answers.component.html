@@ -1,3 +1,22 @@
-<p>
-  check-answers works!
-</p>
+<h1 class="page-question placeholder-margin">
+  Check your answers before creating your account
+</h1>
+<div class="summary-list-container">
+  <div class="summary-list-row">
+    <dt>Name:</dt>
+    <dd>{{newMemberData?.firstName}} {{newMemberData?.lastName}}</dd>
+    <dd><a class="change-link" href="javascript:void(0)" (click)="onClickChange()" tabindex="1">Change</a></dd>
+  </div>
+  <p>Date of birth: {{newMemberData?.dateOfBirth | date: 'dd MMMM yyyy'}}</p>
+  <p>Gender: {{newMemberData?.gender}}</p>
+  <p>Contact details: {{newMemberData?.email}}</p>
+  <p>Contact details: {{newMemberData?.phone}}</p>
+  <p>Address: {{newMemberData?.addressLineOne}}</p>
+  <p>Address: {{newMemberData?.addressLineTwo}}</p>
+  <p>Address: {{newMemberData?.townOrCity}}</p>
+  <p>Address: {{newMemberData?.county}}</p>
+  <p>Address: {{newMemberData?.postcode}}</p>
+  <p>Ethnicity: {{newMemberData?.ethnicity}}</p>
+  <p>Main leisure center: {{newMemberData?.mainCenter}}</p>
+  <p>Membership type: {{newMemberData?.membershipType}}</p>
+</div>
