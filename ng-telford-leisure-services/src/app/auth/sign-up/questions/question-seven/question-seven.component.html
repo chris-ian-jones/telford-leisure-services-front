@@ -1,0 +1,106 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionSevenForm.get('mainCenter').errors && questionSevenForm.get('mainCenter').hasError('required')">
+        <a href="javascript:void(0)" (click)="onClickMainCenterRequiredError()" class="error-link" tabindex="3">
+          Select your main center
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  Which will be your main leisure center?
+</h1>
+<form class="question-form-container" [formGroup]="questionSevenForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <div #abrahamInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Abraham Darby Sports and Leisure Center')" (keydown.space)="selectInput('Abraham Darby Sports and Leisure Center')">
+      <input id="abraham" value="Abraham Darby Sports and Leisure Center" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="abraham" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Abraham Darby Sports and Leisure Center' ? 'checked' : 'unchecked'"
+      >
+        Abraham Darby Sports and Leisure Center
+        <span class="label-hint-text">Ironbridge Road, Madeley, Telford</span>
+      </label>
+    </div>
+    <div #horsehayInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Horsehay Village Golf Club')" (keydown.space)="selectInput('Horsehay Village Golf Club')">
+      <input id="horsehay" value="Horsehay Village Golf Club" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="horsehay" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Horsehay Village Golf Club' ? 'checked' : 'unchecked'"
+      >
+        Horsehay Village Golf Club
+        <span class="label-hint-text">Wellington Road, Horsehay, Telford</span>
+      </label>
+    </div>
+    <div #newportInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Newport Swimming Pool')" (keydown.space)="selectInput('Newport Swimming Pool')">
+      <input id="newport" value="Newport Swimming Pool" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="newport" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Newport Swimming Pool' ? 'checked' : 'unchecked'"
+      >
+        Newport Swimming Pool
+        <span class="label-hint-text">Victoria Park, Newport, Shropshire</span>
+      </label>
+    </div>
+    <div #oakengatesInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Oakengates Leisure Centre')" (keydown.space)="selectInput('Oakengates Leisure Centre')">
+      <input id="oakengates" value="Chinese" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="oakengates" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Oakengates Leisure Centre' ? 'checked' : 'unchecked'"
+      >
+        Oakengates Leisure Centre
+        <span class="label-hint-text">New Road, Wrockwardine Wood, Telford</span>
+      </label>
+    </div>
+    <div #phoenixInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Phoenix Sports and Leisure Centre')" (keydown.space)="selectInput('Phoenix Sports and Leisure Centre')">
+      <input id="phoenix" value="Phoenix Sports and Leisure Centre" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="phoenix" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Phoenix Sports and Leisure Centre' ? 'checked' : 'unchecked'"
+      >
+        Phoenix Sports and Leisure Centre
+        <span class="label-hint-text">Duce Drive, Dawley, Telford</span>
+      </label>
+    </div>
+    <div #stirchleyInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Stirchley Recreation Center')" (keydown.space)="selectInput('Stirchley Recreation Center')">
+      <input id="stirchley" value="Stirchley Recreation Center" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="stirchley" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Stirchley Recreation Center' ? 'checked' : 'unchecked'"
+      >
+        Stirchley Recreation Center
+        <span class="label-hint-text">Grange Avenue, Stirchley, Telford</span>
+      </label>
+    </div>
+    <div #wellingtonInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Wellington Civic and Leisure Centre')" (keydown.space)="selectInput('Wellington Civic and Leisure Centre')">
+      <input id="wellington" value="Wellington Civic and Leisure Centre" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="wellington" 
+        class="radio-input-label"
+        [ngClass]="questionSevenForm.get('mainCenter').value === 'Wellington Civic and Leisure Centre' ? 'checked' : 'unchecked'"
+      >
+        Wellington Civic and Leisure Centre
+        <span class="label-hint-text">Larkin Way, Off Tan Bank, Wellinton</span>
+      </label>
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>

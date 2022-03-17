@@ -9,6 +9,7 @@ import { QuestionThreeComponent } from './questions/question-three/question-thre
 import { QuestionFourComponent } from './questions/question-four/question-four.component';
 import { QuestionFiveComponent } from './questions/question-five/question-five.component';
 import { QuestionSixComponent } from './questions/question-six/question-six.component';
+import { QuestionSevenComponent } from './questions/question-seven/question-seven.component';
 import { SignUpService } from './sign-up.service';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SignUpService } from './sign-up.service';
     QuestionThreeComponent,
     QuestionFourComponent,
     QuestionFiveComponent,
-    QuestionSixComponent
+    QuestionSixComponent,
+    QuestionSevenComponent,
   ],
   providers: [
     SignUpService
