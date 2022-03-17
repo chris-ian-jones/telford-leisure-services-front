@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 1;
+  currentPageNumber: number = 5;
   totalPageNumbers: number = 9;
   firstName:string = '';
   lastName:string = '';
@@ -15,8 +16,15 @@ export class SignUpComponent implements OnInit {
   gender:string = '';
   email:string = '';
   phone:string = '';
+  addressLineOne:string = '';
+  addressLineTwo:string = '';
+  townOrCity:string = '';
+  county:string = '';
+  postcode:string = '';
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -28,6 +36,11 @@ export class SignUpComponent implements OnInit {
     console.log('gender: ', this.gender)
     console.log('email: ', this.email)
     console.log('phone: ', this.phone)
+    if (this.currentPageNumber === 1) {
+      this.router.navigateByUrl(`/sign-in`)
+    } else {
+      this.currentPageNumber--
+    }
   }
 
   receiveAnswerOne($event: any) {
@@ -49,6 +62,15 @@ export class SignUpComponent implements OnInit {
   receiveAnswerFour($event: any) {
     this.email = $event.email;
     this.phone = $event.phone;
+    this.currentPageNumber++
+  }
+
+  receiveAnswerFive($event: any) {
+    this.addressLineOne = $event.addressLineOne;
+    this.addressLineTwo = $event.addressLineTwo;
+    this.townOrCity = $event.townOrCity;
+    this.county = $event.county;
+    this.postcode = $event.postcode;
     this.currentPageNumber++
   }
 

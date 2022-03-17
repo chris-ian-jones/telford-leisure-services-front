@@ -28,6 +28,12 @@
         [totalPages]="totalPageNumbers"
         (answerFourEvent)="receiveAnswerFour($event)"
       ></app-question-four>
+      <app-question-five 
+        *ngSwitchCase="5"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+        (answerFiveEvent)="receiveAnswerFive($event)"
+      ></app-question-five>
     </ng-container>
   </div>
 </div>
