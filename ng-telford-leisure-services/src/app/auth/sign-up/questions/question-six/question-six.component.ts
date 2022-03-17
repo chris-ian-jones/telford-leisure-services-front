@@ -18,6 +18,8 @@ export class QuestionSixComponent implements OnInit {
   @ViewChild('mixedInput', {static: false}) mixedInput: ElementRef;
   @ViewChild('otherInput', {static: false}) otherInput: ElementRef;
   questionSixForm!: FormGroup;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,6 +37,7 @@ export class QuestionSixComponent implements OnInit {
 
   selectInput(value:string) {
     this.questionSixForm.controls['ethnicity'].setValue(value)
+    this.errorSummary.length = 0;
 
     switch(value) {
       case 'White UK/Irish/Euro': {
@@ -74,8 +77,29 @@ export class QuestionSixComponent implements OnInit {
         ethnicity: this.questionSixForm.controls['ethnicity'].value
       })
     } else {
-      
+      this.getAllFormValidationErrors();
     }
+  }
+
+  getAllFormValidationErrors() {
+    Object.keys(this.questionSixForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionSixForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
+
+  onClickEthnicityRequiredError() {
+    setTimeout(() => this.whiteInput.nativeElement.focus());
   }
 
 }
