@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 8;
-  totalPageNumbers: number = 9;
+  currentPageNumber: number = 9;
+  totalPageNumbers: number = 8;
   newMemberData = {};
 
   constructor(

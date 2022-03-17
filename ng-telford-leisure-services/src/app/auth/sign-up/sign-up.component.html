@@ -52,6 +52,10 @@
         [totalPages]="totalPageNumbers"
         (answerEightEvent)="receiveAnswer($event)"
       ></app-question-eight>
+      <app-check-answers 
+        *ngSwitchCase="9"
+        [newMemberData]="newMemberData"
+      ></app-check-answers >
     </ng-container>
   </div>
 </div>
