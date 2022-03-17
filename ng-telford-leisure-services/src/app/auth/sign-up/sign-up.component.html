@@ -55,6 +55,7 @@
       <app-check-answers 
         *ngSwitchCase="9"
         [newMemberData]="newMemberData"
+        (changeAnswerEvent)="receiveChangeAnswerPage($event)"
       ></app-check-answers >
     </ng-container>
   </div>

@@ -48,5 +48,9 @@ export class SignUpComponent implements OnInit {
     this.currentPageNumber++
     console.log('this.newMemberData: ', this.newMemberData)
   }
+  
+  receiveChangeAnswerPage($event: any) {
+    this.currentPageNumber = $event;
+  }
 
 }
