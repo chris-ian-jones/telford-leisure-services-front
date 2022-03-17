@@ -41,7 +41,9 @@ export class QuestionTwoComponent implements OnInit {
       const year = this.questionTwoForm.get('year').value;
       const dateOfBirth = moment(`${year}/${month}/${day}`)
       if (moment(dateOfBirth, 'YYYY/MM/DD').isValid()) {
-        this.answerTwoEvent.emit(dateOfBirth.toString())
+        this.answerTwoEvent.emit({
+          dateOfBirth: dateOfBirth.toString()
+        })
       } else {
         this.questionTwoForm.controls['day'].setErrors({'invalid': true});
         this.getAllFormValidationErrors();

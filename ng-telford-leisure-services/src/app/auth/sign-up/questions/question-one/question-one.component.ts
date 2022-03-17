@@ -36,13 +36,7 @@ export class QuestionOneComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionOneForm.valid) {
-      const answerOneObj = {
-        firstName: '',
-        lastName: ''
-      };
-      answerOneObj.firstName = this.questionOneForm.get('firstName').value;
-      answerOneObj.lastName = this.questionOneForm.get('lastName').value;
-      this.answerOneEvent.emit(answerOneObj)
+      this.answerOneEvent.emit(this.questionOneForm.value)
     } else {
       this.getAllFormValidationErrors();
     }

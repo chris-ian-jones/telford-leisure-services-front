@@ -36,13 +36,7 @@ export class QuestionFourComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionFourForm.valid) {
-      const answerFourObj = {
-        email: '',
-        phone: ''
-      };
-      answerFourObj.email = this.questionFourForm.get('email').value;
-      answerFourObj.phone = this.questionFourForm.get('phone').value;
-      this.answerFourEvent.emit(answerFourObj)
+      this.answerFourEvent.emit(this.questionFourForm.value)
     } else {
       this.getAllFormValidationErrors();
     }
