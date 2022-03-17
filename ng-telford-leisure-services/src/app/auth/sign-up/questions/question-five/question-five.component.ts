@@ -3,18 +3,18 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { SignUpService } from '../../sign-up.service';
 
 @Component({
-  selector: 'app-question-four',
-  templateUrl: './question-four.component.html',
-  styleUrls: ['./question-four.component.scss']
+  selector: 'app-question-five',
+  templateUrl: './question-five.component.html',
+  styleUrls: ['./question-five.component.scss']
 })
-export class QuestionFourComponent implements OnInit {
+export class QuestionFiveComponent implements OnInit {
 
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
-  questionFourForm!: FormGroup;
-  @Output() answerFourEvent = new EventEmitter<any>();
+  @Output() answerFiveEvent = new EventEmitter<any>();
+  questionFiveForm!: FormGroup;
   errorSummary: any = [];
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,29 +22,32 @@ export class QuestionFourComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initQuestionFourForm();
+    this.initQuestionFiveForm();
   }
 
-  initQuestionFourForm() {
-    this.questionFourForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.pattern('[- +()0-9]+')],
+  initQuestionFiveForm() {
+    this.questionFiveForm = this.formBuilder.group({
+      addressLineOne: ['', Validators.required],
+      addressLineTwo: [''],
+      townOrCity: [''],
+      county: [''],
+      postcode: ['', [Validators.required, Validators.pattern('^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$')]],
     }, {updateOn: 'submit'})
   }
 
   onClickContinue() {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.questionFourForm.valid) {
-      this.answerFourEvent.emit(this.questionFourForm.value)
+    if (this.questionFiveForm.valid) {
+      this.answerFiveEvent.emit(this.questionFiveForm.value)
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionFourForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionFourForm.get(control).errors;
+    Object.keys(this.questionFiveForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionFiveForm.get(control).errors;
       if (controlErrors != null) {
         Object.keys(controlErrors).forEach(error => {
           this.errorSummary.push(

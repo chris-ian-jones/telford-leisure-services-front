@@ -43,7 +43,9 @@ export class QuestionThreeComponent implements OnInit {
 
   onClickContinue() {
     if (this.questionThreeForm.valid) {
-      this.answerThreeEvent.emit(this.questionThreeForm.controls['gender'].value)
+      this.answerThreeEvent.emit({
+        gender: this.questionThreeForm.controls['gender'].value
+      })
     } else {
       this.getAllFormValidationErrors();
     }

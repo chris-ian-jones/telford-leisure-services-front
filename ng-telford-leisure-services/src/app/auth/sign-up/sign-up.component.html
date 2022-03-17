@@ -8,26 +8,32 @@
         *ngSwitchCase="1"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
-        (answerOneEvent)="receiveAnswerOne($event)"
+        (answerOneEvent)="receiveAnswer($event)"
       ></app-question-one>
       <app-question-two 
         *ngSwitchCase="2"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
-        (answerTwoEvent)="receiveAnswerTwo($event)"
+        (answerTwoEvent)="receiveAnswer($event)"
       ></app-question-two>
       <app-question-three 
         *ngSwitchCase="3"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
-        (answerThreeEvent)="receiveAnswerThree($event)"
+        (answerThreeEvent)="receiveAnswer($event)"
       ></app-question-three>
       <app-question-four 
         *ngSwitchCase="4"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
-        (answerFourEvent)="receiveAnswerFour($event)"
+        (answerFourEvent)="receiveAnswer($event)"
       ></app-question-four>
+      <app-question-five 
+        *ngSwitchCase="5"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+        (answerFiveEvent)="receiveAnswer($event)"
+      ></app-question-five>
     </ng-container>
   </div>
 </div>

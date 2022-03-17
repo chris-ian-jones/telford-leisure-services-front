@@ -1,0 +1,77 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionFiveForm.get('addressLineOne').errors && questionFiveForm.get('addressLineOne').hasError('required')">
+        <a routerLink="./" fragment="addressLineOne" class="error-link" tabindex="3">
+          Enter your address line 1
+        </a>
+      </li>
+      <li *ngIf="questionFiveForm.get('postcode').errors && questionFiveForm.get('postcode').hasError('required')">
+        <a routerLink="./" fragment="postcode" class="error-link" tabindex="4">
+          Enter your postcode
+        </a>
+      </li>
+      <li *ngIf="questionFiveForm.get('postcode').errors && questionFiveForm.get('postcode').hasError('pattern')">
+        <a routerLink="./" fragment="postcode" class="error-link" tabindex="4">
+          Enter a real postcode
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  What is your residential address?
+</h1>
+<form class="question-form-container" [formGroup]="questionFiveForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <label for="addressLineOne" class="default-input-label">
+      Address line 1
+    </label>
+    <div>
+      <input id="addressLineOne" formControlName="addressLineOne"type="text" class="default-text-input">
+    </div>
+  </div>
+  <div class="default-input-container">
+    <label for="addressLineTwo" class="default-input-label">
+      Address line 2 (Optional)
+    </label>
+    <div>
+      <input id="addressLineTwo" formControlName="addressLineTwo" type="text" class="default-text-input">
+    </div>
+  </div>
+  <div class="default-input-container">
+    <label for="townOrCity" class="default-input-label">
+      Town/City (Optional)
+    </label>
+    <div>
+      <input id="townOrCity" formControlName="townOrCity" type="text" class="default-text-input three-quarters-text-input">
+    </div>
+  </div>
+  <div class="default-input-container">
+    <label for="county" class="default-input-label">
+      County (Optional)
+    </label>
+    <div>
+      <input id="county" formControlName="county" type="text" class="default-text-input three-quarters-text-input">
+    </div>
+  </div>
+  <div class="default-input-container">
+    <label for="postcode" class="default-input-label">
+      Postcode
+    </label>
+    <div>
+      <input id="postcode" formControlName="postcode" type="text" class="default-text-input one-half-text-input">
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>
