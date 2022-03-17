@@ -1,0 +1,73 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionEightForm.get('membershipType').errors && questionEightForm.get('membershipType').hasError('required')">
+        <a href="javascript:void(0)" (click)="onClickMembershipTypeRequiredError()" class="error-link" tabindex="3">
+          Select your membership type
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  Which will be your membership type?
+</h1>
+<form class="question-form-container" [formGroup]="questionEightForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <div #adtInput class="default-radio-input-container" tabindex="0" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
+      <input id="adt" value="TLC Adt Resident 16+ - ADT" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="adt" 
+        class="radio-input-label"
+        [ngClass]="questionEightForm.get('membershipType').value === 'TLC Adt Resident 16+ - ADT' ? 'checked' : 'unchecked'"
+      >
+        TLC Adt Resident 16+ - ADT
+        <span class="label-hint-text">Fee: None (sign up for FREE)</span>
+      </label>
+    </div>
+    <div #hcoInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Annual Cash Concession - HCO')" (keydown.space)="selectInput('Annual Cash Concession - HCO')">
+      <input id="hco" value="Annual Cash Concession - HCO" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="hco" 
+        class="radio-input-label"
+        [ngClass]="questionEightForm.get('membershipType').value === 'Annual Cash Concession - HCO' ? 'checked' : 'unchecked'"
+      >
+        Annual Cash Concession - HCO
+        <span class="label-hint-text">Fee: £312.00</span>
+      </label>
+    </div>
+    <div #haeInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Aspirations All Inclusive - HAE')" (keydown.space)="selectInput('Aspirations All Inclusive - HAE')">
+      <input id="hae" value="Aspirations All Inclusive - HAE" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="hae" 
+        class="radio-input-label"
+        [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations All Inclusive - HAE' ? 'checked' : 'unchecked'"
+      >
+        Aspirations All Inclusive - HAE
+        <span class="label-hint-text">Fee: £366.00</span>
+      </label>
+    </div>
+    <div #hccInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Aspirations No Contract - HCC')" (keydown.space)="selectInput('Aspirations No Contract - HCC')">
+      <input id="hcc" value="Aspirations No Contract - HCC" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="hcc" 
+        class="radio-input-label"
+        [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations No Contract - HCC' ? 'checked' : 'unchecked'"
+      >
+        Aspirations No Contract - HCC
+        <span class="label-hint-text">Fee: £462</span>
+      </label>
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>
