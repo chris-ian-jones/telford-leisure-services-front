@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 6;
+  currentPageNumber: number = 1;
   totalPageNumbers: number = 9;
   newMemberData = {};
 
@@ -20,7 +20,6 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickBack() {
-    console.log('newMemberData: ', this.newMemberData)
     if (this.currentPageNumber === 1) {
       this.router.navigateByUrl(`/sign-in`)
     } else {
