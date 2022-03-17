@@ -20,8 +20,8 @@
 </h1>
 <form class="question-form-container" [formGroup]="questionEightForm" (ngSubmit)="onClickContinue()">
   <div class="default-input-container">
-    <div #adtInput tabindex="0" class="default-radio-input-container flex-column">
-      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
+    <div #adtInput tabindex="0" class="default-radio-input-container flex-column" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
+      <div class="inner-radio-input-container">
         <input id="adt" value="TLC Adt Resident 16+ - ADT" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
         <label 
           for="adt" 
@@ -43,8 +43,8 @@
         </div>
       </details>
     </div>
-    <div #hcoInput tabindex="0" class="default-radio-input-container flex-column">
-      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Annual Cash Concession - HCO')" (keydown.space)="selectInput('Annual Cash Concession - HCO')">
+    <div #hcoInput tabindex="0" class="default-radio-input-container flex-column" (click)="selectInput('Annual Cash Concession - HCO')" (keydown.space)="selectInput('Annual Cash Concession - HCO')">
+      <div class="inner-radio-input-container">
         <input id="hco" value="Annual Cash Concession - HCO" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
         <label 
           for="hco" 
@@ -66,8 +66,8 @@
         </div>
       </details>
     </div>
-    <div #haeInput tabindex="0" class="default-radio-input-container flex-column">
-      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Aspirations All Inclusive - HAE')" (keydown.space)="selectInput('Aspirations All Inclusive - HAE')">
+    <div #haeInput tabindex="0" class="default-radio-input-container flex-column" (click)="selectInput('Aspirations All Inclusive - HAE')" (keydown.space)="selectInput('Aspirations All Inclusive - HAE')">
+      <div class="inner-radio-input-container">
         <input id="hae" value="Aspirations All Inclusive - HAE" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
         <label 
           for="hae" 
@@ -89,8 +89,8 @@
         </div>
       </details>
     </div>
-    <div #hccInput tabindex="0" class="default-radio-input-container flex-column">
-      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Aspirations No Contract - HCC')" (keydown.space)="selectInput('Aspirations No Contract - HCC')">
+    <div #hccInput tabindex="0" class="default-radio-input-container flex-column" (click)="selectInput('Aspirations No Contract - HCC')" (keydown.space)="selectInput('Aspirations No Contract - HCC')">
+      <div class="inner-radio-input-container">
         <input id="hcc" value="Aspirations No Contract - HCC" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
         <label 
           for="hcc" 
