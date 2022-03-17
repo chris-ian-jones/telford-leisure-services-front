@@ -73,9 +73,7 @@ export class QuestionSixComponent implements OnInit {
 
   onClickContinue() {
     if (this.questionSixForm.valid) {
-      this.answerSixEvent.emit({
-        ethnicity: this.questionSixForm.controls['ethnicity'].value
-      })
+      this.answerSixEvent.emit(this.questionSixForm.value)
     } else {
       this.getAllFormValidationErrors();
     }
