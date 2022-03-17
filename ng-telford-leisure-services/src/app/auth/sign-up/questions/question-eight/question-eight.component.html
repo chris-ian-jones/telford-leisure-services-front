@@ -1,3 +1,17 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionEightForm.get('membershipType').errors && questionEightForm.get('membershipType').hasError('required')">
+        <a href="javascript:void(0)" (click)="onClickMembershipTypeRequiredError()" class="error-link" tabindex="3">
+          Select your membership type
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
 <h2 class="page-question-number">
   Question {{currentPage}} of {{totalPages}}
 </h2>

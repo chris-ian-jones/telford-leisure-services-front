@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-eight',
@@ -16,6 +16,8 @@ export class QuestionEightComponent implements OnInit {
   @ViewChild('haeInput', {static: false}) haeInput: ElementRef;
   @ViewChild('hccInput', {static: false}) hccInput: ElementRef;
   questionEightForm!: FormGroup;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,6 +35,7 @@ export class QuestionEightComponent implements OnInit {
 
   selectInput(value:string) {
     this.questionEightForm.controls['membershipType'].setValue(value)
+    this.errorSummary.length = 0;
 
     switch(value) {
       case 'TLC Adt Resident 16+ - ADT': {
@@ -62,8 +65,29 @@ export class QuestionEightComponent implements OnInit {
     if (this.questionEightForm.valid) {
       this.answerEightEvent.emit(this.questionEightForm.value)
     } else {
-      
+      this.getAllFormValidationErrors();
     }
+  }
+
+  getAllFormValidationErrors() {
+    Object.keys(this.questionEightForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionEightForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
+
+  onClickMembershipTypeRequiredError() {
+    setTimeout(() => this.adtInput.nativeElement.focus());
   }
 
 }
