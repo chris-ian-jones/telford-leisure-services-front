@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-question-seven',
@@ -19,6 +19,8 @@ export class QuestionSevenComponent implements OnInit {
   @ViewChild('stirchleyInput', {static: false}) stirchleyInput: ElementRef;
   @ViewChild('wellingtonInput', {static: false}) wellingtonInput: ElementRef;
   questionSevenForm!: FormGroup;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +38,7 @@ export class QuestionSevenComponent implements OnInit {
 
   selectInput(value:string) {
     this.questionSevenForm.controls['mainCenter'].setValue(value)
+    this.errorSummary.length = 0;
 
     switch(value) {
       case 'Abraham Darby Sports and Leisure Center': {
@@ -77,8 +80,29 @@ export class QuestionSevenComponent implements OnInit {
     if (this.questionSevenForm.valid) {
       this.answerSevenEvent.emit(this.questionSevenForm.value)
     } else {
-      
+      this.getAllFormValidationErrors();
     }
+  }
+
+  getAllFormValidationErrors() {
+    Object.keys(this.questionSevenForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.questionSevenForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
+
+  onClickMainCenterRequiredError() {
+    setTimeout(() => this.abrahamInput.nativeElement.focus());
   }
 
 }
