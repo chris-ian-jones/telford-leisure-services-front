@@ -46,6 +46,12 @@
         [totalPages]="totalPageNumbers"
         (answerSevenEvent)="receiveAnswer($event)"
       ></app-question-seven>
+      <app-question-eight 
+        *ngSwitchCase="8"
+        [currentPage]="currentPageNumber"
+        [totalPages]="totalPageNumbers"
+        (answerEightEvent)="receiveAnswer($event)"
+      ></app-question-eight>
     </ng-container>
   </div>
 </div>
