@@ -1,0 +1,89 @@
+<ng-container *ngIf="errorSummary.length > 0">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li *ngIf="questionSixForm.get('ethnicity').errors && questionSixForm.get('ethnicity').hasError('required')">
+        <a href="javascript:void(0)" (click)="onClickEthnicityRequiredError()" class="error-link" tabindex="3">
+          Select your ethnicity
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<h2 class="page-question-number">
+  Question {{currentPage}} of {{totalPages}}
+</h2>
+<h1 class="page-question">
+  What is your ethnicity?
+</h1>
+<form class="question-form-container" [formGroup]="questionSixForm" (ngSubmit)="onClickContinue()">
+  <div class="default-input-container">
+    <div #whiteInput class="default-radio-input-container" tabindex="0" (click)="selectInput('White UK/Irish/Euro')" (keydown.space)="selectInput('White UK/Irish/Euro')">
+      <input id="white" value="White UK/Irish/Euro" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="white" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'White UK/Irish/Euro' ? 'checked' : 'unchecked'"
+      >
+        White UK/Irish/Euro
+      </label>
+    </div>
+    <div #asianInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Asian/Asian British')" (keydown.space)="selectInput('Asian/Asian British')">
+      <input id="asian" value="Asian/Asian British" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="asian" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'Asian/Asian British' ? 'checked' : 'unchecked'"
+      >
+        Asian/Asian British
+      </label>
+    </div>
+    <div #blackInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Black/Black British')" (keydown.space)="selectInput('Black/Black British')">
+      <input id="black" value="Black/Black British" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="black" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'Black/Black British' ? 'checked' : 'unchecked'"
+      >
+        Black/Black British
+      </label>
+    </div>
+    <div #chineseInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Chinese')" (keydown.space)="selectInput('Chinese')">
+      <input id="chinese" value="Chinese" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="chinese" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'Chinese' ? 'checked' : 'unchecked'"
+      >
+        Chinese
+      </label>
+    </div>
+    <div #mixedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Mixed/Dual')" (keydown.space)="selectInput('Mixed/Dual')">
+      <input id="mixed" value="Mixed/Dual" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="mixed" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'Mixed/Dual' ? 'checked' : 'unchecked'"
+      >
+        Mixed/Dual
+      </label>
+    </div>
+    <div #otherInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Other/Not Stated')" (keydown.space)="selectInput('Other/Not Stated')">
+      <input id="other" value="Other/Not Stated" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
+      <label 
+        for="other" 
+        class="radio-input-label"
+        [ngClass]="questionSixForm.get('ethnicity').value === 'Other/Not Stated' ? 'checked' : 'unchecked'"
+      >
+        Other/Not Stated
+      </label>
+    </div>
+  </div>
+  <div>
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</form>

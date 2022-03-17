@@ -20,7 +20,6 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickBack() {
-    console.log('newMemberData: ', this.newMemberData)
     if (this.currentPageNumber === 1) {
       this.router.navigateByUrl(`/sign-in`)
     } else {
