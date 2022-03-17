@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 1;
+  currentPageNumber: number = 6;
   totalPageNumbers: number = 9;
   newMemberData = {};
 
