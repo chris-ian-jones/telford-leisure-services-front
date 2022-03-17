@@ -20,49 +20,97 @@
 </h1>
 <form class="question-form-container" [formGroup]="questionEightForm" (ngSubmit)="onClickContinue()">
   <div class="default-input-container">
-    <div #adtInput class="default-radio-input-container" tabindex="0" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
-      <input id="adt" value="TLC Adt Resident 16+ - ADT" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
-      <label 
-        for="adt" 
-        class="radio-input-label"
-        [ngClass]="questionEightForm.get('membershipType').value === 'TLC Adt Resident 16+ - ADT' ? 'checked' : 'unchecked'"
-      >
-        TLC Adt Resident 16+ - ADT
-        <span class="label-hint-text">Fee: None (sign up for FREE)</span>
-      </label>
+    <div #adtInput tabindex="0" class="default-radio-input-container flex-column">
+      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
+        <input id="adt" value="TLC Adt Resident 16+ - ADT" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+        <label 
+          for="adt" 
+          class="radio-input-label"
+          [ngClass]="questionEightForm.get('membershipType').value === 'TLC Adt Resident 16+ - ADT' ? 'checked' : 'unchecked'"
+        >
+          TLC Adt Resident 16+ - ADT
+          <span class="label-hint-text">Fee: None (sign up for FREE)</span>
+        </label>
+      </div>
+      <details class="details-container">
+        <summary class="details-summary">More information</summary>
+        <div class="details-content-container">
+          <p class="details-text">Free Telford Loyalty Card for Telford & Wrekin residents aged 16 and over. Gives discount of up to 25% on most activities.</p>
+          <ul>
+            <li>Free membership</li>
+            <li>No joining fees</li>
+          </ul>
+        </div>
+      </details>
     </div>
-    <div #hcoInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Annual Cash Concession - HCO')" (keydown.space)="selectInput('Annual Cash Concession - HCO')">
-      <input id="hco" value="Annual Cash Concession - HCO" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
-      <label 
-        for="hco" 
-        class="radio-input-label"
-        [ngClass]="questionEightForm.get('membershipType').value === 'Annual Cash Concession - HCO' ? 'checked' : 'unchecked'"
-      >
-        Annual Cash Concession - HCO
-        <span class="label-hint-text">Fee: £312.00</span>
-      </label>
+    <div #hcoInput tabindex="0" class="default-radio-input-container flex-column">
+      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Annual Cash Concession - HCO')" (keydown.space)="selectInput('Annual Cash Concession - HCO')">
+        <input id="hco" value="Annual Cash Concession - HCO" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+        <label 
+          for="hco" 
+          class="radio-input-label"
+          [ngClass]="questionEightForm.get('membershipType').value === 'Annual Cash Concession - HCO' ? 'checked' : 'unchecked'"
+        >
+          Annual Cash Concession - HCO
+          <span class="label-hint-text">Fee: £312.00</span>
+        </label>
+      </div>
+      <details class="details-container">
+        <summary class="details-summary">More information</summary>
+        <div class="details-content-container">
+          <p class="details-text">Free Telford Loyalty Card for Telford & Wrekin residents aged 16 and over. Gives discount of up to 25% on most activities.</p>
+          <ul>
+            <li>Free membership</li>
+            <li>No joining fees</li>
+          </ul>
+        </div>
+      </details>
     </div>
-    <div #haeInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Aspirations All Inclusive - HAE')" (keydown.space)="selectInput('Aspirations All Inclusive - HAE')">
-      <input id="hae" value="Aspirations All Inclusive - HAE" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
-      <label 
-        for="hae" 
-        class="radio-input-label"
-        [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations All Inclusive - HAE' ? 'checked' : 'unchecked'"
-      >
-        Aspirations All Inclusive - HAE
-        <span class="label-hint-text">Fee: £366.00</span>
-      </label>
+    <div #haeInput tabindex="0" class="default-radio-input-container flex-column">
+      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Aspirations All Inclusive - HAE')" (keydown.space)="selectInput('Aspirations All Inclusive - HAE')">
+        <input id="hae" value="Aspirations All Inclusive - HAE" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+        <label 
+          for="hae" 
+          class="radio-input-label"
+          [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations All Inclusive - HAE' ? 'checked' : 'unchecked'"
+        >
+          Aspirations All Inclusive - HAE
+          <span class="label-hint-text">Fee: £366.00</span>
+        </label>
+      </div>
+      <details class="details-container">
+        <summary class="details-summary">More information</summary>
+        <div class="details-content-container">
+          <p class="details-text">Free Telford Loyalty Card for Telford & Wrekin residents aged 16 and over. Gives discount of up to 25% on most activities.</p>
+          <ul>
+            <li>Free membership</li>
+            <li>No joining fees</li>
+          </ul>
+        </div>
+      </details>
     </div>
-    <div #hccInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Aspirations No Contract - HCC')" (keydown.space)="selectInput('Aspirations No Contract - HCC')">
-      <input id="hcc" value="Aspirations No Contract - HCC" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
-      <label 
-        for="hcc" 
-        class="radio-input-label"
-        [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations No Contract - HCC' ? 'checked' : 'unchecked'"
-      >
-        Aspirations No Contract - HCC
-        <span class="label-hint-text">Fee: £462</span>
-      </label>
+    <div #hccInput tabindex="0" class="default-radio-input-container flex-column">
+      <div class="inner-radio-input-container" tabindex="-1" (click)="selectInput('Aspirations No Contract - HCC')" (keydown.space)="selectInput('Aspirations No Contract - HCC')">
+        <input id="hcc" value="Aspirations No Contract - HCC" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
+        <label 
+          for="hcc" 
+          class="radio-input-label"
+          [ngClass]="questionEightForm.get('membershipType').value === 'Aspirations No Contract - HCC' ? 'checked' : 'unchecked'"
+        >
+          Aspirations No Contract - HCC
+          <span class="label-hint-text">Fee: £462</span>
+        </label>
+      </div>
+      <details class="details-container">
+        <summary class="details-summary">More information</summary>
+        <div class="details-content-container">
+          <p class="details-text">Free Telford Loyalty Card for Telford & Wrekin residents aged 16 and over. Gives discount of up to 25% on most activities.</p>
+          <ul>
+            <li>Free membership</li>
+            <li>No joining fees</li>
+          </ul>
+        </div>
+      </details>
     </div>
   </div>
   <div>
