@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-seven',
@@ -10,6 +11,7 @@ export class QuestionSevenComponent implements OnInit {
 
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   @Output() answerSevenEvent = new EventEmitter<any>();
   @ViewChild('abrahamInput', {static: false}) abrahamInput: ElementRef;
   @ViewChild('horsehayInput', {static: false}) horsehayInput: ElementRef;
@@ -32,7 +34,7 @@ export class QuestionSevenComponent implements OnInit {
 
   initQuestionSevenForm() {
     this.questionSevenForm = this.formBuilder.group({
-      mainCenter: ['', [Validators.required]],
+      mainCenter: [this.newMemberData.mainCenter, [Validators.required]],
     })
   }
 

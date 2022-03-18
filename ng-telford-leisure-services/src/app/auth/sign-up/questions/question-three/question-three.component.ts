@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-three',
@@ -10,6 +11,7 @@ export class QuestionThreeComponent implements OnInit {
 
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   @Output() answerThreeEvent = new EventEmitter<any>();
   questionThreeForm!: FormGroup;
   @ViewChild('maleInput', {static: false}) maleInput: ElementRef;
@@ -27,7 +29,7 @@ export class QuestionThreeComponent implements OnInit {
 
   initQuestionThreeForm() {
     this.questionThreeForm = this.formBuilder.group({
-      gender: ['', [Validators.required]],
+      gender: [this.newMemberData.gender, [Validators.required]],
     })
   }
 

@@ -5,7 +5,7 @@
   <div class="summary-list-container">
     <div class="summary-list-row">
       <dt class="summary-list-key">Name</dt>
-      <dd class="summary-list-value">{{newMemberData?.firstName}} {{newMemberData?.lastName}}</dd>
+      <dd class="summary-list-value">{{newMemberData?.firstName | titlecase}} {{newMemberData?.lastName | titlecase}}</dd>
       <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(1)" tabindex="1">Change</a></dd>
     </div>
     <div class="summary-list-row">
