@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-eight',
@@ -10,6 +11,7 @@ export class QuestionEightComponent implements OnInit {
 
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   @Output() answerEightEvent = new EventEmitter<any>();
   @ViewChild('adtInput', {static: false}) adtInput: ElementRef;
   @ViewChild('hcoInput', {static: false}) hcoInput: ElementRef;
@@ -29,7 +31,7 @@ export class QuestionEightComponent implements OnInit {
 
   initQuestionEightForm() {
     this.questionEightForm = this.formBuilder.group({
-      membershipType: ['', [Validators.required]],
+      membershipType: [this.newMemberData.membershipType, [Validators.required]],
     })
   }
 

@@ -12,6 +12,7 @@ import { QuestionSixComponent } from './questions/question-six/question-six.comp
 import { QuestionSevenComponent } from './questions/question-seven/question-seven.component';
 import { QuestionEightComponent } from './questions/question-eight/question-eight.component';
 import { SignUpService } from './sign-up.service';
+import { CheckAnswersComponent } from './questions/check-answers/check-answers.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { SignUpService } from './sign-up.service';
     QuestionSixComponent,
     QuestionSevenComponent,
     QuestionEightComponent,
+    CheckAnswersComponent,
   ],
   providers: [
     SignUpService

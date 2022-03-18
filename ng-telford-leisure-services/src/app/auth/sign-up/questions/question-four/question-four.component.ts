@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-four',
@@ -12,6 +13,7 @@ export class QuestionFourComponent implements OnInit {
   @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   questionFourForm!: FormGroup;
   @Output() answerFourEvent = new EventEmitter<any>();
   errorSummary: any = [];
@@ -27,8 +29,8 @@ export class QuestionFourComponent implements OnInit {
 
   initQuestionFourForm() {
     this.questionFourForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.pattern('[- +()0-9]+')],
+      email: [this.newMemberData.email, [Validators.required, Validators.email]],
+      phone: [this.newMemberData.phone, Validators.pattern('[- +()0-9]+')],
     }, {updateOn: 'submit'})
   }
 

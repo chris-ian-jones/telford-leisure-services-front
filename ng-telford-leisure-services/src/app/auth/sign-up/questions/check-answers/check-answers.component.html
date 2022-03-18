@@ -1,0 +1,61 @@
+<div class="check-answers-container">
+  <h1 class="page-question placeholder-margin">
+    Check your answers before creating your account
+  </h1>
+  <div class="summary-list-container">
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Name</dt>
+      <dd class="summary-list-value">{{newMemberData?.firstName | titlecase}} {{newMemberData?.lastName | titlecase}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(1)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Date of birth</dt>
+      <dd class="summary-list-value">{{newMemberData?.dateOfBirth | date: 'dd MMMM yyyy'}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(2)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Gender</dt>
+      <dd class="summary-list-value">{{newMemberData?.gender}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(3)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Contact details</dt>
+      <dd class="summary-list-value">
+        <p>{{newMemberData?.email}}</p>
+        <p class="margin-top-small">{{newMemberData?.phone}}</p>
+      </dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(4)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Address</dt>
+      <dd class="summary-list-value">
+        <p>{{newMemberData?.addressLineOne}}</p>
+        <p>{{newMemberData?.addressLineTwo}}</p>
+        <p>{{newMemberData?.townOrCity}}</p>
+        <p>{{newMemberData?.county}}</p>
+        <p>{{newMemberData?.postcode}}</p>
+      </dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(5)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Ethnicity</dt>
+      <dd class="summary-list-value">{{newMemberData?.ethnicity}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(6)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Main leisure center</dt>
+      <dd class="summary-list-value">{{newMemberData?.mainCenter}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(7)" tabindex="1">Change</a></dd>
+    </div>
+    <div class="summary-list-row">
+      <dt class="summary-list-key">Membership type</dt>
+      <dd class="summary-list-value">{{newMemberData?.membershipType}}</dd>
+      <dd class="summary-list-actions"><a class="change-link" href="javascript:void(0)" (click)="onClickChange(8)" tabindex="1">Change</a></dd>
+    </div>
+  </div>
+  <div class="continue-btn-container">
+    <button class="default-btn" type="submit">
+      Continue
+    </button>
+  </div>
+</div>

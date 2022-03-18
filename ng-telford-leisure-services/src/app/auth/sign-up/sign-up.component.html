@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="body-container">
-    <div class="backlink-container">
+    <div *ngIf="!changeAnswer" class="backlink-container">
       <a class="back-link" href="javascript:void(0)" (click)="onClickBack()" tabindex="1">Back</a>
     </div>
     <ng-container [ngSwitch]="currentPageNumber">
@@ -8,50 +8,63 @@
         *ngSwitchCase="1"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerOneEvent)="receiveAnswer($event)"
       ></app-question-one>
       <app-question-two 
         *ngSwitchCase="2"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerTwoEvent)="receiveAnswer($event)"
       ></app-question-two>
       <app-question-three 
         *ngSwitchCase="3"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerThreeEvent)="receiveAnswer($event)"
       ></app-question-three>
       <app-question-four 
         *ngSwitchCase="4"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerFourEvent)="receiveAnswer($event)"
       ></app-question-four>
       <app-question-five 
         *ngSwitchCase="5"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerFiveEvent)="receiveAnswer($event)"
       ></app-question-five>
       <app-question-six 
         *ngSwitchCase="6"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerSixEvent)="receiveAnswer($event)"
       ></app-question-six>
       <app-question-seven 
         *ngSwitchCase="7"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerSevenEvent)="receiveAnswer($event)"
       ></app-question-seven>
       <app-question-eight 
         *ngSwitchCase="8"
         [currentPage]="currentPageNumber"
         [totalPages]="totalPageNumbers"
+        [newMemberData]="newMemberData"
         (answerEightEvent)="receiveAnswer($event)"
       ></app-question-eight>
+      <app-check-answers 
+        *ngSwitchCase="9"
+        [newMemberData]="newMemberData"
+        (changeAnswerEvent)="receiveChangeAnswerPage($event)"
+      ></app-check-answers >
     </ng-container>
   </div>
 </div>

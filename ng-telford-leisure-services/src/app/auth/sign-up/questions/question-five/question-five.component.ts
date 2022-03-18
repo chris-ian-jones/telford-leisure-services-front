@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-five',
@@ -11,6 +12,7 @@ export class QuestionFiveComponent implements OnInit {
 
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   @Output() answerFiveEvent = new EventEmitter<any>();
   questionFiveForm!: FormGroup;
   errorSummary: any = [];
@@ -27,11 +29,11 @@ export class QuestionFiveComponent implements OnInit {
 
   initQuestionFiveForm() {
     this.questionFiveForm = this.formBuilder.group({
-      addressLineOne: ['', Validators.required],
-      addressLineTwo: [''],
-      townOrCity: [''],
-      county: [''],
-      postcode: ['', [Validators.required, Validators.pattern('^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$')]],
+      addressLineOne: [this.newMemberData.addressLineOne, Validators.required],
+      addressLineTwo: [this.newMemberData.addressLineTwo],
+      townOrCity: [this.newMemberData.townOrCity],
+      county: [this.newMemberData.county],
+      postcode: [this.newMemberData.postcode, [Validators.required, Validators.pattern('^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$')]],
     }, {updateOn: 'submit'})
   }
 

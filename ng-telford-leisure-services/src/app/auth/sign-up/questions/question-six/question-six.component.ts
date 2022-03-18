@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Member } from './../../../../core/models/Member';
 
 @Component({
   selector: 'app-question-six',
@@ -10,6 +11,7 @@ export class QuestionSixComponent implements OnInit {
 
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   @Output() answerSixEvent = new EventEmitter<any>();
   @ViewChild('whiteInput', {static: false}) whiteInput: ElementRef;
   @ViewChild('asianInput', {static: false}) asianInput: ElementRef;
@@ -31,7 +33,7 @@ export class QuestionSixComponent implements OnInit {
 
   initQuestionSixForm() {
     this.questionSixForm = this.formBuilder.group({
-      ethnicity: ['', [Validators.required]],
+      ethnicity: [this.newMemberData.ethnicity, [Validators.required]],
     })
   }
 

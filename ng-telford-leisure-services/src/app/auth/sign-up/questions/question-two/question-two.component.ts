@@ -1,7 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import * as moment from 'moment'
 import { SignUpService } from '../../sign-up.service';
+import { Member } from './../../../../core/models/Member';
+import * as moment from 'moment'
 @Component({
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
@@ -12,6 +13,7 @@ export class QuestionTwoComponent implements OnInit {
   @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
+  @Input() newMemberData!: Member;
   questionTwoForm!: FormGroup;
   errorSummary: any = [];
   @Output() answerTwoEvent = new EventEmitter<any>();
@@ -31,6 +33,16 @@ export class QuestionTwoComponent implements OnInit {
       month: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       year: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     }, {updateOn: 'submit'})
+
+    if (this.newMemberData.dateOfBirth) {
+      const dateOfBirth = moment(this.newMemberData.dateOfBirth);
+      const dayOfBirth = moment(dateOfBirth).date();
+      const monthOfBirth = 1 + moment(dateOfBirth).month();
+      const yearOfBirth = moment(dateOfBirth).year();
+      this.questionTwoForm.controls['day'].setValue(dayOfBirth);
+      this.questionTwoForm.controls['month'].setValue(monthOfBirth);
+      this.questionTwoForm.controls['year'].setValue(yearOfBirth);
+    }
   }
 
   onClickContinue() {

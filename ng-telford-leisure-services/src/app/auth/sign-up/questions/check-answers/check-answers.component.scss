@@ -1,0 +1,73 @@
+.check-answers-container {
+  width: 80%;
+}
+
+.placeholder-margin {
+  margin-top: 70px;
+}
+
+.summary-list-container {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.summary-list-row {
+  display: table-row;
+  border-bottom: 1px solid #b1b4b6;
+}
+
+.summary-list-key {
+  width: 30%;
+  font-size: 19px;
+  margin-bottom: 5px;
+  font-weight: 700;
+  display: table-cell;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+.summary-list-value {
+  width: 50%;
+  font-size: 19px;
+  display: table-cell;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  line-height: 1.3;
+}
+
+.margin-top-small {
+  margin-top: 10px;
+}
+
+.summary-list-actions {
+  width: 20%;
+  margin-bottom: 15px;
+  display: table-cell;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: right;
+}
+
+.change-link {
+  color: #1d70b8;
+  font-size: 19px;
+  text-decoration: underline;
+}
+
+.change-link:focus {
+  color: #0b0c0c;
+  outline: 3px solid transparent;
+  background-color: #fd0;
+  -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  text-decoration: none;
+}
+
+.continue-btn-container {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
