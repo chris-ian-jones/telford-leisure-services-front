@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/Member';
 
@@ -13,7 +14,8 @@ export class CheckAnswersComponent implements OnInit {
   @Output() changeAnswerEvent = new EventEmitter<any>();
 
   constructor(
-    private signUpService: SignUpService
+    private signUpService: SignUpService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -24,9 +26,14 @@ export class CheckAnswersComponent implements OnInit {
   }
 
   onClickCreateAccount() {
-    // todo
-    this.signUpService.signUpMember(this.newMemberData).subscribe(response => {
+    this.signUpService.signUpMember(this.newMemberData).subscribe((response:any) => {
       console.log('response: ', response)
+      this.router.navigate(['sign-up/success'], {
+        state:{
+          memberNumber: response.memberNumber,
+          mainCenter: response.mainCenter
+        }
+      });
     }, error => {
       console.log('error.error.message: ', error.error.message)
     })
