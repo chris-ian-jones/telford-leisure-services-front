@@ -1,5 +1,15 @@
 .check-answers-container {
   width: 80%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
+
+  @media screen and (max-width: 640px) {
+    width: 95%;
+    padding: 0px 2.5%;
+  }
 }
 
 .placeholder-margin {
@@ -16,6 +26,10 @@
 .summary-list-row {
   display: table-row;
   border-bottom: 1px solid #b1b4b6;
+
+  @media screen and (max-width: 640px) {
+    display: block;
+  }
 }
 
 .summary-list-key {
@@ -27,6 +41,14 @@
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
+
+  @media screen and (max-width: 640px) {
+    display: block;
+    width: 100%;
+    padding-top: 15px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
 }
 
 .summary-list-value {
@@ -37,6 +59,15 @@
   padding-right: 20px;
   padding-bottom: 10px;
   line-height: 1.3;
+
+  @media screen and (max-width: 640px) {
+    display: block;
+    margin-inline-start: 0px;
+    width: 100%;
+    padding-top: 0px;
+    padding-right: 00px;
+    padding-bottom: 15px;
+  }
 }
 
 .margin-top-small {
@@ -50,6 +81,15 @@
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: right;
+
+  @media screen and (max-width: 640px) {
+    display: block;
+    width: 100%;
+    padding-top: 0px;
+    text-align: left;
+    margin-inline-start: 0px;
+    padding-bottom: 0px;
+  }
 }
 
 .change-link {
