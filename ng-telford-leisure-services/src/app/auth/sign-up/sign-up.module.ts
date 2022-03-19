@@ -13,6 +13,7 @@ import { QuestionSevenComponent } from './questions/question-seven/question-seve
 import { QuestionEightComponent } from './questions/question-eight/question-eight.component';
 import { SignUpService } from './sign-up.service';
 import { CheckAnswersComponent } from './questions/check-answers/check-answers.component';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { CheckAnswersComponent } from './questions/check-answers/check-answers.c
     QuestionSevenComponent,
     QuestionEightComponent,
     CheckAnswersComponent,
+    SuccessComponent
   ],
   providers: [
     SignUpService
