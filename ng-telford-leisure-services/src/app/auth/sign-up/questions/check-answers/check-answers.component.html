@@ -1,3 +1,17 @@
+<ng-container *ngIf="errorMessage">
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">
+      There is a problem
+    </h2>
+    <ul class="error-summary-list">
+      <li>
+        <a routerLink="/sign-in" class="error-link" tabindex="3">
+          {{errorMessage}}
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
 <div class="check-answers-container">
   <h1 class="page-question placeholder-margin">
     Check your answers before creating your account
@@ -54,8 +68,8 @@
     </div>
   </div>
   <div class="continue-btn-container">
-    <button class="default-btn" type="submit">
-      Continue
+    <button class="default-btn" (click)="onClickCreateAccount()">
+      Create account
     </button>
   </div>
 </div>

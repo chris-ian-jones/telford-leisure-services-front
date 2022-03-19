@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/Member';
 
 @Component({
@@ -10,30 +12,34 @@ export class CheckAnswersComponent implements OnInit {
 
   @Input() newMemberData!: Member;
   @Output() changeAnswerEvent = new EventEmitter<any>();
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorMessage: string = '';
 
-  constructor() { }
+  constructor(
+    private signUpService: SignUpService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    console.log('newMemberData: ', this.newMemberData)
-
-    this.newMemberData.addressLineOne = '399 Marston Road'
-    this.newMemberData.addressLineTwo = ''
-    this.newMemberData.county = 'Oxfordshire'
-    this.newMemberData.dateOfBirth = 'Sun Mar 02 1986 00:00:00 GMT+0000'
-    this.newMemberData.email = 'hello@chris-jones.dev'
-    this.newMemberData.ethnicity = 'White UK/Irish/Euro'
-    this.newMemberData.firstName = 'Chris'
-    this.newMemberData.gender = 'Male'
-    this.newMemberData.lastName = 'Jones'
-    this.newMemberData.mainCenter = 'Phoenix Sports and Leisure Centre'
-    this.newMemberData.membershipType = 'TLC Adt Resident 16+ - ADT'
-    this.newMemberData.phone = '07979636899'
-    this.newMemberData.postcode = 'OX3 0JF'
-    this.newMemberData.townOrCity = 'Oxford'
   }
 
   onClickChange(pageNumber:number) {
     this.changeAnswerEvent.emit(pageNumber)
+  }
+
+  onClickCreateAccount() {
+    this.errorMessage = ''
+    this.signUpService.signUpMember(this.newMemberData).subscribe((response:any) => {
+      this.router.navigate(['sign-up/success'], {
+        state:{
+          memberNumber: response.memberNumber,
+          mainCenter: response.mainCenter
+        }
+      });
+    }, error => {
+      this.errorMessage = error.error.message;
+      setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+    })
   }
 
 }

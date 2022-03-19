@@ -9,7 +9,7 @@ import { Member } from './../../core/models/Member';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 9;
+  currentPageNumber: number = 1;
   totalPageNumbers: number = 8;
   @Output() newMemberData: Member = {
     firstName: '',
@@ -52,7 +52,6 @@ export class SignUpComponent implements OnInit {
     } else {
       this.currentPageNumber++
     }
-    console.log('this.newMemberData: ', this.newMemberData)
   }
   
   receiveChangeAnswerPage($event: any) {
