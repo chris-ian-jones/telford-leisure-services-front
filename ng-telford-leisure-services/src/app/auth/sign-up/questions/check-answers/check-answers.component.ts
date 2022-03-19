@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/Member';
@@ -12,6 +12,8 @@ export class CheckAnswersComponent implements OnInit {
 
   @Input() newMemberData!: Member;
   @Output() changeAnswerEvent = new EventEmitter<any>();
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorMessage: string = '';
 
   constructor(
     private signUpService: SignUpService,
@@ -26,8 +28,8 @@ export class CheckAnswersComponent implements OnInit {
   }
 
   onClickCreateAccount() {
+    this.errorMessage = ''
     this.signUpService.signUpMember(this.newMemberData).subscribe((response:any) => {
-      console.log('response: ', response)
       this.router.navigate(['sign-up/success'], {
         state:{
           memberNumber: response.memberNumber,
@@ -35,7 +37,8 @@ export class CheckAnswersComponent implements OnInit {
         }
       });
     }, error => {
-      console.log('error.error.message: ', error.error.message)
+      this.errorMessage = error.error.message;
+      setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
     })
   }
 

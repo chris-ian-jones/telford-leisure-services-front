@@ -52,7 +52,6 @@ export class SignUpComponent implements OnInit {
     } else {
       this.currentPageNumber++
     }
-    console.log('this.newMemberData: ', this.newMemberData)
   }
   
   receiveChangeAnswerPage($event: any) {
