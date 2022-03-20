@@ -32,8 +32,8 @@ export class CheckAnswersComponent implements OnInit {
     this.signUpService.signUpMember(this.newMemberData).subscribe((response:any) => {
       this.router.navigate(['sign-up/success'], {
         state:{
-          memberNumber: response.memberNumber,
-          mainCenter: response.mainCenter
+          memberNumber: response.body.memberNumber,
+          mainCenter: response.body.mainCenter
         }
       });
     }, error => {
