@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./success.component.scss']
 })
 export class SuccessComponent implements OnInit {
-  memberNumber:string = '';
-  mainCenter:string = '';
+  memberNumber:string = '123456777';
+  mainCenter:string = 'Donnington Wood';
 
   constructor(
     private router: Router
