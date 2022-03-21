@@ -14,7 +14,7 @@
         Overall, how did you feel about the service you received today?
       </h3>
       <form class="question-form-container sub-heading-custom-margin" [formGroup]="satisfactionForm" (ngSubmit)="onClickSendFeedback()">
-        <div class="default-input-container">
+        <div class="default-input-container custom-margin-bottom">
           <div #verySatisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Very satisfied')" (keydown.space)="selectInput('Very satisfied')">
             <input id="verySatisfied" value="Very satisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
             <label 
@@ -66,6 +66,15 @@
             </label>
           </div>
         </div>
+        <h3 class="heading-small-with-help-text">
+          Overall, how did you feel about the service you received today?
+        </h3>
+        <label class="question-help-text" for="improvements" >
+          Do not include any personal or financial information, for example your National Insurance or credit card numbers.
+        </label>
+        <textarea id="improvements" value="" class="text-area-input" rows="5" type="text" formControlName="improvements" placehoder="some text"></textarea>
+        <p *ngIf="remainingCharacters >= 0" class="text-area-help-text">You have {{remainingCharacters}} character{{remainingCharacters === 1 ? '' : 's'}} remaining</p>
+        <p *ngIf="remainingCharacters < 0" class="text-area-help-text text-area-error-text">You have {{-remainingCharacters}} character{{remainingCharacters === -1 ? '' : 's'}} too many</p>
         <div>
           <button class="default-btn" type="submit">
             Send feedback

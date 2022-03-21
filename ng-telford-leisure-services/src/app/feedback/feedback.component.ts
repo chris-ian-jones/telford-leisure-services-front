@@ -15,6 +15,7 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('veryDissatisfiedInput', {static: false}) veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', {static: false}) otherInput: ElementRef;
   satisfactionForm!: FormGroup;
+  remainingCharacters: number = 1200;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,6 +28,11 @@ export class FeedbackComponent implements OnInit {
   initSatisfactionForm() {
     this.satisfactionForm = this.formBuilder.group({
       satisfaction: ['', [Validators.required]],
+      improvements: ['', [Validators.max(1)]]
+    })
+    this.satisfactionForm.get("improvements").valueChanges.subscribe(textString => {
+      const remainingCharactersConstant = 1200
+      this.remainingCharacters = remainingCharactersConstant - textString.length;
     })
   }
 
