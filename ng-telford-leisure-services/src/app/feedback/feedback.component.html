@@ -15,7 +15,7 @@
                 Select how you felt about the service you received
               </a>
             </li>
-            <li *ngIf="satisfactionForm.get('improvements').errors && satisfactionForm.get('improvements').hasError('max')">
+            <li *ngIf="satisfactionForm.get('improvements').errors && satisfactionForm.get('improvements').hasError('maxlength')">
               <a routerLink="./" fragment="improvements" class="error-link" tabindex="4">
                 Overall feedback must be 1200 characters or fewer
               </a>
