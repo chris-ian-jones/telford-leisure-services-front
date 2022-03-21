@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-email-confirm',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmailConfirmComponent implements OnInit {
 
-  constructor() { }
+  emailForm!: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.initEmailForm();
+  }
+
+  initEmailForm() {
+    this.emailForm = this.formBuilder.group({
+      email: ['', Validators.required],
+    }, {updateOn: 'submit'})
+  }
+
+  onClickContinue() {
+    
   }
 
 }
