@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
+import { FeedbackService } from './feedback.service';
 
 @Component({
   selector: 'app-feedback',
@@ -17,12 +18,13 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('otherInput', {static: false}) otherInput: ElementRef;
   satisfactionForm!: FormGroup;
   remainingCharacters: number = 1200;
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private signUpService: SignUpService
+    private signUpService: SignUpService,
+    private feedbackService: FeedbackService
   ) { }
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class FeedbackComponent implements OnInit {
 
   selectInput(value:string) {
     this.satisfactionForm.controls['satisfaction'].setValue(value)
+    this.errorSummary.length = 0;
 
     switch(value) {
       case 'Very satisfied': {
@@ -75,7 +78,11 @@ export class FeedbackComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
-      console.log('this.satisfactionForm.valid: ', this.satisfactionForm.valid)
+      this.feedbackService.createNewFeedback(this.satisfactionForm.value).subscribe((response:any) => {
+        console.log('response: ', response)
+      }, error => {
+        this.satisfactionForm.controls['satisfaction'].setErrors({'required': true});
+      })
     } else {
       this.getAllFormValidationErrors();
     }

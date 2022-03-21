@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FeedbackComponent } from './feedback.component';
 import { FeedbackRoutingModule } from './feedback-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FeedbackService } from './feedback.service';
 
 @NgModule({
   imports: [
@@ -11,6 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [FeedbackComponent]
+  declarations: [FeedbackComponent],
+  providers: [
+    FeedbackService
+  ]
 })
 export class FeedbackModule { }
