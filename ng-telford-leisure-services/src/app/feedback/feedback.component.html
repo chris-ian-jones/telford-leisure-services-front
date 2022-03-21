@@ -4,6 +4,25 @@
       <div class="backlink-container">
         <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>  
       </div>
+      <ng-container *ngIf="errorSummary.length > 0">
+        <div #errorSummary class="error-summary-container" tabindex="2">
+          <h2 class="error-summary-title">
+            There is a problem
+          </h2>
+          <ul class="error-summary-list">
+            <li *ngIf="satisfactionForm.get('satisfaction').errors && satisfactionForm.get('satisfaction').hasError('required')">
+              <a href="javascript:void(0)" (click)="onClickSatisfactionError()" class="error-link" tabindex="3">
+                Select how you felt about the service you received
+              </a>
+            </li>
+            <li *ngIf="satisfactionForm.get('improvements').errors && satisfactionForm.get('improvements').hasError('max')">
+              <a routerLink="./" fragment="improvements" class="error-link" tabindex="4">
+                Overall feedback must be 1200 characters or fewer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
       <h1 class="page-title">
         Give feedback on Telford Leisure Services
       </h1>

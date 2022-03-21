@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { SignUpService } from '../auth/sign-up/sign-up.service';
 
 @Component({
   selector: 'app-feedback',
@@ -16,9 +17,12 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('otherInput', {static: false}) otherInput: ElementRef;
   satisfactionForm!: FormGroup;
   remainingCharacters: number = 1200;
+  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
+    private signUpService: SignUpService
   ) { }
 
   ngOnInit() {
@@ -28,7 +32,7 @@ export class FeedbackComponent implements OnInit {
   initSatisfactionForm() {
     this.satisfactionForm = this.formBuilder.group({
       satisfaction: ['', [Validators.required]],
-      improvements: ['', [Validators.max(1)]]
+      improvements: ['', [Validators.max(1200)]]
     })
     this.satisfactionForm.get("improvements").valueChanges.subscribe(textString => {
       const remainingCharactersConstant = 1200
@@ -67,12 +71,35 @@ export class FeedbackComponent implements OnInit {
     }
   }
 
-  onClickHome() {
-    
+  onClickSendFeedback() {
+    this.errorSummary.length = 0;
+    this.signUpService.removeHashPathFromCurrentPath();
+    if (this.satisfactionForm.valid) {
+      console.log('this.satisfactionForm.valid: ', this.satisfactionForm.valid)
+    } else {
+      this.getAllFormValidationErrors();
+    }
   }
 
-  onClickSendFeedback() {
+  getAllFormValidationErrors() {
+    Object.keys(this.satisfactionForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.satisfactionForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
+  }
 
+  onClickSatisfactionError() {
+    setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
   }
 
 }
