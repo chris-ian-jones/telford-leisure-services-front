@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'feedback',
     loadChildren: () => import('./feedback/feedback.module').then(module => module.FeedbackModule),
   },
+  {
+    path: 'account-recovery',
+    loadChildren: () => import('./auth/account-recovery/account-recovery.module').then(module => module.AccountRecoveryModule),
+  },
 ];
 
 @NgModule({
