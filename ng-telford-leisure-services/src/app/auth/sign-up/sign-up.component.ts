@@ -9,7 +9,7 @@ import { Member } from './../../core/models/Member';
 })
 export class SignUpComponent implements OnInit {
 
-  currentPageNumber: number = 1;
+  currentPageNumber: number = 9;
   totalPageNumbers: number = 8;
   @Output() newMemberData: Member = {
     firstName: '',

@@ -1,6 +1,5 @@
 .no-arrow {
   padding-left: 0px;
-  margin-left: 14px; 
 }
 
 .no-arrow::before {
@@ -8,4 +7,13 @@
   left: 0px;
   width: 0px;
   height: 0px;
+}
+
+.page-title {
+  margin-top: 70px;
+  margin-bottom: 30px;
+}
+
+.sub-heading-custom-margin {
+  margin-top: -5px;
 }

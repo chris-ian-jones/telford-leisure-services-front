@@ -1,11 +1,77 @@
 <div class="main-container">
   <div class="body-container">
     <div class="two-thirds-container">
-      <div class="confirmation-panel">
-        <div class="backlink-container">
-          <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>
-        </div>
+      <div class="backlink-container">
+        <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>  
       </div>
+      <h1 class="page-title">
+        Give feedback on Telford Leisure Services
+      </h1>
+      <h2 class="heading-medium">
+        Satisfaction survey
+      </h2>
+      <h3 class="heading-small">
+        Overall, how did you feel about the service you received today?
+      </h3>
+      <form class="question-form-container sub-heading-custom-margin" [formGroup]="satisfactionForm" (ngSubmit)="onClickSendFeedback()">
+        <div class="default-input-container">
+          <div #verySatisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Very satisfied')" (keydown.space)="selectInput('Very satisfied')">
+            <input id="verySatisfied" value="Very satisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
+            <label 
+              for="verySatisfied" 
+              class="radio-input-label"
+              [ngClass]="satisfactionForm.get('satisfaction').value === 'Very satisfied' ? 'checked' : 'unchecked'"
+            >
+              Very satisfied
+            </label>
+          </div>
+          <div #satisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Satisfied')" (keydown.space)="selectInput('Satisfied')">
+            <input id="satisfied" value="Satisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
+            <label 
+              for="satisfied" 
+              class="radio-input-label"
+              [ngClass]="satisfactionForm.get('satisfaction').value === 'Satisfied' ? 'checked' : 'unchecked'"
+            >
+              Satisfied
+            </label>
+          </div>
+          <div #neitherInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Neither satisfied or dissatisfied')" (keydown.space)="selectInput('Neither satisfied or dissatisfied')">
+            <input id="neither" value="Neither satisfied or dissatisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
+            <label 
+              for="neither" 
+              class="radio-input-label"
+              [ngClass]="satisfactionForm.get('satisfaction').value === 'Neither satisfied or dissatisfied' ? 'checked' : 'unchecked'"
+            >
+              Neither satisfied or dissatisfied
+            </label>
+          </div>
+          <div #dissatisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Dissatisfied')" (keydown.space)="selectInput('Dissatisfied')">
+            <input id="dissatisfied" value="Dissatisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
+            <label 
+              for="dissatisfied" 
+              class="radio-input-label"
+              [ngClass]="satisfactionForm.get('satisfaction').value === 'Dissatisfied' ? 'checked' : 'unchecked'"
+            >
+              Dissatisfied
+            </label>
+          </div>
+          <div #veryDissatisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Very dissatisfied')" (keydown.space)="selectInput('Very dissatisfied')">
+            <input id="veryDissatisfied" value="Very dissatisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
+            <label 
+              for="veryDissatisfied" 
+              class="radio-input-label"
+              [ngClass]="satisfactionForm.get('satisfaction').value === 'Very dissatisfied' ? 'checked' : 'unchecked'"
+            >
+              Very dissatisfied
+            </label>
+          </div>
+        </div>
+        <div>
+          <button class="default-btn" type="submit">
+            Send feedback
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
