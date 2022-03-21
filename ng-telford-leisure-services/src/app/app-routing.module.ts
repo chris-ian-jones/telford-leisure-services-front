@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'sign-in',
     loadChildren: () => import('./auth/sign-in/sign-in.module').then(module => module.SignInModule),
   },
+  {
+    path: 'feedback',
+    loadChildren: () => import('./feedback/feedback.module').then(module => module.FeedbackModule),
+  },
 ];
 
 @NgModule({

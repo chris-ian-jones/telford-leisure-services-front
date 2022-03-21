@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="body-container">
     <div *ngIf="!changeAnswer" class="backlink-container">
-      <a class="back-link" href="javascript:void(0)" (click)="onClickBack()" tabindex="1">Back</a>
+      <a class="breadcrumb-link" href="javascript:void(0)" (click)="onClickBack()" tabindex="1">Back</a>
     </div>
     <ng-container [ngSwitch]="currentPageNumber">
       <app-question-one 

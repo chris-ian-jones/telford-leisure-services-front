@@ -5,11 +5,11 @@
   padding: 35px;
   border: 5px solid transparent;
   text-align: center;
-}
+  margin-top: 50px;
 
-.two-thirds-container {
-  width: 66%;
-  padding: 50px 0px 40px 0px;
+  @media screen and (max-width: 960px) {
+    padding: 35px 0px;
+  }
 }
 
 .panel-title {
@@ -33,4 +33,8 @@
 .panel-body-text:last-of-type {
   margin-top: 5px;
   font-weight: 700;
+}
+
+.custom-padding-bottom {
+  padding-bottom: 40px;
 }
