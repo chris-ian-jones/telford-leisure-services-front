@@ -6,6 +6,10 @@
   border: 5px solid transparent;
   text-align: center;
   margin-top: 50px;
+
+  @media screen and (max-width: 960px) {
+    padding: 35px 0px;
+  }
 }
 
 .panel-title {

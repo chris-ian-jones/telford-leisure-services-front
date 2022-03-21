@@ -362,13 +362,17 @@ template {
 
   @media screen and (max-width: 960px) {
     width: calc(100% - 30px);
-    padding: 0px 15px;
   }
 }
 
 
 .two-thirds-container {
   width: 66%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 .body-container {
