@@ -1,3 +1,15 @@
-<p>
-  account-recovery works!
-</p>
+<div class="main-container">
+  <div class="body-container">
+    <div class="two-thirds-container custom-padding">
+      <ng-container [ngSwitch]="shownComponent">
+        <app-email-check 
+          *ngSwitchCase="'email-check'"
+          (changeComponentEvent)="receiveComponentChange($event)"
+        ></app-email-check>
+        <app-email-confirm 
+          *ngSwitchCase="'email-confirm'"
+        ></app-email-confirm>
+      </ng-container>
+    </div>
+  </div>
+</div>

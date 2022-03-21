@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountRecoveryComponent implements OnInit {
 
+  shownComponent:string = 'email-check';
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  receiveComponentChange($event: any) {
+    this.shownComponent = $event;
   }
 
 }
