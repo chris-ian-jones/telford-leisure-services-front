@@ -79,7 +79,6 @@ export class FeedbackComponent implements OnInit {
   onClickSendFeedback() {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
-    console.log('this.satisfactionForm: ', this.satisfactionForm)
     if (this.satisfactionForm.valid) {
       this.feedbackService.createNewFeedback(this.satisfactionForm.value).subscribe((response:any) => {
         this.router.navigateByUrl('feedback/success')
