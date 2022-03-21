@@ -4,6 +4,7 @@ import { FeedbackComponent } from './feedback.component';
 import { FeedbackRoutingModule } from './feedback-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FeedbackService } from './feedback.service';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,10 @@ import { FeedbackService } from './feedback.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [FeedbackComponent],
+  declarations: [
+    FeedbackComponent,
+    SuccessComponent
+  ],
   providers: [
     FeedbackService
   ]

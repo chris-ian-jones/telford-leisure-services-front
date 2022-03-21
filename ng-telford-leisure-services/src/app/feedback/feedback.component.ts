@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
 import { FeedbackService } from './feedback.service';
 
@@ -24,7 +25,8 @@ export class FeedbackComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -79,7 +81,7 @@ export class FeedbackComponent implements OnInit {
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
       this.feedbackService.createNewFeedback(this.satisfactionForm.value).subscribe((response:any) => {
-        console.log('response: ', response)
+        this.router.navigateByUrl('feedback/success')
       }, error => {
         this.satisfactionForm.controls['satisfaction'].setErrors({'required': true});
       })
