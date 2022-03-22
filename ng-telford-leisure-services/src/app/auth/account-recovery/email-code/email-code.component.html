@@ -12,5 +12,30 @@
       <span class="warning-text-icon">!</span>
       <p class="warning-text-body">If you use a browser to access your email, you may need to open a new window or tab to see the code.</p>
     </div>
+    <form class="question-form-container" [formGroup]="confirmationCodeForm" (ngSubmit)="onClickConfirm()">
+      <div class="default-input-container">
+        <label for="confirmationCode" class="default-input-label custom-label-margin">
+          Confirmation code
+        </label>
+        <p class="label-hint-text custom-label-margin">
+          For example, DNCLRK
+        </p>
+        <div>
+          <input id="confirmationCode" formControlName="confirmationCode" type="text" class="default-text-input">
+        </div>
+      </div>
+      <details class="details-container">
+        <summary class="details-summary">I have not received the email</summary>
+        <div class="details-content-container">
+          <p class="details-text">The email may take a few minutes to arrive. Its subject line is: ‘Confirm your email address – Telford Leisure Services’.</p>
+          <p class="details-text">If you still have not got the code, you will need to <a class="inset-link" href="javascript:void(0)" (click)="onClickStartAgain()">start again.</a></p>
+        </div>
+      </details>
+      <div>
+        <button class="default-btn" type="submit">
+          Confirm
+        </button>
+      </div>
+    </form>
   </div>
 </div>

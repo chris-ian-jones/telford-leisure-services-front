@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-email-code',
@@ -7,13 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmailCodeComponent implements OnInit {
 
-  constructor() { }
+  @Output() changeComponentEvent = new EventEmitter<any>();
+  confirmationCodeForm!: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.initConfirmationCodeForm();
+  }
+
+  initConfirmationCodeForm() {
+    this.confirmationCodeForm = this.formBuilder.group({
+      confirmationCode: ['', Validators.required],
+    }, {updateOn: 'submit'})
+  }
+
+  onClickConfirm() {
+
   }
 
   onClickBack() {
-    
+    this.changeComponentEvent.emit('email-confirm')
+  }
+
+  onClickStartAgain() {
+    this.changeComponentEvent.emit('email-check')
   }
 
 }
