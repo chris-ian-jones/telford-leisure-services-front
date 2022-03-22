@@ -11,6 +11,7 @@ export class EmailConfirmComponent implements OnInit {
 
   @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
+  @Output() emitMemberEmailEvent = new EventEmitter<any>();
   emailForm!: FormGroup;
   errorSummary: any = [];
 
@@ -34,6 +35,7 @@ export class EmailConfirmComponent implements OnInit {
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
       // todo backend call to generate and send code to email
+      this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value)
       this.changeComponentEvent.emit('email-code')
     } else {
       this.getAllFormValidationErrors();

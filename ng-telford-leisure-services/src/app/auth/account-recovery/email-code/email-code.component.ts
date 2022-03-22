@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up/sign-up.service';
 
@@ -10,6 +10,7 @@ import { SignUpService } from '../../sign-up/sign-up.service';
 export class EmailCodeComponent implements OnInit {
 
   @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
+  @Input() memberEmail!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
   confirmationCodeForm!: FormGroup;
   errorSummary: any = [];

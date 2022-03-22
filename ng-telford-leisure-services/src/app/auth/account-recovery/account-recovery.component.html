@@ -6,9 +6,11 @@
   <app-email-confirm 
     *ngSwitchCase="'email-confirm'"
     (changeComponentEvent)="receiveComponentChange($event)"
+    (emitMemberEmailEvent)="receiveMemberEmail($event)"
   ></app-email-confirm>
   <app-email-code 
     *ngSwitchCase="'email-code'"
+    [memberEmail]="memberEmail"
     (changeComponentEvent)="receiveComponentChange($event)"
   ></app-email-code>
 </ng-container>
