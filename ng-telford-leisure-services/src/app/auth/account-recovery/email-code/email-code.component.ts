@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { SignUpService } from '../../sign-up/sign-up.service';
 
 @Component({
   selector: 'app-email-code',
@@ -8,11 +9,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EmailCodeComponent implements OnInit {
 
+  @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   confirmationCodeForm!: FormGroup;
+  errorSummary: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
+    private signUpService: SignUpService,
   ) { }
 
   ngOnInit() {
@@ -26,7 +30,30 @@ export class EmailCodeComponent implements OnInit {
   }
 
   onClickConfirm() {
+    this.errorSummary.length = 0;
+    this.signUpService.removeHashPathFromCurrentPath();
+    if (this.confirmationCodeForm.valid) {
 
+    } else {
+      this.getAllFormValidationErrors();
+    }
+  }
+
+  getAllFormValidationErrors() {
+    Object.keys(this.confirmationCodeForm.controls).forEach(control => {
+      const controlErrors: ValidationErrors = this.confirmationCodeForm.get(control).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(error => {
+          this.errorSummary.push(
+            {
+              control,
+              error
+            }
+          )
+        });
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+      }
+    });
   }
 
   onClickBack() {

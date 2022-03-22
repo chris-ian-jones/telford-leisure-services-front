@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountRecoveryComponent implements OnInit {
 
-  shownComponent:string = 'email-code';
+  shownComponent:string = 'email-check';
 
   constructor() { }
 

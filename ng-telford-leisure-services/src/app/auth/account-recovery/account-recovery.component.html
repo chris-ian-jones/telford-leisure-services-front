@@ -1,20 +1,14 @@
-<div class="main-container">
-  <div class="body-container">
-    <div class="two-thirds-container custom-padding">
-      <ng-container [ngSwitch]="shownComponent">
-        <app-email-check 
-          *ngSwitchCase="'email-check'"
-          (changeComponentEvent)="receiveComponentChange($event)"
-        ></app-email-check>
-        <app-email-confirm 
-          *ngSwitchCase="'email-confirm'"
-          (changeComponentEvent)="receiveComponentChange($event)"
-        ></app-email-confirm>
-        <app-email-code 
-          *ngSwitchCase="'email-code'"
-          (changeComponentEvent)="receiveComponentChange($event)"
-        ></app-email-code>
-      </ng-container>
-    </div>
-  </div>
-</div>
+<ng-container [ngSwitch]="shownComponent">
+  <app-email-check 
+    *ngSwitchCase="'email-check'"
+    (changeComponentEvent)="receiveComponentChange($event)"
+  ></app-email-check>
+  <app-email-confirm 
+    *ngSwitchCase="'email-confirm'"
+    (changeComponentEvent)="receiveComponentChange($event)"
+  ></app-email-confirm>
+  <app-email-code 
+    *ngSwitchCase="'email-code'"
+    (changeComponentEvent)="receiveComponentChange($event)"
+  ></app-email-code>
+</ng-container>
