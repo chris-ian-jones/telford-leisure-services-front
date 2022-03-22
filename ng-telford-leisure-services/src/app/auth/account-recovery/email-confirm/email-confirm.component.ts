@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up/sign-up.service';
 
@@ -10,6 +10,7 @@ import { SignUpService } from '../../sign-up/sign-up.service';
 export class EmailConfirmComponent implements OnInit {
 
   @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
+  @Output() changeComponentEvent = new EventEmitter<any>();
   emailForm!: FormGroup;
   errorSummary: any = [];
 
@@ -32,7 +33,8 @@ export class EmailConfirmComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
-      // todo
+      // todo backend call to generate and send code to email
+      this.changeComponentEvent.emit('email-code')
     } else {
       this.getAllFormValidationErrors();
     }

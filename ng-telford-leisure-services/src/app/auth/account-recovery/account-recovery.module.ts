@@ -5,6 +5,7 @@ import { AccountRecoveryRoutingModule } from './account-recovery-routing.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmailCheckComponent } from './email-check/email-check.component';
 import { EmailConfirmComponent } from './email-confirm/email-confirm.component';
+import { EmailCodeComponent } from './email-code/email-code.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { EmailConfirmComponent } from './email-confirm/email-confirm.component';
   declarations: [
     AccountRecoveryComponent,
     EmailCheckComponent,
-    EmailConfirmComponent
+    EmailConfirmComponent,
+    EmailCodeComponent,
   ]
 })
 export class AccountRecoveryModule { }
