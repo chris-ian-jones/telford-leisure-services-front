@@ -12,4 +12,8 @@ export class EmailCodeComponent implements OnInit {
   ngOnInit() {
   }
 
+  onClickBack() {
+    
+  }
+
 }
