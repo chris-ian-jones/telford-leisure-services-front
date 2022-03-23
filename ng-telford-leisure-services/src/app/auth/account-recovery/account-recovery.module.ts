@@ -7,6 +7,7 @@ import { EmailCheckComponent } from './email-check/email-check.component';
 import { EmailConfirmComponent } from './email-confirm/email-confirm.component';
 import { EmailCodeComponent } from './email-code/email-code.component';
 import { AccountRecoveryService } from './account-recovery.service';
+import { MemberNumberRecoveredComponent } from './member-number-recovered/member-number-recovered.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { AccountRecoveryService } from './account-recovery.service';
     EmailCheckComponent,
     EmailConfirmComponent,
     EmailCodeComponent,
+    MemberNumberRecoveredComponent,
   ],
   providers: [
     AccountRecoveryService

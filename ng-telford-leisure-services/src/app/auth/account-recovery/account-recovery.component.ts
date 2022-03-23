@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AccountRecoveryComponent implements OnInit {
 
   shownComponent:string = 'email-check';
-  memberEmail:string = ''
+  memberEmail:string = '';
+  memberNumber:string = '';
 
   constructor() { }
 
@@ -21,6 +22,10 @@ export class AccountRecoveryComponent implements OnInit {
 
   receiveMemberEmail($event: any) {
     this.memberEmail = $event;
+  }
+
+  receiveMemberNumber($event: any) {
+    this.memberNumber = $event;
   }
 
 }

@@ -13,6 +13,7 @@ export class EmailCodeComponent implements OnInit {
   @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
   @Input() memberEmail!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
+  @Output() emitMemberNumberEvent = new EventEmitter<any>();
   confirmationCodeForm!: FormGroup;
   errorSummary: any = [];
 
@@ -41,8 +42,9 @@ export class EmailCodeComponent implements OnInit {
         email: this.memberEmail,
         confirmationCode: this.confirmationCodeForm.controls['confirmationCode'].value
       }
-      this.accountRecoveryService.validateConfirmationCode(payload).subscribe(response => {
-        console.log('response: ', response)
+      this.accountRecoveryService.validateConfirmationCode(payload).subscribe((response:any) => {
+        this.emitMemberNumberEvent.emit(response.body.memberNumber)
+        this.changeComponentEvent.emit('member-number-recovered')
       }, error => {
         this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
         this.getAllFormValidationErrors();
