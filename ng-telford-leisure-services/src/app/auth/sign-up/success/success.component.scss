@@ -1,35 +1,3 @@
-.confirmation-panel {
-  background: #00703c;
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 35px;
-  border: 5px solid transparent;
-  text-align: center;
-  margin-top: 50px;
-
-  @media screen and (max-width: 960px) {
-    padding: 35px 0px;
-  }
-}
-
-.panel-title {
-  color: #fff;
-  font-weight: 700px;
-  font-size: 48px;
-  margin-top: 0px;
-  margin-bottom: 30px;
-}
-
-.panel-body {
-  color: #fff;
-  font-size: 36px;
-  line-height: 40px;
-}
-
-.panel-body-text {
-  color: #fff;
-}
-
 .panel-body-text:last-of-type {
   margin-top: 5px;
   font-weight: 700;

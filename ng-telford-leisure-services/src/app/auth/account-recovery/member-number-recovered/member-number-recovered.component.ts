@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-member-number-recovered',
@@ -10,11 +11,14 @@ export class MemberNumberRecoveredComponent implements OnInit {
   @Input() memberEmail!: string;
   @Input() memberNumber!: string;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
-  ngOnInit() {
-    console.log('memberEmail: ', this.memberEmail)
-    console.log('memberNumber: ', this.memberNumber)
+  ngOnInit() {}
+
+  routeToSignIn() {
+    this.router.navigateByUrl('/sign-in')
   }
 
 }
