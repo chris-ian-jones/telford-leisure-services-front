@@ -15,6 +15,11 @@
                 Enter the 6 character confirmation code
               </a>
             </li>
+            <li *ngIf="confirmationCodeForm.get('confirmationCode').errors && confirmationCodeForm.get('confirmationCode').hasError('incorrect')">
+              <a routerLink="./" fragment="confirmationCode" class="error-link" tabindex="3">
+                Enter correct confirmation code
+              </a>
+            </li>
           </ul>
         </div>
       </ng-container>

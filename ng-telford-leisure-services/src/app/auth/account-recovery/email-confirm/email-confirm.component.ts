@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up/sign-up.service';
+import { AccountRecoveryService } from '../account-recovery.service';
 
 @Component({
   selector: 'app-email-confirm',
@@ -18,6 +19,7 @@ export class EmailConfirmComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
+    private accountRecoveryService: AccountRecoveryService
   ) { }
 
   ngOnInit() {
@@ -34,12 +36,19 @@ export class EmailConfirmComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
-      // todo backend call to generate and send code to email
-      this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value)
-      this.changeComponentEvent.emit('email-code')
+      this.accountRecoveryService.sendConfirmationCodeEmail(this.emailForm.value).subscribe(response => {
+        this.routeToNextStep();
+      }, error => {
+        this.routeToNextStep()
+      });
     } else {
       this.getAllFormValidationErrors();
     }
+  }
+
+  routeToNextStep() {
+    this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value)
+    this.changeComponentEvent.emit('email-code')
   }
 
   getAllFormValidationErrors() {
