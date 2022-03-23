@@ -39,8 +39,6 @@ export class AuthService {
       .pipe(tap(response => this.setAuthentication(response)))
   }
 
-  
-
   signOut() {
     localStorage.clear()
     this.ngZone.run(() => this.router.navigate(['/']))

@@ -1,0 +1,62 @@
+<div class="main-container">
+  <div class="body-container">
+    <div class="two-thirds-container">
+      <div class="backlink-container">
+        <a class="breadcrumb-link" href="javascript:void(0)" (click)="onClickBack()" tabindex="1">Back</a>
+      </div>
+      <ng-container *ngIf="errorSummary.length > 0">
+        <div #errorSummaryDiv class="error-summary-container" tabindex="2">
+          <h2 class="error-summary-title">
+            There is a problem
+          </h2>
+          <ul class="error-summary-list">
+            <li *ngIf="confirmationCodeForm.get('confirmationCode').errors && confirmationCodeForm.get('confirmationCode').hasError('required')">
+              <a routerLink="./" fragment="confirmationCode" class="error-link" tabindex="3">
+                Enter the 6 character confirmation code
+              </a>
+            </li>
+            <li *ngIf="confirmationCodeForm.get('confirmationCode').errors && confirmationCodeForm.get('confirmationCode').hasError('incorrect')">
+              <a routerLink="./" fragment="confirmationCode" class="error-link" tabindex="3">
+                Enter correct confirmation code
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+      <h1 class="heading-large extra-margin-bottom" [class.custom-padding]="errorSummary.length === 0">
+        Enter code to confirm your email address
+      </h1>
+      <p class="body-text">We have sent a code to: <strong>{{memberEmail}}</strong></p>
+      <p class="body-text">The code will expire in 30 minutes.</p>
+      <div class="warning-text-container">
+        <span class="warning-text-icon">!</span>
+        <p class="warning-text-body">If you use a browser to access your email, you may need to open a new window or tab to see the code.</p>
+      </div>
+      <form class="question-form-container" [formGroup]="confirmationCodeForm" (ngSubmit)="onClickConfirm()">
+        <div class="default-input-container">
+          <label for="confirmationCode" class="default-input-label custom-label-margin">
+            Confirmation code
+          </label>
+          <p class="label-hint-text custom-label-margin">
+            For example, DNCLRK
+          </p>
+          <div>
+            <input id="confirmationCode" formControlName="confirmationCode" type="text" class="default-text-input">
+          </div>
+        </div>
+        <details class="details-container">
+          <summary class="details-summary">I have not received the email</summary>
+          <div class="details-content-container">
+            <p class="details-text">The email may take a few minutes to arrive. Its subject line is: ‘Confirm your email address – Telford Leisure Services’.</p>
+            <p class="details-text">If you still have not got the code, you will need to <a class="inset-link" href="javascript:void(0)" (click)="onClickStartAgain()">start again.</a></p>
+          </div>
+        </details>
+        <div>
+          <button class="default-btn" type="submit">
+            Confirm
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

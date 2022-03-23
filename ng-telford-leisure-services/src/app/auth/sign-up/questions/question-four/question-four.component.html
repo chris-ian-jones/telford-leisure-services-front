@@ -11,7 +11,7 @@
       </li>
       <li *ngIf="questionFourForm.get('email').errors && questionFourForm.get('email').hasError('email')">
         <a routerLink="./" fragment="email" class="error-link" tabindex="3">
-          Enter a valid email address
+          Enter the email address in the correct format, like name@example.com
         </a>
       </li>
       <li *ngIf="questionFourForm.get('phone').errors && questionFourForm.get('phone').hasError('pattern')">

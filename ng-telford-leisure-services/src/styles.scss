@@ -545,6 +545,7 @@ p {
   display: block;
   color: #505A5F;
   margin-top: 7px;
+  font-size: 19px;
 }
 
 .hidden-radio-input {
@@ -721,4 +722,36 @@ p {
   -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
   box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
   text-decoration: none;
+}
+
+.confirmation-panel {
+  background: #00703c;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 35px;
+  border: 5px solid transparent;
+  text-align: center;
+  margin-top: 50px;
+
+  @media screen and (max-width: 960px) {
+    padding: 35px 0px;
+  }
+}
+
+.panel-title {
+  color: #fff;
+  font-weight: 700px;
+  font-size: 48px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
+
+.panel-body {
+  color: #fff;
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.panel-body-text {
+  color: #fff;
 }

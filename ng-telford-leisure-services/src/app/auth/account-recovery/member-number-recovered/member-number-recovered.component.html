@@ -1,0 +1,28 @@
+<div class="main-container">
+  <div class="body-container">
+    <div class="two-thirds-container custom-padding-bottom">
+      <div class="confirmation-panel">
+        <h1 class="panel-title">
+          Your Leisure Services member number is:
+        </h1>
+        <div class="panel-body">
+          <p class="panel-body-text">{{memberNumber}}</p>
+        </div>
+      </div>
+      <h2 class="heading-medium">
+        What happens next
+      </h2>
+      <p class="body-text">
+        Use your recovered Telford Leisure Services member number to sign in.
+      </p>
+      <p class="body-text">
+        We have also sent it to <strong>{{memberEmail}}</strong>.
+      </p>
+      <div>
+        <button class="default-btn" (click)="routeToSignIn()">
+          Return to sign in
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
