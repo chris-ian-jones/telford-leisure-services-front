@@ -9,8 +9,8 @@ import { map } from 'rxjs';
 })
 export class AccountRecoveryComponent implements OnInit {
 
-  shownComponent:string = '';
-  path:string = ''
+  shownComponent:string = 'change-password';
+  path:string = 'forgot-password'
   memberEmail:string = '';
   memberNumber:string = '';
   confirmationCode:string = '';
@@ -19,8 +19,8 @@ export class AccountRecoveryComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public router: Router
   ) {
-    this.shownComponent = this.router.getCurrentNavigation().extras.state['route'];
-    this.path = this.router.getCurrentNavigation().extras.state['path'];
+    // this.shownComponent = this.router.getCurrentNavigation().extras.state['route'];
+    // this.path = this.router.getCurrentNavigation().extras.state['path'];
   }
 
   ngOnInit() {}
