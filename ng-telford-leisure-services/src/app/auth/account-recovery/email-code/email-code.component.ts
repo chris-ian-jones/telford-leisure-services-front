@@ -45,7 +45,7 @@ export class EmailCodeComponent implements OnInit {
         confirmationCode: this.confirmationCodeForm.controls['confirmationCode'].value,
         path: this.path
       }
-      this.accountRecoveryService.validateConfirmationCode(payload).subscribe((response:any) => {
+      this.accountRecoveryService.forgotMemberNumber(payload).subscribe((response:any) => {
         if (this.path === 'forgot-member-number') {
           this.emitMemberNumberEvent.emit(response.body.memberNumber)
           this.changeComponentEvent.emit('member-number-recovered')

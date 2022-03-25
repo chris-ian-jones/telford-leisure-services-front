@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountRecoveryService } from '../account-recovery.service';
 
 @Component({
   selector: 'app-change-password',
@@ -10,12 +11,12 @@ export class ChangePasswordComponent implements OnInit {
 
   @Input() memberEmail!: string;
   @Input() confirmationCode!: string;
+  @Output() changeComponentEvent = new EventEmitter<any>();
   passwordForm!: FormGroup;
-  successCharacters: boolean = true;
-  successSymbol: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
+    private accountRecoveryService: AccountRecoveryService
   ) { }
 
   ngOnInit() {
@@ -30,7 +31,18 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onClickContinue() {
-    
+    if (this.passwordForm.valid) {
+      const payload = {
+        email: this.memberEmail,
+        confirmationCode: this.confirmationCode,
+        password: this.passwordForm.controls['password'].value,
+      }
+      this.accountRecoveryService.changePassword(payload).subscribe((response:any) => {
+        this.changeComponentEvent.emit('password-reset')
+      }, error => {
+        // todo
+      })
+    }
   }
 
 }

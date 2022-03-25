@@ -14,7 +14,7 @@
     [path]="path"
     (changeComponentEvent)="receiveComponentChange($event)"
     (emitMemberNumberEvent)="receiveMemberNumber($event)"
-    (emitConversationCodeEvent)="receiveConfirmationCode($event)"
+    (emitConfirmationCodeEvent)="receiveConfirmationCode($event)"
   ></app-email-code>
   <app-member-number-recovered 
     *ngSwitchCase="'member-number-recovered'"
@@ -25,5 +25,6 @@
     *ngSwitchCase="'change-password'"
     [memberEmail]="memberEmail"
     [confirmationCode]="confirmationCode"
+    (emitConfirmationCodeEvent)="receiveComponentChange($event)"
   ></app-change-password>
 </ng-container>
