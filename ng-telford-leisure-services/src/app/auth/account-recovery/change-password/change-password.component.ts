@@ -38,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
         password: this.passwordForm.controls['password'].value,
       }
       this.accountRecoveryService.changePassword(payload).subscribe((response:any) => {
-        this.changeComponentEvent.emit('password-reset')
+        this.changeComponentEvent.emit('password-reset') // todo create component
       }, error => {
         // todo
       })

@@ -43,20 +43,24 @@ export class EmailCodeComponent implements OnInit {
       const payload = {
         email: this.memberEmail,
         confirmationCode: this.confirmationCodeForm.controls['confirmationCode'].value,
-        path: this.path
       }
-      this.accountRecoveryService.forgotMemberNumber(payload).subscribe((response:any) => {
-        if (this.path === 'forgot-member-number') {
+      if (this.path === 'forgot-member-number') {
+        this.accountRecoveryService.forgotMemberNumber(payload).subscribe((response:any) => {
           this.emitMemberNumberEvent.emit(response.body.memberNumber)
           this.changeComponentEvent.emit('member-number-recovered')
-        } else {
+        }, error => {
+          this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
+          this.getAllFormValidationErrors();
+        })
+      } else {
+        this.accountRecoveryService.validateConfirmationCode(payload).subscribe((response:any) => {
           this.emitConfirmationCodeEvent.emit(this.confirmationCodeForm.controls['confirmationCode'].value)
           this.changeComponentEvent.emit('change-password')
-        }
-      }, error => {
-        this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
-        this.getAllFormValidationErrors();
-      })
+        }, error => {
+          this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
+          this.getAllFormValidationErrors();
+        })
+      }
     } else {
       this.getAllFormValidationErrors();
     }

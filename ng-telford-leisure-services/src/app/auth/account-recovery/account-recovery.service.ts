@@ -22,6 +22,10 @@ export class AccountRecoveryService {
     return this.http.post(`${Url.AUTH}/generate-confirmation-code`, email, {headers: authHeaders, observe: 'response'})
   }
 
+  validateConfirmationCode(payload:ForgotMemberNumber) {
+    return this.http.post(`${Url.AUTH}/validate-confirmation-code`, payload, {headers: authHeaders, observe: 'response'})
+  }
+
   forgotMemberNumber(payload:ForgotMemberNumber) {
     return this.http.post(`${Url.AUTH}/forgot-member-number`, payload, {headers: authHeaders, observe: 'response'})
   }
