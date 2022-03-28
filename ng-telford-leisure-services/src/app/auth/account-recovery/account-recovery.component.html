@@ -25,6 +25,9 @@
     *ngSwitchCase="'change-password'"
     [memberEmail]="memberEmail"
     [confirmationCode]="confirmationCode"
-    (emitConfirmationCodeEvent)="receiveComponentChange($event)"
+    (changeComponentEvent)="receiveComponentChange($event)"
   ></app-change-password>
+  <app-password-reset 
+    *ngSwitchCase="'password-reset'"
+  ></app-password-reset>
 </ng-container>

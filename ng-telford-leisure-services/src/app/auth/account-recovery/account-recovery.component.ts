@@ -19,8 +19,13 @@ export class AccountRecoveryComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public router: Router
   ) {
-    this.shownComponent = this.router.getCurrentNavigation().extras.state['route'];
-    this.path = this.router.getCurrentNavigation().extras.state['path'];
+    if (this.router.getCurrentNavigation().extras.state) {
+      this.shownComponent = this.router.getCurrentNavigation().extras.state['route'];
+      this.path = this.router.getCurrentNavigation().extras.state['path'];
+    } else {
+      this.shownComponent = 'email-check';
+      this.path = 'forgot-member-number';
+    }
   }
 
   ngOnInit() {}

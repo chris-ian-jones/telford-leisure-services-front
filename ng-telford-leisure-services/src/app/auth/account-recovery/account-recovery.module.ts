@@ -9,6 +9,7 @@ import { EmailCodeComponent } from './email-code/email-code.component';
 import { AccountRecoveryService } from './account-recovery.service';
 import { MemberNumberRecoveredComponent } from './member-number-recovered/member-number-recovered.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     EmailCodeComponent,
     MemberNumberRecoveredComponent,
     ChangePasswordComponent,
+    PasswordResetComponent,
   ],
   providers: [
     AccountRecoveryService
