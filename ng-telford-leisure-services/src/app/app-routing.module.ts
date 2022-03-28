@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'account-recovery',
     loadChildren: () => import('./auth/account-recovery/account-recovery.module').then(module => module.AccountRecoveryModule),
   },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then(module => module.DashboardModule),
+  },
 ];
 
 @NgModule({
