@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
-import { Member } from './../../../../core/models/Member';
+import { Member } from './../../../../core/models/member';
 
 @Component({
   selector: 'app-check-answers',

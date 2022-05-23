@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Url } from './../../core/constants/urls';
-import { Member } from './../../core/models/Member';
+import { Member } from './../../core/models/member';
 
 const authHeaders = new HttpHeaders({
   'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
-import { Member } from './../../../../core/models/Member';
+import { Member } from './../../../../core/models/member';
 
 @Component({
   selector: 'app-question-five',
