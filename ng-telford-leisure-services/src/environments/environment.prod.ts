@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  api: 'https://nest-telford-leisure-services.herokuapp.com',
+  api: 'https://telford-leisure-services-back.herokuapp.com/',
+  
 };
