@@ -19,7 +19,10 @@
   What is your ethnicity?
 </h1>
 <form class="question-form-container" [formGroup]="questionSixForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionSixForm.get('ethnicity').errors || questionSixForm.get('ethnicity').hasError('required')) && this.errorSummary.length > 0">
+    <label *ngIf="questionSixForm.get('ethnicity').errors && questionSixForm.get('ethnicity').hasError('required') && this.errorSummary.length > 0" for="ethnicity" class="input-label-error-message">
+      Select your ethnicity
+    </label>
     <div #whiteInput class="default-radio-input-container" tabindex="0" (click)="selectInput('White UK/Irish/Euro')" (keydown.space)="selectInput('White UK/Irish/Euro')">
       <input id="white" value="White UK/Irish/Euro" formControlName="ethnicity" type="radio" class="hidden-radio-input" tabindex="-1">
       <label 
