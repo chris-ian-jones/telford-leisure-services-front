@@ -33,15 +33,27 @@
         <p class="warning-text-body">If you use a browser to access your email, you may need to open a new window or tab to see the code.</p>
       </div>
       <form class="question-form-container" [formGroup]="confirmationCodeForm" (ngSubmit)="onClickConfirm()">
-        <div class="default-input-container">
+        <div class="default-input-container" [class.input-container-error] = "(confirmationCodeForm.get('confirmationCode').errors || confirmationCodeForm.get('confirmationCode').hasError('required')) && this.errorSummary.length > 0">
           <label for="confirmationCode" class="default-input-label custom-label-margin">
             Confirmation code
           </label>
           <p class="label-hint-text custom-label-margin">
             For example, DNCLRK
           </p>
+          <label *ngIf="confirmationCodeForm.get('confirmationCode').errors && confirmationCodeForm.get('confirmationCode').hasError('required') && this.errorSummary.length > 0" for="confirmationCode" class="input-label-error-message">
+            Enter the 6 character confirmation code
+          </label>
+          <label *ngIf="confirmationCodeForm.get('confirmationCode').errors && confirmationCodeForm.get('confirmationCode').hasError('incorrect') && this.errorSummary.length > 0" for="confirmationCode" class="input-label-error-message">
+            Enter correct confirmation code
+          </label>
           <div>
-            <input id="confirmationCode" formControlName="confirmationCode" type="text" class="default-text-input">
+            <input 
+              id="confirmationCode" 
+              formControlName="confirmationCode" 
+              type="text" 
+              class="default-text-input"
+              [class.text-input-error] = "confirmationCodeForm.get('confirmationCode').errors && this.errorSummary.length > 0"
+            >
           </div>
         </div>
         <details class="details-container">

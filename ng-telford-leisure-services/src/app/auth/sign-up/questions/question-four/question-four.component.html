@@ -29,20 +29,41 @@
   What are your contact details?
 </h1>
 <form class="question-form-container" [formGroup]="questionFourForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionFourForm.get('email').errors || questionFourForm.get('email').hasError('required')) && this.errorSummary.length > 0">
     <label for="email" class="default-input-label">
       Email address
     </label>
+    <label *ngIf="questionFourForm.get('email').errors && questionFourForm.get('email').hasError('required') && this.errorSummary.length > 0" for="email" class="input-label-error-message">
+      Enter your email address
+    </label>
+    <label *ngIf="questionFourForm.get('email').errors && questionFourForm.get('email').hasError('email') && this.errorSummary.length > 0" for="email" class="input-label-error-message">
+      Enter the email address in the correct format, like name@example.com
+    </label>
     <div>
-      <input id="email" formControlName="email" type="text" class="default-text-input">
+      <input 
+        id="email" 
+        formControlName="email" 
+        type="text" 
+        class="default-text-input"
+        [class.text-input-error] = "questionFourForm.get('email').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "questionFourForm.get('phone').errors && this.errorSummary.length > 0">
     <label for="phone" class="default-input-label">
       Phone number (Optional)
     </label>
+    <label *ngIf="questionFourForm.get('phone').errors && questionFourForm.get('phone').hasError('pattern') && this.errorSummary.length > 0" for="email" class="input-label-error-message">
+      Enter a valid phone number
+    </label>
     <div>
-      <input id="phone" formControlName="phone" type="text" class="default-text-input three-quarters-text-input">
+      <input 
+        id="phone" 
+        formControlName="phone" 
+        type="text" 
+        class="default-text-input three-quarters-text-input"
+        [class.text-input-error] = "questionFourForm.get('phone').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
   <div>

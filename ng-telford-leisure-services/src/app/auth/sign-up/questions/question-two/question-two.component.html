@@ -53,12 +53,18 @@
 </h3>
 <form class="question-form-container" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
   <div class="date-inputs-container">
-    <div class="default-input-container">
+    <div class="default-input-container" [class.input-container-error] = "this.errorSummary.length > 0">
       <label for="day" class="default-input-label">
         Day
       </label>
       <div>
-        <input id="day" formControlName="day" type="text" class="default-text-input two-char-text-input">
+        <input 
+          id="day" 
+          formControlName="day" 
+          type="text" 
+          class="default-text-input two-char-text-input"
+          [class.text-input-error] = "questionTwoForm.get('day').errors && this.errorSummary.length > 0"
+        >
       </div>
     </div>
     <div class="default-input-container">
@@ -66,7 +72,13 @@
         Month
       </label>
       <div>
-        <input id="month" formControlName="month" type="text" class="default-text-input two-char-text-input">
+        <input 
+          id="month" 
+          formControlName="month" 
+          type="text" 
+          class="default-text-input two-char-text-input"
+          [class.text-input-error] = "questionTwoForm.get('month').errors && this.errorSummary.length > 0"
+        >
       </div>
     </div>
     <div class="default-input-container">
@@ -74,7 +86,13 @@
         Year
       </label>
       <div>
-        <input id="year" formControlName="year" type="text" class="default-text-input four-char-text-input">
+        <input 
+          id="year" 
+          formControlName="year" 
+          type="text" 
+          class="default-text-input four-char-text-input"
+          [class.text-input-error] = "questionTwoForm.get('year').errors && this.errorSummary.length > 0"
+        >
       </div>
     </div>
   </div>

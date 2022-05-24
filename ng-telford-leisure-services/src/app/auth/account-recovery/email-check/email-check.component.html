@@ -21,7 +21,10 @@
       </h1>
       <p class="body-text">Search your emails as your member number may be included in an email we have sent you. Try searching your inbox and other folders for ‘Telford Leisure Services Member Details'.</p>
       <form class="question-form-container sub-heading-custom-margin" [formGroup]="emailCheckForm" (ngSubmit)="onClickContinue()">
-        <div class="default-input-container custom-margin-bottom">
+        <div class="default-input-container custom-margin-bottom" [class.input-container-error] = "(emailCheckForm.get('emailCheck').errors || emailCheckForm.get('emailCheck').hasError('required')) && this.errorSummary.length > 0">
+          <label *ngIf="emailCheckForm.get('emailCheck').errors && emailCheckForm.get('emailCheck').hasError('required') && this.errorSummary.length > 0" for="emailCheck" class="input-label-error-message">
+            Select yes if you have found your member number
+          </label>
           <div #yesInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Yes')" (keydown.space)="selectInput('Yes')">
             <input id="yes" value="Yes" formControlName="emailCheck" type="radio" class="hidden-radio-input" tabindex="-1">
             <label 

@@ -2,7 +2,6 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountRecoveryService } from '../account-recovery.service';
-import { PasswordConfirmValidator } from './../../../core/validators/confirm-password';
 
 @Component({
   selector: 'app-change-password',
@@ -46,7 +45,7 @@ export class ChangePasswordComponent implements OnInit {
     if (password !== confirmPassword) {
       this.passwordForm.controls['confirmPassword'].setErrors({match: true})
     }
-}
+  }
 
   onClickContinue() {
     this.checkPasswords();
@@ -88,7 +87,7 @@ export class ChangePasswordComponent implements OnInit {
     const currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate([currentUrl], {state: { route: 'email-confirm', path: 'forgot-password' }} );
-  });
-}
+    });
+  }
 
 }
