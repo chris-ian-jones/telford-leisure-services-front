@@ -38,7 +38,7 @@
     </div>
     <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
       <div class="input-container" [class.input-container-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0">
-        <label for="memberNumber" class="input-label">
+        <label for="memberNumber" class="default-input-label">
           Member number
         </label>
         <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
@@ -55,13 +55,13 @@
             id="memberNumber" 
             formControlName="memberNumber"
             type="number" 
-            class="text-input number-input"
+            class="default-text-input number-input"
             [class.text-input-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0"
           >
         </div>
       </div>
       <div class="input-container" [class.input-container-error] = "(signInForm.get('password').errors || signInForm.get('memberNumber').hasError('unauthorized')) && this.errorSummary.length > 0">
-        <label for="password" class="input-label">
+        <label for="password" class="default-input-label">
           Password
         </label>
         <label *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
@@ -75,7 +75,7 @@
             id="password" 
             formControlName="password" 
             type="password" 
-            class="text-input"
+            class="default-text-input"
             [class.text-input-error] = "signInForm.get('password').errors && this.errorSummary.length > 0"
           >
         </div>

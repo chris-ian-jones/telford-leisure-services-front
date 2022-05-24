@@ -24,20 +24,38 @@
   What is your name?
 </h1>
 <form class="question-form-container" [formGroup]="questionOneForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionOneForm.get('firstName').errors || questionOneForm.get('firstName').hasError('required')) && this.errorSummary.length > 0">
     <label for="firstName" class="default-input-label">
       First name(s)
     </label>
+    <label *ngIf="questionOneForm.get('firstName').errors && questionOneForm.get('firstName').hasError('required') && this.errorSummary.length > 0" for="firstName" class="input-label-error-message">
+      Enter your first name(s)
+    </label>
     <div>
-      <input id="firstName" formControlName="firstName" type="text" class="default-text-input">
+      <input 
+        id="firstName" 
+        formControlName="firstName" 
+        type="text" 
+        class="default-text-input"
+        [class.text-input-error] = "questionOneForm.get('firstName').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionOneForm.get('lastName').errors || questionOneForm.get('lastName').hasError('required')) && this.errorSummary.length > 0">
     <label for="lastName" class="default-input-label">
       Last name
     </label>
+    <label *ngIf="questionOneForm.get('lastName').errors && questionOneForm.get('lastName').hasError('required') && this.errorSummary.length > 0" for="lastName" class="input-label-error-message">
+      Enter your last name
+    </label>
     <div>
-      <input id="lastName" formControlName="lastName" type="text" class="default-text-input">
+      <input 
+        id="lastName" 
+        formControlName="lastName" 
+        type="text" 
+        class="default-text-input"
+        [class.text-input-error] = "questionOneForm.get('lastName').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
   <div>

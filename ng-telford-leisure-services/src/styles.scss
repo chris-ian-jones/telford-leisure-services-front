@@ -755,3 +755,19 @@ p {
 .panel-body-text {
   color: #fff;
 }
+
+.input-container-error {
+  padding-left: 15px;
+  border-left: 5px solid #d4351c;
+}
+
+.input-label-error-message {
+  font-size: 19px;
+  margin-bottom: 15px;
+  color: #d4351c;
+  font-weight: 700;
+}
+
+.text-input-error {
+  border-color: #d4351c;
+}
