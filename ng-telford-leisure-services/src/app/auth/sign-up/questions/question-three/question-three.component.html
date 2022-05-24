@@ -20,7 +20,7 @@
 </h1>
 <form class="question-form-container" [formGroup]="questionThreeForm" (ngSubmit)="onClickContinue()">
   <div class="default-input-container" [class.input-container-error] = "(questionThreeForm.get('gender').errors || questionThreeForm.get('gender').hasError('required')) && this.errorSummary.length > 0">
-    <label *ngIf="questionThreeForm.get('gender').errors && questionThreeForm.get('gender').hasError('required') && this.errorSummary.length > 0" for="lastName" class="input-label-error-message">
+    <label *ngIf="questionThreeForm.get('gender').errors && questionThreeForm.get('gender').hasError('required') && this.errorSummary.length > 0" for="gender" class="input-label-error-message">
       Select your gender
     </label>
     <div #maleInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Male')" (keydown.space)="selectInput('Male')">

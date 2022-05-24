@@ -19,7 +19,10 @@
   Which will be your main leisure center?
 </h1>
 <form class="question-form-container" [formGroup]="questionSevenForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionSevenForm.get('mainCenter').errors || questionSevenForm.get('mainCenter').hasError('required')) && this.errorSummary.length > 0">
+    <label *ngIf="questionSevenForm.get('mainCenter').errors && questionSevenForm.get('mainCenter').hasError('required') && this.errorSummary.length > 0" for="mainCenter" class="input-label-error-message">
+      Select your main leisure center
+    </label>
     <div #abrahamInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Abraham Darby Sports and Leisure Center')" (keydown.space)="selectInput('Abraham Darby Sports and Leisure Center')">
       <input id="abraham" value="Abraham Darby Sports and Leisure Center" formControlName="mainCenter" type="radio" class="hidden-radio-input" tabindex="-1">
       <label 
