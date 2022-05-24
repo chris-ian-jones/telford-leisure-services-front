@@ -33,7 +33,10 @@
         Overall, how did you feel about the service you received today?
       </h3>
       <form class="question-form-container sub-heading-custom-margin" [formGroup]="satisfactionForm" (ngSubmit)="onClickSendFeedback()">
-        <div class="default-input-container custom-margin-bottom">
+        <div class="default-input-container custom-margin-bottom" [class.input-container-error] = "(satisfactionForm.get('satisfaction').errors || satisfactionForm.get('satisfaction').hasError('required')) && this.errorSummary.length > 0">
+          <label *ngIf="satisfactionForm.get('satisfaction').errors && satisfactionForm.get('satisfaction').hasError('required') && this.errorSummary.length > 0" for="satisfaction" class="input-label-error-message">
+            Select how you felt about the service you received today
+          </label>
           <div #verySatisfiedInput class="default-radio-input-container" tabindex="0" (click)="selectInput('Very satisfied')" (keydown.space)="selectInput('Very satisfied')">
             <input id="verySatisfied" value="Very satisfied" formControlName="satisfaction" type="radio" class="hidden-radio-input" tabindex="-1">
             <label 
