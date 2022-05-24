@@ -34,7 +34,7 @@
     </h1>
     <div class="inset-container">
       <span class="inset-content">Sign in or <a class="inset-link" routerLink="/sign-up">create an account</a> to get started.</span>
-      <span class="inset-content">By using the site you agree to the <a class="inset-link" href="#">terms and conditions.</a></span>
+      <span class="inset-content">By using the site you agree to the <a class="inset-link" href="javascript:void(0)">terms and conditions.</a></span>
     </div>
     <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
       <div class="input-container" [class.input-container-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0">
