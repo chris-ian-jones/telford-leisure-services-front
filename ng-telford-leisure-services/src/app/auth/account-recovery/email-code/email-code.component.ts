@@ -23,7 +23,6 @@ export class EmailCodeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
-
   ) { }
 
   ngOnInit() {
