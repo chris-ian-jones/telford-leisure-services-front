@@ -29,12 +29,21 @@
   What is your residential address?
 </h1>
 <form class="question-form-container" [formGroup]="questionFiveForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionFiveForm.get('addressLineOne').errors || questionFiveForm.get('addressLineOne').hasError('required')) && this.errorSummary.length > 0">
     <label for="addressLineOne" class="default-input-label">
       Address line 1
     </label>
+    <label *ngIf="questionFiveForm.get('addressLineOne').errors && questionFiveForm.get('addressLineOne').hasError('required') && this.errorSummary.length > 0" for="addressLineOne" class="input-label-error-message">
+      Enter your address line 1
+    </label>
     <div>
-      <input id="addressLineOne" formControlName="addressLineOne"type="text" class="default-text-input">
+      <input 
+        id="addressLineOne" 
+        formControlName="addressLineOne"
+        type="text" 
+        class="default-text-input"
+        [class.text-input-error] = "questionFiveForm.get('addressLineOne').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
   <div class="default-input-container">
@@ -61,12 +70,24 @@
       <input id="county" formControlName="county" type="text" class="default-text-input three-quarters-text-input">
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionFiveForm.get('postcode').errors || questionFiveForm.get('postcode').hasError('required')) && this.errorSummary.length > 0">
     <label for="postcode" class="default-input-label">
       Postcode
     </label>
+    <label *ngIf="questionFiveForm.get('postcode').errors && questionFiveForm.get('postcode').hasError('required') && this.errorSummary.length > 0" for="postcode" class="input-label-error-message">
+      Enter your postcode
+    </label>
+    <label *ngIf="questionFiveForm.get('postcode').errors && questionFiveForm.get('postcode').hasError('pattern') && this.errorSummary.length > 0" for="postcode" class="input-label-error-message">
+      Enter a real postcode
+    </label>
     <div>
-      <input id="postcode" formControlName="postcode" type="text" class="default-text-input one-half-text-input">
+      <input 
+        id="postcode" 
+        formControlName="postcode" 
+        type="text" 
+        class="default-text-input one-half-text-input"
+        [class.text-input-error] = "questionFiveForm.get('postcode').errors && this.errorSummary.length > 0"
+      >
     </div>
   </div>
   <div>
