@@ -19,7 +19,10 @@
   Which will be your membership type?
 </h1>
 <form class="question-form-container" [formGroup]="questionEightForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container">
+  <div class="default-input-container" [class.input-container-error] = "(questionEightForm.get('membershipType').errors || questionEightForm.get('membershipType').hasError('required')) && this.errorSummary.length > 0">
+    <label *ngIf="questionEightForm.get('membershipType').errors && questionEightForm.get('membershipType').hasError('required') && this.errorSummary.length > 0" for="membershipType" class="input-label-error-message">
+      Select your membership type
+    </label>
     <div #adtInput tabindex="-1" class="default-radio-input-container flex-column">
       <div class="inner-radio-input-container" tabindex="0" (click)="selectInput('TLC Adt Resident 16+ - ADT')" (keydown.space)="selectInput('TLC Adt Resident 16+ - ADT')">
         <input id="adt" value="TLC Adt Resident 16+ - ADT" formControlName="membershipType" type="radio" class="hidden-radio-input" tabindex="-1">
