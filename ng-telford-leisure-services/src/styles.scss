@@ -380,6 +380,11 @@ template {
   flex-direction: column;
   max-width: 960px;
   width: 100%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
 }
 
 p {
@@ -456,6 +461,10 @@ p {
 
 .three-quarters-text-input {
   width: 315px;
+
+  @media screen and (max-width: 375px) {
+    width: 95%;
+  }
 }
 
 .one-half-text-input {
