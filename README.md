@@ -1,3 +1,3 @@
 # Telford Leisure Services (Frontend)
 
-![](tls-signup.gif)
+![](telford-leisure-services-signup.gif)
