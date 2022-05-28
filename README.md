@@ -68,8 +68,8 @@ $ ng serve -o
 ## Built with 
 
 - [Angular](https://angular.io/) - The modern web
-developer's platform.
-- [GOV.UK Design System](https://design-system.service.gov.uk/) - Design system to make your service consistent with GOV.UK. Learn from the research and experience of other service teams and avoid repeating work that’s already been done.
+developer's platform
+- [GOV.UK Design System](https://design-system.service.gov.uk/) - Design system to make your service consistent with GOV.UK. Learn from the research and experience of other service teams and avoid repeating work that’s already been done
 - [Sendinblue](https://www.sendinblue.com/) - Sendinblue’s API is used as an email router to send out emails
 
 ---
