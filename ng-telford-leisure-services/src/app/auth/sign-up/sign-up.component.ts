@@ -46,6 +46,7 @@ export class SignUpComponent implements OnInit {
 
   receiveAnswer($event: any) {
     Object.assign(this.newMemberData, $event);
+    window.scrollTo(0, 0);
     if (this.changeAnswer) {
       this.changeAnswer = false;
       this.currentPageNumber = this.totalPageNumbers + 1;
@@ -55,6 +56,7 @@ export class SignUpComponent implements OnInit {
   }
   
   receiveChangeAnswerPage($event: any) {
+    window.scrollTo(0, 0);
     this.currentPageNumber = $event;
     this.changeAnswer = true;
   }

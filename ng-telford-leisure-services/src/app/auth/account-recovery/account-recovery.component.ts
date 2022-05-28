@@ -31,6 +31,7 @@ export class AccountRecoveryComponent implements OnInit {
 
   receiveComponentChange($event: any) {
     this.shownComponent = $event;
+    window.scrollTo(0, 0);
   }
 
   receiveMemberEmail($event: any) {
