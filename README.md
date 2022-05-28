@@ -1,7 +1,7 @@
 Telford Leisure Services (Frontend)
 ============
 
-This is the front end for my redesign project of the [Telford Leisure Services](https://secureleisure.telford.gov.uk/lfbook.asp?wci=Login&=) sign up process. This front end was built with Angular (v13) and designed using the [Gov Design System](https://design-system.service.gov.uk) styles, components and patterns to make it more consistent with GOV.UK.
+This is the frontend for my redesign project of the [Telford Leisure Services](https://secureleisure.telford.gov.uk/lfbook.asp?wci=Login&=) sign up process. This front end was built with Angular (v13) and designed using the [Gov Design System](https://design-system.service.gov.uk) styles, components and patterns to make it more consistent with GOV.UK.
 
 ---
 
