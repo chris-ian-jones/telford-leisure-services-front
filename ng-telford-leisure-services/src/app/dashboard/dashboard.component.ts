@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+
+declare let require: any
+const confetti = require('canvas-confetti');
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +11,24 @@ import { AuthService } from '../auth/auth.service';
 })
 export class DashboardComponent implements OnInit {
 
+  @ViewChild('confettiDiv', { static: false }) confettiDiv: ElementRef;
+
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.showConfetti();
+  }
+
+  showConfetti() {
+    const myConfetti = confetti.create(this.confettiDiv, {
+      resize: true,
+      particleCount: 600,
+      spread: 180,
+      startVelocity: 30,
+    });
+    myConfetti();
   }
 
   onClickSignOut() {
