@@ -2,7 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
+import { Feedback } from '../core/models/feedback';
 import { FeedbackService } from './feedback.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-feedback',
@@ -80,13 +82,19 @@ export class FeedbackComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
-      this.feedbackService.createNewFeedback(this.satisfactionForm.value).subscribe((response:any) => {
-        this.router.navigateByUrl('feedback/success')
-      }, error => {
-        this.satisfactionForm.controls['satisfaction'].setErrors({'required': true});
-      })
+      this.createNewFeedback(this.satisfactionForm.value);
     } else {
       this.getAllFormValidationErrors();
+    }
+  }
+
+  async createNewFeedback(feedback: Feedback) {
+    try {
+      let response: any = await lastValueFrom(this.feedbackService.createNewFeedback(feedback));
+      this.router.navigateByUrl('feedback/success');
+    }
+    catch {
+      this.satisfactionForm.controls['satisfaction'].setErrors({'required': true});
     }
   }
 

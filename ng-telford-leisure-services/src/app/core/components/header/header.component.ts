@@ -10,7 +10,7 @@ export class HeaderComponent implements OnInit {
   showSystemMessage = false;
 
   constructor(private router: Router) {
-    router.events.subscribe((event:any) => {
+    router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.router.url === '/sign-in' ? this.showSystemMessage = true : this.showSystemMessage = false;
       }

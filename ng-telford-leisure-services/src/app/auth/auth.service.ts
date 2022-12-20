@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Url } from './../core/constants/urls';
 import jwt_decode from 'jwt-decode';
+import { SignIn } from '../core/models/signIn';
 
 const authHeaders = new HttpHeaders({
   'Content-Type': 'application/json'
@@ -12,11 +13,6 @@ const authHeaders = new HttpHeaders({
 const exposeXAuthHeader = new HttpHeaders({
   'Access-Control-Expose-Headers': 'X-Authorization'
 })
-
-interface SignInData {
-  memberNumber: number;
-  password: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +29,7 @@ export class AuthService {
     return localStorage.getItem('sessionToken') ? true: false
   }
 
-  memberSignIn(signInData: SignInData) {
+  memberSignIn(signInData: SignIn) {
     const body = JSON.stringify(signInData)
     return this.http.post(`${Url.AUTH}/signin`, body, {headers: authHeaders, observe: 'response'})
       .pipe(tap(response => this.setAuthentication(response)))

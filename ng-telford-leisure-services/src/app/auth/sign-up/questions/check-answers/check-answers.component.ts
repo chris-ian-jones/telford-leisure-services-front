@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-check-answers',
@@ -28,18 +29,25 @@ export class CheckAnswersComponent implements OnInit {
   }
 
   onClickCreateAccount() {
-    this.errorMessage = ''
-    this.signUpService.signUpMember(this.newMemberData).subscribe((response:any) => {
+    this.errorMessage = '';
+    this.signUpMember(this.newMemberData);
+  }
+
+  async signUpMember(newMemberData: Member) {
+    try {
+      let response: any = await lastValueFrom(this.signUpService.signUpMember(newMemberData));
       this.router.navigate(['sign-up/success'], {
         state:{
           memberNumber: response.body.memberNumber,
           mainCenter: response.body.mainCenter
         }
       });
-    }, error => {
+    }
+    catch (error: any)
+    {
       this.errorMessage = error.error.message;
-      setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
-    })
+      setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
+    }
   }
 
 }

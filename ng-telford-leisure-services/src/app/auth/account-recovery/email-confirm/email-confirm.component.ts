@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
+import { Email } from './../../../core/models/email';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-email-confirm',
@@ -36,13 +38,21 @@ export class EmailConfirmComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
-      this.accountRecoveryService.sendConfirmationCodeEmail(this.emailForm.value).subscribe(response => {
-        this.routeToNextStep();
-      }, error => {
-        this.routeToNextStep()
-      });
+      const email: Email = this.emailForm.value;
+      this.sendConfirmationCodeEmail(email);
     } else {
       this.getAllFormValidationErrors();
+    }
+  }
+
+  async sendConfirmationCodeEmail(email: Email) {
+    try {
+      let response: any = await lastValueFrom(this.accountRecoveryService.sendConfirmationCodeEmail(email));
+      this.routeToNextStep();
+    }
+    catch
+    {
+      this.routeToNextStep()
     }
   }
 

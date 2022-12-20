@@ -1,7 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ChangePassword } from 'src/app/core/models/changePassword';
 import { AccountRecoveryService } from '../account-recovery.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-change-password',
@@ -50,18 +52,24 @@ export class ChangePasswordComponent implements OnInit {
   onClickContinue() {
     this.checkPasswords();
     if (this.passwordForm.valid) {
-      const payload = {
+      const payload: ChangePassword = {
         email: this.memberEmail,
         confirmationCode: this.confirmationCode,
         password: this.passwordForm.controls['password'].value,
-      }
-      this.accountRecoveryService.changePassword(payload).subscribe((response:any) => {
-        this.changeComponentEvent.emit('password-reset')
-      }, error => {
-        this.passwordForm.controls['password'].setErrors({token: true})
-        this.getAllFormValidationErrors();
-      })
+      };
+      this.changePassword(payload);
     } else {
+      this.getAllFormValidationErrors();
+    }
+  }
+
+  async changePassword(payload: ChangePassword) {
+    try {
+      let response: any = await lastValueFrom(this.accountRecoveryService.changePassword(payload));
+      this.changeComponentEvent.emit('password-reset');
+    } 
+    catch {
+      this.passwordForm.controls['password'].setErrors({token: true});
       this.getAllFormValidationErrors();
     }
   }

@@ -1,7 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { EmailCode } from 'src/app/core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-email-code',
@@ -39,28 +41,40 @@ export class EmailCodeComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.confirmationCodeForm.valid) {
-      const payload = {
+      const payload: EmailCode = {
         email: this.memberEmail,
         confirmationCode: this.confirmationCodeForm.controls['confirmationCode'].value,
       }
       if (this.path === 'forgot-member-number') {
-        this.accountRecoveryService.forgotMemberNumber(payload).subscribe((response:any) => {
-          this.emitMemberNumberEvent.emit(response.body.memberNumber)
-          this.changeComponentEvent.emit('member-number-recovered')
-        }, error => {
-          this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
-          this.getAllFormValidationErrors();
-        })
+        this.forgotMemberNumber(payload);
       } else {
-        this.accountRecoveryService.validateConfirmationCode(payload).subscribe((response:any) => {
-          this.emitConfirmationCodeEvent.emit(this.confirmationCodeForm.controls['confirmationCode'].value)
-          this.changeComponentEvent.emit('change-password')
-        }, error => {
-          this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true})
-          this.getAllFormValidationErrors();
-        })
+        this.validateConfirmationCode(payload);
       }
     } else {
+      this.getAllFormValidationErrors();
+    }
+  }
+
+  async forgotMemberNumber(payload: EmailCode) {
+    try {
+      let response: any = await lastValueFrom(this.accountRecoveryService.forgotMemberNumber(payload));
+      this.emitMemberNumberEvent.emit(response.body.memberNumber);
+      this.changeComponentEvent.emit('member-number-recovered');
+    }
+    catch {
+      this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true});
+      this.getAllFormValidationErrors();
+    }
+  }
+
+  async validateConfirmationCode(payload: EmailCode) {
+    try {
+      let response: any = await lastValueFrom(this.accountRecoveryService.validateConfirmationCode(payload));
+      this.emitConfirmationCodeEvent.emit(this.confirmationCodeForm.controls['confirmationCode'].value);
+      this.changeComponentEvent.emit('change-password');
+    }
+    catch {
+      this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true});
       this.getAllFormValidationErrors();
     }
   }
