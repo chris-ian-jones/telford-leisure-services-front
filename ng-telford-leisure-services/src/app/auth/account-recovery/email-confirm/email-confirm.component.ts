@@ -1,5 +1,17 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { Email } from './../../../core/models/email';
@@ -11,8 +23,7 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./email-confirm.component.scss']
 })
 export class EmailConfirmComponent implements OnInit {
-
-  @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberEmailEvent = new EventEmitter<any>();
   emailForm!: FormGroup;
@@ -22,16 +33,19 @@ export class EmailConfirmComponent implements OnInit {
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initEmailForm();
   }
 
   initEmailForm() {
-    this.emailForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-    }, {updateOn: 'submit'})
+    this.emailForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]]
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   onClickContinue() {
@@ -47,35 +61,33 @@ export class EmailConfirmComponent implements OnInit {
 
   async sendConfirmationCodeEmail(email: Email) {
     try {
-      let response: any = await lastValueFrom(this.accountRecoveryService.sendConfirmationCodeEmail(email));
+      let response: any = await lastValueFrom(
+        this.accountRecoveryService.sendConfirmationCodeEmail(email)
+      );
       this.routeToNextStep();
-    }
-    catch
-    {
-      this.routeToNextStep()
+    } catch {
+      this.routeToNextStep();
     }
   }
 
   routeToNextStep() {
-    this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value)
-    this.changeComponentEvent.emit('email-code')
+    this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value);
+    this.changeComponentEvent.emit('email-code');
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.emailForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.emailForm.get(control).errors;
+    Object.keys(this.emailForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.emailForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
-
 }

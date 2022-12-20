@@ -10,7 +10,10 @@ describe('Service: AccountRecovery', () => {
     });
   });
 
-  it('should ...', inject([AccountRecoveryService], (service: AccountRecoveryService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [AccountRecoveryService],
+    (service: AccountRecoveryService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

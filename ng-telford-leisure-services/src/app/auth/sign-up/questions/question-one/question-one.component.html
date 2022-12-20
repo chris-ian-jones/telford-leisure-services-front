@@ -1,15 +1,23 @@
 <ng-container *ngIf="errorSummary.length > 0">
   <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">
-      There is a problem
-    </h2>
+    <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
-      <li *ngIf="questionOneForm.get('firstName').errors && questionOneForm.get('firstName').hasError('required')">
+      <li
+        *ngIf="
+          questionOneForm.get('firstName').errors &&
+          questionOneForm.get('firstName').hasError('required')
+        "
+      >
         <a routerLink="./" fragment="firstName" class="error-link" tabindex="3">
           Enter your first name(s)
         </a>
       </li>
-      <li *ngIf="questionOneForm.get('lastName').errors && questionOneForm.get('lastName').hasError('required')">
+      <li
+        *ngIf="
+          questionOneForm.get('lastName').errors &&
+          questionOneForm.get('lastName').hasError('required')
+        "
+      >
         <a routerLink="./" fragment="lastName" class="error-link" tabindex="4">
           Enter your last name
         </a>
@@ -18,49 +26,80 @@
   </div>
 </ng-container>
 <h2 class="page-question-number">
-  Question {{currentPage}} of {{totalPages}}
+  Question {{ currentPage }} of {{ totalPages }}
 </h2>
-<h1 class="page-question">
-  What is your name?
-</h1>
-<form class="question-form-container" [formGroup]="questionOneForm" (ngSubmit)="onClickContinue()">
-  <div class="default-input-container" [class.input-container-error] = "(questionOneForm.get('firstName').errors || questionOneForm.get('firstName').hasError('required')) && this.errorSummary.length > 0">
-    <label for="firstName" class="default-input-label">
-      First name(s)
-    </label>
-    <label *ngIf="questionOneForm.get('firstName').errors && questionOneForm.get('firstName').hasError('required') && this.errorSummary.length > 0" for="firstName" class="input-label-error-message">
+<h1 class="page-question">What is your name?</h1>
+<form
+  class="question-form-container"
+  [formGroup]="questionOneForm"
+  (ngSubmit)="onClickContinue()"
+>
+  <div
+    class="default-input-container"
+    [class.input-container-error]="
+      (questionOneForm.get('firstName').errors ||
+        questionOneForm.get('firstName').hasError('required')) &&
+      this.errorSummary.length > 0
+    "
+  >
+    <label for="firstName" class="default-input-label"> First name(s) </label>
+    <label
+      *ngIf="
+        questionOneForm.get('firstName').errors &&
+        questionOneForm.get('firstName').hasError('required') &&
+        this.errorSummary.length > 0
+      "
+      for="firstName"
+      class="input-label-error-message"
+    >
       Enter your first name(s)
     </label>
     <div>
-      <input 
-        id="firstName" 
-        formControlName="firstName" 
-        type="text" 
+      <input
+        id="firstName"
+        formControlName="firstName"
+        type="text"
         class="default-text-input"
-        [class.text-input-error] = "questionOneForm.get('firstName').errors && this.errorSummary.length > 0"
-      >
+        [class.text-input-error]="
+          questionOneForm.get('firstName').errors &&
+          this.errorSummary.length > 0
+        "
+      />
     </div>
   </div>
-  <div class="default-input-container" [class.input-container-error] = "(questionOneForm.get('lastName').errors || questionOneForm.get('lastName').hasError('required')) && this.errorSummary.length > 0">
-    <label for="lastName" class="default-input-label">
-      Last name
-    </label>
-    <label *ngIf="questionOneForm.get('lastName').errors && questionOneForm.get('lastName').hasError('required') && this.errorSummary.length > 0" for="lastName" class="input-label-error-message">
+  <div
+    class="default-input-container"
+    [class.input-container-error]="
+      (questionOneForm.get('lastName').errors ||
+        questionOneForm.get('lastName').hasError('required')) &&
+      this.errorSummary.length > 0
+    "
+  >
+    <label for="lastName" class="default-input-label"> Last name </label>
+    <label
+      *ngIf="
+        questionOneForm.get('lastName').errors &&
+        questionOneForm.get('lastName').hasError('required') &&
+        this.errorSummary.length > 0
+      "
+      for="lastName"
+      class="input-label-error-message"
+    >
       Enter your last name
     </label>
     <div>
-      <input 
-        id="lastName" 
-        formControlName="lastName" 
-        type="text" 
+      <input
+        id="lastName"
+        formControlName="lastName"
+        type="text"
         class="default-text-input"
-        [class.text-input-error] = "questionOneForm.get('lastName').errors && this.errorSummary.length > 0"
-      >
+        [class.text-input-error]="
+          questionOneForm.get('lastName').errors && this.errorSummary.length > 0
+        "
+      />
     </div>
   </div>
   <div>
-    <button class="default-btn" type="submit">
-      Continue
-    </button>
+    <button class="default-btn" type="submit">Continue</button>
   </div>
 </form>

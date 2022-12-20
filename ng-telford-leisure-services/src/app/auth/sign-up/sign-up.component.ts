@@ -8,7 +8,6 @@ import { Member } from './../../core/models/member';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-
   currentPageNumber: number = 1;
   totalPageNumbers: number = 8;
   @Output() newMemberData: Member = {
@@ -25,19 +24,17 @@ export class SignUpComponent {
     postcode: '',
     ethnicity: '',
     mainCenter: '',
-    membershipType: '',
+    membershipType: ''
   };
   @Output() changeAnswer: boolean = false;
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
   onClickBack() {
     if (this.currentPageNumber === 1) {
-      this.router.navigateByUrl(`/sign-in`)
+      this.router.navigateByUrl(`/sign-in`);
     } else {
-      this.currentPageNumber--
+      this.currentPageNumber--;
     }
   }
 
@@ -48,14 +45,13 @@ export class SignUpComponent {
       this.changeAnswer = false;
       this.currentPageNumber = this.totalPageNumbers + 1;
     } else {
-      this.currentPageNumber++
+      this.currentPageNumber++;
     }
   }
-  
+
   receiveChangeAnswerPage($event: any) {
     window.scrollTo(0, 0);
     this.currentPageNumber = $event;
     this.changeAnswer = true;
   }
-
 }

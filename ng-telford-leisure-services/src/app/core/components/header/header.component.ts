@@ -12,9 +12,10 @@ export class HeaderComponent {
   constructor(private router: Router) {
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.router.url === '/sign-in' ? this.showSystemMessage = true : this.showSystemMessage = false;
+        this.router.url === '/sign-in'
+          ? (this.showSystemMessage = true)
+          : (this.showSystemMessage = false);
       }
     });
   }
-
 }

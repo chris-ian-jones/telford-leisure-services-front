@@ -6,24 +6,23 @@ import { Member } from './../../core/models/member';
 
 const authHeaders = new HttpHeaders({
   'Content-Type': 'application/json'
-})
+});
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
-
-  constructor(
-    private location: Location,
-    private readonly http: HttpClient,
-  ) { }
+  constructor(private location: Location, private readonly http: HttpClient) {}
 
   removeHashPathFromCurrentPath() {
     const pathWithoutHash = this.location.path(false);
     this.location.replaceState(pathWithoutHash);
   }
 
-  signUpMember(memberData:Member) {
-    return this.http.post(`${Url.AUTH}/signup`, memberData, {headers: authHeaders, observe: 'response'})
+  signUpMember(memberData: Member) {
+    return this.http.post(`${Url.AUTH}/signup`, memberData, {
+      headers: authHeaders,
+      observe: 'response'
+    });
   }
 }

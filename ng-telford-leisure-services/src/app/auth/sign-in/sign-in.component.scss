@@ -27,7 +27,7 @@
 .inset-container {
   display: flex;
   flex-direction: column;
-  border-left: 10px solid #C4C4C4;
+  border-left: 10px solid #c4c4c4;
 }
 
 .inset-content {
@@ -45,7 +45,7 @@
 }
 
 .inset-link {
-  color: #2B8CC4;
+  color: #2b8cc4;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -79,7 +79,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

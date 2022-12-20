@@ -8,48 +8,50 @@ import { SignIn } from '../core/models/signIn';
 
 const authHeaders = new HttpHeaders({
   'Content-Type': 'application/json'
-})
+});
 
 const exposeXAuthHeader = new HttpHeaders({
   'Access-Control-Expose-Headers': 'X-Authorization'
-})
+});
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
     private readonly ngZone: NgZone
-  ) { }
+  ) {}
 
   get isLoggedIn() {
-    return localStorage.getItem('sessionToken') ? true: false
+    return localStorage.getItem('sessionToken') ? true : false;
   }
 
   memberSignIn(signInData: SignIn) {
-    const body = JSON.stringify(signInData)
-    return this.http.post(`${Url.AUTH}/signin`, body, {headers: authHeaders, observe: 'response'})
-      .pipe(tap(response => this.setAuthentication(response)))
+    const body = JSON.stringify(signInData);
+    return this.http
+      .post(`${Url.AUTH}/signin`, body, {
+        headers: authHeaders,
+        observe: 'response'
+      })
+      .pipe(tap((response) => this.setAuthentication(response)));
   }
 
   signOut() {
-    localStorage.clear()
-    this.ngZone.run(() => this.router.navigate(['/']))
+    localStorage.clear();
+    this.ngZone.run(() => this.router.navigate(['/']));
   }
 
   setAuthentication(response: any) {
-    const token = response.body.token
-    localStorage.setItem('sessionToken', token)
+    const token = response.body.token;
+    localStorage.setItem('sessionToken', token);
   }
 
   getDecodedSessionToken(token: string): any {
     try {
       return jwt_decode(token);
-    }
-    catch(Error) {
+    } catch (Error) {
       return null;
     }
   }

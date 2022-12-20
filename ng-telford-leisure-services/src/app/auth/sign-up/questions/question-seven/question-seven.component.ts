@@ -1,5 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Member } from './../../../../core/models/member';
 
 @Component({
@@ -8,25 +21,22 @@ import { Member } from './../../../../core/models/member';
   styleUrls: ['./question-seven.component.scss']
 })
 export class QuestionSevenComponent implements OnInit {
-
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerSevenEvent = new EventEmitter<any>();
-  @ViewChild('abrahamInput', {static: false}) abrahamInput: ElementRef;
-  @ViewChild('horsehayInput', {static: false}) horsehayInput: ElementRef;
-  @ViewChild('newportInput', {static: false}) newportInput: ElementRef;
-  @ViewChild('oakengatesInput', {static: false}) oakengatesInput: ElementRef;
-  @ViewChild('phoenixInput', {static: false}) phoenixInput: ElementRef;
-  @ViewChild('stirchleyInput', {static: false}) stirchleyInput: ElementRef;
-  @ViewChild('wellingtonInput', {static: false}) wellingtonInput: ElementRef;
+  @ViewChild('abrahamInput', { static: false }) abrahamInput: ElementRef;
+  @ViewChild('horsehayInput', { static: false }) horsehayInput: ElementRef;
+  @ViewChild('newportInput', { static: false }) newportInput: ElementRef;
+  @ViewChild('oakengatesInput', { static: false }) oakengatesInput: ElementRef;
+  @ViewChild('phoenixInput', { static: false }) phoenixInput: ElementRef;
+  @ViewChild('stirchleyInput', { static: false }) stirchleyInput: ElementRef;
+  @ViewChild('wellingtonInput', { static: false }) wellingtonInput: ElementRef;
   questionSevenForm!: FormGroup;
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionSevenForm();
@@ -34,15 +44,15 @@ export class QuestionSevenComponent implements OnInit {
 
   initQuestionSevenForm() {
     this.questionSevenForm = this.formBuilder.group({
-      mainCenter: [this.newMemberData.mainCenter, [Validators.required]],
-    })
+      mainCenter: [this.newMemberData.mainCenter, [Validators.required]]
+    });
   }
 
-  selectInput(value:string) {
-    this.questionSevenForm.controls['mainCenter'].setValue(value)
+  selectInput(value: string) {
+    this.questionSevenForm.controls['mainCenter'].setValue(value);
     this.errorSummary.length = 0;
 
-    switch(value) {
+    switch (value) {
       case 'Abraham Darby Sports and Leisure Center': {
         setTimeout(() => this.abrahamInput.nativeElement.focus());
         break;
@@ -74,31 +84,30 @@ export class QuestionSevenComponent implements OnInit {
       default: {
         setTimeout(() => this.abrahamInput.nativeElement.focus());
         break;
-      } 
+      }
     }
   }
 
   onClickContinue() {
     if (this.questionSevenForm.valid) {
-      this.answerSevenEvent.emit(this.questionSevenForm.value)
+      this.answerSevenEvent.emit(this.questionSevenForm.value);
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionSevenForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionSevenForm.get(control).errors;
+    Object.keys(this.questionSevenForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.questionSevenForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
@@ -106,5 +115,4 @@ export class QuestionSevenComponent implements OnInit {
   onClickMainCenterRequiredError() {
     setTimeout(() => this.abrahamInput.nativeElement.focus());
   }
-
 }

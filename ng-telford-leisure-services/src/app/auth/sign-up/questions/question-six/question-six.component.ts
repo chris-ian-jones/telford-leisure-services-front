@@ -1,5 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Member } from './../../../../core/models/member';
 
 @Component({
@@ -8,24 +21,21 @@ import { Member } from './../../../../core/models/member';
   styleUrls: ['./question-six.component.scss']
 })
 export class QuestionSixComponent implements OnInit {
-
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerSixEvent = new EventEmitter<any>();
-  @ViewChild('whiteInput', {static: false}) whiteInput: ElementRef;
-  @ViewChild('asianInput', {static: false}) asianInput: ElementRef;
-  @ViewChild('blackInput', {static: false}) blackInput: ElementRef;
-  @ViewChild('chineseInput', {static: false}) chineseInput: ElementRef;
-  @ViewChild('mixedInput', {static: false}) mixedInput: ElementRef;
-  @ViewChild('otherInput', {static: false}) otherInput: ElementRef;
+  @ViewChild('whiteInput', { static: false }) whiteInput: ElementRef;
+  @ViewChild('asianInput', { static: false }) asianInput: ElementRef;
+  @ViewChild('blackInput', { static: false }) blackInput: ElementRef;
+  @ViewChild('chineseInput', { static: false }) chineseInput: ElementRef;
+  @ViewChild('mixedInput', { static: false }) mixedInput: ElementRef;
+  @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
   questionSixForm!: FormGroup;
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionSixForm();
@@ -33,15 +43,15 @@ export class QuestionSixComponent implements OnInit {
 
   initQuestionSixForm() {
     this.questionSixForm = this.formBuilder.group({
-      ethnicity: [this.newMemberData.ethnicity, [Validators.required]],
-    })
+      ethnicity: [this.newMemberData.ethnicity, [Validators.required]]
+    });
   }
 
-  selectInput(value:string) {
-    this.questionSixForm.controls['ethnicity'].setValue(value)
+  selectInput(value: string) {
+    this.questionSixForm.controls['ethnicity'].setValue(value);
     this.errorSummary.length = 0;
 
-    switch(value) {
+    switch (value) {
       case 'White UK/Irish/Euro': {
         setTimeout(() => this.whiteInput.nativeElement.focus());
         break;
@@ -69,31 +79,30 @@ export class QuestionSixComponent implements OnInit {
       default: {
         setTimeout(() => this.whiteInput.nativeElement.focus());
         break;
-      } 
+      }
     }
   }
 
   onClickContinue() {
     if (this.questionSixForm.valid) {
-      this.answerSixEvent.emit(this.questionSixForm.value)
+      this.answerSixEvent.emit(this.questionSixForm.value);
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionSixForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionSixForm.get(control).errors;
+    Object.keys(this.questionSixForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.questionSixForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
@@ -101,5 +110,4 @@ export class QuestionSixComponent implements OnInit {
   onClickEthnicityRequiredError() {
     setTimeout(() => this.whiteInput.nativeElement.focus());
   }
-
 }

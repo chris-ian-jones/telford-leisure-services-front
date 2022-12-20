@@ -2,26 +2,44 @@
   <div class="body-container">
     <ng-container *ngIf="errorSummary.length > 0">
       <div #errorSummary class="error-summary-container" tabindex="1">
-        <h2 class="error-summary-title">
-          There is a problem
-        </h2>
+        <h2 class="error-summary-title">There is a problem</h2>
         <ul class="error-summary-list">
-          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required')">
+          <li
+            *ngIf="
+              signInForm.get('memberNumber').errors &&
+              signInForm.get('memberNumber').hasError('required')
+            "
+          >
             <a routerLink="./" fragment="memberNumber" class="error-link">
               Enter your member number
             </a>
           </li>
-          <li *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required')">
+          <li
+            *ngIf="
+              signInForm.get('password').errors &&
+              signInForm.get('password').hasError('required')
+            "
+          >
             <a routerLink="./" fragment="password" class="error-link">
               Enter your password
             </a>
           </li>
-          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized')">
+          <li
+            *ngIf="
+              signInForm.get('memberNumber').errors &&
+              signInForm.get('memberNumber').hasError('unauthorized')
+            "
+          >
             <a routerLink="./" fragment="memberNumber" class="error-link">
               Incorrect member number or password
             </a>
           </li>
-          <li *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('error')">
+          <li
+            *ngIf="
+              signInForm.get('memberNumber').errors &&
+              signInForm.get('memberNumber').hasError('error')
+            "
+          >
             <a routerLink="./" fragment="memberNumber" class="error-link">
               Server error
             </a>
@@ -29,67 +47,141 @@
         </ul>
       </div>
     </ng-container>
-    <h1 class="page-header">
-      Sign in to your Leisure Services account
-    </h1>
+    <h1 class="page-header">Sign in to your Leisure Services account</h1>
     <div class="inset-container">
-      <span class="inset-content">Sign in or <a class="inset-link" routerLink="/sign-up">create an account</a> to get started.</span>
-      <span class="inset-content">By using the site you agree to the <a class="inset-link" href="javascript:void(0)">terms and conditions.</a></span>
+      <span class="inset-content"
+        >Sign in or
+        <a class="inset-link" routerLink="/sign-up">create an account</a> to get
+        started.</span
+      >
+      <span class="inset-content"
+        >By using the site you agree to the
+        <a class="inset-link" href="javascript:void(0)"
+          >terms and conditions.</a
+        ></span
+      >
     </div>
     <form class="sign-in-form" [formGroup]="signInForm" (ngSubmit)="signIn()">
-      <div class="input-container" [class.input-container-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0">
+      <div
+        class="input-container"
+        [class.input-container-error]="
+          signInForm.get('memberNumber').errors && this.errorSummary.length > 0
+        "
+      >
         <label for="memberNumber" class="default-input-label">
           Member number
         </label>
-        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+        <label
+          *ngIf="
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('required') &&
+            this.errorSummary.length > 0
+          "
+          for="memberNumber"
+          class="input-label-error-message"
+        >
           Enter your member number
         </label>
-        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+        <label
+          *ngIf="
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('unauthorized') &&
+            this.errorSummary.length > 0
+          "
+          for="memberNumber"
+          class="input-label-error-message"
+        >
           Incorrect member number or password
         </label>
-        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('error') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+        <label
+          *ngIf="
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('error') &&
+            this.errorSummary.length > 0
+          "
+          for="memberNumber"
+          class="input-label-error-message"
+        >
           Server error
         </label>
         <div>
-          <input 
-            id="memberNumber" 
+          <input
+            id="memberNumber"
             formControlName="memberNumber"
-            type="number" 
+            type="number"
             class="default-text-input number-input"
-            [class.text-input-error] = "signInForm.get('memberNumber').errors && this.errorSummary.length > 0"
-          >
+            [class.text-input-error]="
+              signInForm.get('memberNumber').errors &&
+              this.errorSummary.length > 0
+            "
+          />
         </div>
       </div>
-      <div class="input-container" [class.input-container-error] = "(signInForm.get('password').errors || signInForm.get('memberNumber').hasError('unauthorized')) && this.errorSummary.length > 0">
-        <label for="password" class="default-input-label">
-          Password
-        </label>
-        <label *ngIf="signInForm.get('password').errors && signInForm.get('password').hasError('required') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+      <div
+        class="input-container"
+        [class.input-container-error]="
+          (signInForm.get('password').errors ||
+            signInForm.get('memberNumber').hasError('unauthorized')) &&
+          this.errorSummary.length > 0
+        "
+      >
+        <label for="password" class="default-input-label"> Password </label>
+        <label
+          *ngIf="
+            signInForm.get('password').errors &&
+            signInForm.get('password').hasError('required') &&
+            this.errorSummary.length > 0
+          "
+          for="memberNumber"
+          class="input-label-error-message"
+        >
           Enter your password
         </label>
-        <label *ngIf="signInForm.get('memberNumber').errors && signInForm.get('memberNumber').hasError('unauthorized') && this.errorSummary.length > 0" for="memberNumber" class="input-label-error-message">
+        <label
+          *ngIf="
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('unauthorized') &&
+            this.errorSummary.length > 0
+          "
+          for="memberNumber"
+          class="input-label-error-message"
+        >
           Incorrect member number or password
         </label>
         <div>
-          <input 
-            id="password" 
-            formControlName="password" 
-            type="password" 
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
             class="default-text-input"
-            [class.text-input-error] = "signInForm.get('password').errors && this.errorSummary.length > 0"
-          >
+            [class.text-input-error]="
+              signInForm.get('password').errors && this.errorSummary.length > 0
+            "
+          />
         </div>
       </div>
       <div>
-        <button class="default-btn" type="submit">
-          Sign in
-        </button>
+        <button class="default-btn" type="submit">Sign in</button>
       </div>
     </form>
     <p class="inset-help-text">Help signing in</p>
     <div class="inset-container bottom-inset">
-      <span class="inset-content"><a class="inset-link" routerLink="/account-recovery" [state]="{ route: 'email-check', path: 'forgot-member-number' }">Forgotten your member number?</a></span>
-      <span class="inset-content"><a class="inset-link" routerLink="/account-recovery" [state]="{ route: 'email-confirm', path: 'forgot-password' }">Forgotten your password?</a></span>
+      <span class="inset-content"
+        ><a
+          class="inset-link"
+          routerLink="/account-recovery"
+          [state]="{ route: 'email-check', path: 'forgot-member-number' }"
+          >Forgotten your member number?</a
+        ></span
+      >
+      <span class="inset-content"
+        ><a
+          class="inset-link"
+          routerLink="/account-recovery"
+          [state]="{ route: 'email-confirm', path: 'forgot-password' }"
+          >Forgotten your password?</a
+        ></span
+      >
     </div>
   </div>
 </div>

@@ -7,16 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./member-number-recovered.component.scss']
 })
 export class MemberNumberRecoveredComponent {
-
   @Input() memberEmail!: string;
   @Input() memberNumber!: string;
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
   routeToSignIn() {
-    this.router.navigateByUrl('/sign-in')
+    this.router.navigateByUrl('/sign-in');
   }
-
 }

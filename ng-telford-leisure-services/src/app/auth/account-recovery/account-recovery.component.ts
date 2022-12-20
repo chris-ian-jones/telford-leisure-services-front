@@ -7,19 +7,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./account-recovery.component.scss']
 })
 export class AccountRecoveryComponent {
+  shownComponent: string = '';
+  path: string = '';
+  memberEmail: string = '';
+  memberNumber: string = '';
+  confirmationCode: string = '';
 
-  shownComponent:string = '';
-  path:string = ''
-  memberEmail:string = '';
-  memberNumber:string = '';
-  confirmationCode:string = '';
-
-  constructor(
-    public activatedRoute: ActivatedRoute,
-    public router: Router
-  ) {
+  constructor(public activatedRoute: ActivatedRoute, public router: Router) {
     if (this.router.getCurrentNavigation().extras.state) {
-      this.shownComponent = this.router.getCurrentNavigation().extras.state['route'];
+      this.shownComponent =
+        this.router.getCurrentNavigation().extras.state['route'];
       this.path = this.router.getCurrentNavigation().extras.state['path'];
     } else {
       this.shownComponent = 'email-check';
@@ -43,5 +40,4 @@ export class AccountRecoveryComponent {
   receiveConfirmationCode($event: any) {
     this.confirmationCode = $event;
   }
-
 }

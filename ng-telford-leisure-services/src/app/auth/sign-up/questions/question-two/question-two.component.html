@@ -1,40 +1,73 @@
 <ng-container *ngIf="errorSummary.length > 0">
   <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">
-      There is a problem
-    </h2>
+    <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
-      <li *ngIf="questionTwoForm.get('day').errors && questionTwoForm.get('day').hasError('required')">
+      <li
+        *ngIf="
+          questionTwoForm.get('day').errors &&
+          questionTwoForm.get('day').hasError('required')
+        "
+      >
         <a routerLink="./" fragment="day" class="error-link" tabindex="3">
           Enter the day you were born
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('day').errors && questionTwoForm.get('day').hasError('pattern')">
+      <li
+        *ngIf="
+          questionTwoForm.get('day').errors &&
+          questionTwoForm.get('day').hasError('pattern')
+        "
+      >
         <a routerLink="./" fragment="day" class="error-link" tabindex="3">
           Day must be a number
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('month').errors && questionTwoForm.get('month').hasError('required')">
+      <li
+        *ngIf="
+          questionTwoForm.get('month').errors &&
+          questionTwoForm.get('month').hasError('required')
+        "
+      >
         <a routerLink="./" fragment="month" class="error-link" tabindex="4">
           Enter the month you were born
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('month').errors && questionTwoForm.get('month').hasError('pattern')">
+      <li
+        *ngIf="
+          questionTwoForm.get('month').errors &&
+          questionTwoForm.get('month').hasError('pattern')
+        "
+      >
         <a routerLink="./" fragment="month" class="error-link" tabindex="3">
           Month must be a number
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('year').errors && questionTwoForm.get('year').hasError('required')">
+      <li
+        *ngIf="
+          questionTwoForm.get('year').errors &&
+          questionTwoForm.get('year').hasError('required')
+        "
+      >
         <a routerLink="./" fragment="year" class="error-link" tabindex="4">
           Enter the year you were born
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('year').errors && questionTwoForm.get('year').hasError('pattern')">
+      <li
+        *ngIf="
+          questionTwoForm.get('year').errors &&
+          questionTwoForm.get('year').hasError('pattern')
+        "
+      >
         <a routerLink="./" fragment="year" class="error-link" tabindex="4">
           Year must be a number
         </a>
       </li>
-      <li *ngIf="questionTwoForm.get('day').errors && questionTwoForm.get('day').hasError('invalid')">
+      <li
+        *ngIf="
+          questionTwoForm.get('day').errors &&
+          questionTwoForm.get('day').hasError('invalid')
+        "
+      >
         <a routerLink="./" fragment="day" class="error-link" tabindex="4">
           Your date of birth must be a valid date
         </a>
@@ -43,62 +76,63 @@
   </div>
 </ng-container>
 <h2 class="page-question-number">
-  Question {{currentPage}} of {{totalPages}}
+  Question {{ currentPage }} of {{ totalPages }}
 </h2>
-<h1 class="page-question-with-hint">
-  What is your date of birth?
-</h1>
-<h3 class="hint-text">
-  For example, 31 3 1980
-</h3>
-<form class="question-form-container" [formGroup]="questionTwoForm" (ngSubmit)="onClickContinue()">
+<h1 class="page-question-with-hint">What is your date of birth?</h1>
+<h3 class="hint-text">For example, 31 3 1980</h3>
+<form
+  class="question-form-container"
+  [formGroup]="questionTwoForm"
+  (ngSubmit)="onClickContinue()"
+>
   <div class="date-inputs-container">
-    <div class="default-input-container" [class.input-container-error] = "this.errorSummary.length > 0">
-      <label for="day" class="default-input-label">
-        Day
-      </label>
+    <div
+      class="default-input-container"
+      [class.input-container-error]="this.errorSummary.length > 0"
+    >
+      <label for="day" class="default-input-label"> Day </label>
       <div>
-        <input 
-          id="day" 
-          formControlName="day" 
-          type="text" 
+        <input
+          id="day"
+          formControlName="day"
+          type="text"
           class="default-text-input two-char-text-input"
-          [class.text-input-error] = "questionTwoForm.get('day').errors && this.errorSummary.length > 0"
-        >
+          [class.text-input-error]="
+            questionTwoForm.get('day').errors && this.errorSummary.length > 0
+          "
+        />
       </div>
     </div>
     <div class="default-input-container">
-      <label for="month" class="default-input-label">
-        Month
-      </label>
+      <label for="month" class="default-input-label"> Month </label>
       <div>
-        <input 
-          id="month" 
-          formControlName="month" 
-          type="text" 
+        <input
+          id="month"
+          formControlName="month"
+          type="text"
           class="default-text-input two-char-text-input"
-          [class.text-input-error] = "questionTwoForm.get('month').errors && this.errorSummary.length > 0"
-        >
+          [class.text-input-error]="
+            questionTwoForm.get('month').errors && this.errorSummary.length > 0
+          "
+        />
       </div>
     </div>
     <div class="default-input-container">
-      <label for="year" class="default-input-label">
-        Year
-      </label>
+      <label for="year" class="default-input-label"> Year </label>
       <div>
-        <input 
-          id="year" 
-          formControlName="year" 
-          type="text" 
+        <input
+          id="year"
+          formControlName="year"
+          type="text"
           class="default-text-input four-char-text-input"
-          [class.text-input-error] = "questionTwoForm.get('year').errors && this.errorSummary.length > 0"
-        >
+          [class.text-input-error]="
+            questionTwoForm.get('year').errors && this.errorSummary.length > 0
+          "
+        />
       </div>
     </div>
   </div>
   <div>
-    <button class="default-btn" type="submit">
-      Continue
-    </button>
+    <button class="default-btn" type="submit">Continue</button>
   </div>
 </form>

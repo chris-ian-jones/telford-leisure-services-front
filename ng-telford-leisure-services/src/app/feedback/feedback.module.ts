@@ -11,14 +11,9 @@ import { SuccessComponent } from './success/success.component';
     CommonModule,
     FeedbackRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [
-    FeedbackComponent,
-    SuccessComponent
-  ],
-  providers: [
-    FeedbackService
-  ]
+  declarations: [FeedbackComponent, SuccessComponent],
+  providers: [FeedbackService]
 })
-export class FeedbackModule { }
+export class FeedbackModule {}

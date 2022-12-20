@@ -25,10 +25,8 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     EmailCodeComponent,
     MemberNumberRecoveredComponent,
     ChangePasswordComponent,
-    PasswordResetComponent,
+    PasswordResetComponent
   ],
-  providers: [
-    AccountRecoveryService
-  ]
+  providers: [AccountRecoveryService]
 })
-export class AccountRecoveryModule { }
+export class AccountRecoveryModule {}

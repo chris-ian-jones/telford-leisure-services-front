@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
@@ -10,19 +17,15 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./check-answers.component.scss']
 })
 export class CheckAnswersComponent {
-
   @Input() newMemberData!: Member;
   @Output() changeAnswerEvent = new EventEmitter<any>();
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorMessage: string = '';
 
-  constructor(
-    private signUpService: SignUpService,
-    private router: Router
-  ) { }
+  constructor(private signUpService: SignUpService, private router: Router) {}
 
-  onClickChange(pageNumber:number) {
-    this.changeAnswerEvent.emit(pageNumber)
+  onClickChange(pageNumber: number) {
+    this.changeAnswerEvent.emit(pageNumber);
   }
 
   onClickCreateAccount() {
@@ -32,19 +35,18 @@ export class CheckAnswersComponent {
 
   async signUpMember(newMemberData: Member) {
     try {
-      let response: any = await lastValueFrom(this.signUpService.signUpMember(newMemberData));
+      let response: any = await lastValueFrom(
+        this.signUpService.signUpMember(newMemberData)
+      );
       this.router.navigate(['sign-up/success'], {
-        state:{
+        state: {
           memberNumber: response.body.memberNumber,
           mainCenter: response.body.mainCenter
         }
       });
-    }
-    catch (error: any)
-    {
+    } catch (error: any) {
       this.errorMessage = error.error.message;
       setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
     }
   }
-
 }

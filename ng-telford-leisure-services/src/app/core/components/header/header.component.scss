@@ -19,7 +19,8 @@
   margin-bottom: 5px;
 }
 
-.left-container, .right-container {
+.left-container,
+.right-container {
   flex: 1;
 }
 
@@ -42,14 +43,14 @@
 }
 
 .accent-bar {
-  background-color: #1A747A;
+  background-color: #1a747a;
   height: 10px;
   max-width: 960px;
   width: 100%;
 }
 
 .system-message-container {
-  background-color: #D5E8F3;
+  background-color: #d5e8f3;
   display: flex;
   justify-content: center;
 
@@ -84,11 +85,11 @@
   width: 100%;
   margin-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #BFC1C3;
+  border-bottom: 1px solid #bfc1c3;
 }
 
 .status-tag {
-  background-color: #125EA5;
+  background-color: #125ea5;
 }
 
 .status-tag-label {
@@ -107,7 +108,7 @@
 
 .status-feedback-link {
   font-size: 16px;
-  color: #2B8CC4;
+  color: #2b8cc4;
   text-decoration: underline;
   margin-left: 10px;
   cursor: pointer;

@@ -1,5 +1,5 @@
 export interface ChangePassword {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
   confirmationCode: string;
 }

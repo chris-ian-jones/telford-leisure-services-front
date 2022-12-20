@@ -1,5 +1,17 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,18 +20,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./email-check.component.scss']
 })
 export class EmailCheckComponent implements OnInit {
-
-  @ViewChild('yesInput', {static: false}) yesInput: ElementRef;
-  @ViewChild('noInput', {static: false}) noInput: ElementRef;
+  @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
+  @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   emailCheckForm!: FormGroup;
-  @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.initEmailCheckForm();
@@ -27,15 +35,15 @@ export class EmailCheckComponent implements OnInit {
 
   initEmailCheckForm() {
     this.emailCheckForm = this.formBuilder.group({
-      emailCheck: ['', [Validators.required]],
-    })
+      emailCheck: ['', [Validators.required]]
+    });
   }
 
-  selectInput(value:string) {
-    this.emailCheckForm.controls['emailCheck'].setValue(value)
+  selectInput(value: string) {
+    this.emailCheckForm.controls['emailCheck'].setValue(value);
     this.errorSummary.length = 0;
-    
-    switch(value) {
+
+    switch (value) {
       case 'Yes': {
         setTimeout(() => this.yesInput.nativeElement.focus());
         break;
@@ -47,7 +55,7 @@ export class EmailCheckComponent implements OnInit {
       default: {
         setTimeout(() => this.yesInput.nativeElement.focus());
         break;
-      } 
+      }
     }
   }
 
@@ -55,9 +63,9 @@ export class EmailCheckComponent implements OnInit {
     this.errorSummary.length = 0;
     if (this.emailCheckForm.valid) {
       if (this.emailCheckForm.controls['emailCheck'].value === 'Yes') {
-        this.router.navigateByUrl('/sign-in')
+        this.router.navigateByUrl('/sign-in');
       } else {
-        this.changeComponentEvent.emit('email-confirm')
+        this.changeComponentEvent.emit('email-confirm');
       }
     } else {
       this.getAllFormValidationErrors();
@@ -65,18 +73,17 @@ export class EmailCheckComponent implements OnInit {
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.emailCheckForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.emailCheckForm.get(control).errors;
+    Object.keys(this.emailCheckForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.emailCheckForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
@@ -84,5 +91,4 @@ export class EmailCheckComponent implements OnInit {
   onClickEmailCheckError() {
     setTimeout(() => this.yesInput.nativeElement.focus());
   }
-
 }

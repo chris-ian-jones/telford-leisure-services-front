@@ -1,4 +1,4 @@
 export interface ForgotMemberNumber {
-  email: string,
+  email: string;
   confirmationCode: string;
 }

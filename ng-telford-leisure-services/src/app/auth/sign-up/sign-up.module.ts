@@ -20,7 +20,7 @@ import { SuccessComponent } from './success/success.component';
     CommonModule,
     SignUpRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     SignUpComponent,
@@ -35,8 +35,6 @@ import { SuccessComponent } from './success/success.component';
     CheckAnswersComponent,
     SuccessComponent
   ],
-  providers: [
-    SignUpService
-  ]
+  providers: [SignUpService]
 })
-export class SignUpModule { }
+export class SignUpModule {}

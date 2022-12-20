@@ -1,5 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 
@@ -9,8 +22,7 @@ import { Member } from './../../../../core/models/member';
   styleUrls: ['./question-four.component.scss']
 })
 export class QuestionFourComponent implements OnInit {
-
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
@@ -21,44 +33,48 @@ export class QuestionFourComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initQuestionFourForm();
   }
 
   initQuestionFourForm() {
-    this.questionFourForm = this.formBuilder.group({
-      email: [this.newMemberData.email, [Validators.required, Validators.email]],
-      phone: [this.newMemberData.phone, Validators.pattern('[- +()0-9]+')],
-    }, {updateOn: 'submit'})
+    this.questionFourForm = this.formBuilder.group(
+      {
+        email: [
+          this.newMemberData.email,
+          [Validators.required, Validators.email]
+        ],
+        phone: [this.newMemberData.phone, Validators.pattern('[- +()0-9]+')]
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   onClickContinue() {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionFourForm.valid) {
-      this.answerFourEvent.emit(this.questionFourForm.value)
+      this.answerFourEvent.emit(this.questionFourForm.value);
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionFourForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionFourForm.get(control).errors;
+    Object.keys(this.questionFourForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.questionFourForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
-
 }

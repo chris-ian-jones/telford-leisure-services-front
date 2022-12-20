@@ -7,13 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent {
-
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
   routeToSignIn() {
-    this.router.navigateByUrl('/sign-in')
+    this.router.navigateByUrl('/sign-in');
   }
-
 }

@@ -1,5 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Member } from './../../../../core/models/member';
 
 @Component({
@@ -8,22 +21,19 @@ import { Member } from './../../../../core/models/member';
   styleUrls: ['./question-eight.component.scss']
 })
 export class QuestionEightComponent implements OnInit {
-
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerEightEvent = new EventEmitter<any>();
-  @ViewChild('adtInput', {static: false}) adtInput: ElementRef;
-  @ViewChild('hcoInput', {static: false}) hcoInput: ElementRef;
-  @ViewChild('haeInput', {static: false}) haeInput: ElementRef;
-  @ViewChild('hccInput', {static: false}) hccInput: ElementRef;
+  @ViewChild('adtInput', { static: false }) adtInput: ElementRef;
+  @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
+  @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
+  @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
   questionEightForm!: FormGroup;
-  @ViewChild('errorSummary', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionEightForm();
@@ -31,15 +41,15 @@ export class QuestionEightComponent implements OnInit {
 
   initQuestionEightForm() {
     this.questionEightForm = this.formBuilder.group({
-      membershipType: [this.newMemberData.membershipType, [Validators.required]],
-    })
+      membershipType: [this.newMemberData.membershipType, [Validators.required]]
+    });
   }
 
-  selectInput(value:string) {
-    this.questionEightForm.controls['membershipType'].setValue(value)
+  selectInput(value: string) {
+    this.questionEightForm.controls['membershipType'].setValue(value);
     this.errorSummary.length = 0;
 
-    switch(value) {
+    switch (value) {
       case 'TLC Adt Resident 16+ - ADT': {
         setTimeout(() => this.adtInput.nativeElement.focus());
         break;
@@ -59,31 +69,30 @@ export class QuestionEightComponent implements OnInit {
       default: {
         setTimeout(() => this.adtInput.nativeElement.focus());
         break;
-      } 
+      }
     }
   }
 
   onClickContinue() {
     if (this.questionEightForm.valid) {
-      this.answerEightEvent.emit(this.questionEightForm.value)
+      this.answerEightEvent.emit(this.questionEightForm.value);
     } else {
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.questionEightForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.questionEightForm.get(control).errors;
+    Object.keys(this.questionEightForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.questionEightForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
@@ -91,5 +100,4 @@ export class QuestionEightComponent implements OnInit {
   onClickMembershipTypeRequiredError() {
     setTimeout(() => this.adtInput.nativeElement.focus());
   }
-
 }

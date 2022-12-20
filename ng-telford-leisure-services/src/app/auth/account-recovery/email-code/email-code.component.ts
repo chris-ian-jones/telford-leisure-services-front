@@ -1,5 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { EmailCode } from 'src/app/core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
@@ -11,8 +24,7 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./email-code.component.scss']
 })
 export class EmailCodeComponent implements OnInit {
-
-  @ViewChild('errorSummaryDiv', {static: false}) errorSummaryDiv!: ElementRef;
+  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Input() memberEmail!: string;
   @Input() path: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
@@ -25,16 +37,19 @@ export class EmailCodeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initConfirmationCodeForm();
   }
 
   initConfirmationCodeForm() {
-    this.confirmationCodeForm = this.formBuilder.group({
-      confirmationCode: ['', Validators.required],
-    }, {updateOn: 'submit'})
+    this.confirmationCodeForm = this.formBuilder.group(
+      {
+        confirmationCode: ['', Validators.required]
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   onClickConfirm() {
@@ -43,8 +58,9 @@ export class EmailCodeComponent implements OnInit {
     if (this.confirmationCodeForm.valid) {
       const payload: EmailCode = {
         email: this.memberEmail,
-        confirmationCode: this.confirmationCodeForm.controls['confirmationCode'].value,
-      }
+        confirmationCode:
+          this.confirmationCodeForm.controls['confirmationCode'].value
+      };
       if (this.path === 'forgot-member-number') {
         this.forgotMemberNumber(payload);
       } else {
@@ -57,51 +73,57 @@ export class EmailCodeComponent implements OnInit {
 
   async forgotMemberNumber(payload: EmailCode) {
     try {
-      let response: any = await lastValueFrom(this.accountRecoveryService.forgotMemberNumber(payload));
+      let response: any = await lastValueFrom(
+        this.accountRecoveryService.forgotMemberNumber(payload)
+      );
       this.emitMemberNumberEvent.emit(response.body.memberNumber);
       this.changeComponentEvent.emit('member-number-recovered');
-    }
-    catch {
-      this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true});
+    } catch {
+      this.confirmationCodeForm.controls['confirmationCode'].setErrors({
+        incorrect: true
+      });
       this.getAllFormValidationErrors();
     }
   }
 
   async validateConfirmationCode(payload: EmailCode) {
     try {
-      let response: any = await lastValueFrom(this.accountRecoveryService.validateConfirmationCode(payload));
-      this.emitConfirmationCodeEvent.emit(this.confirmationCodeForm.controls['confirmationCode'].value);
+      let response: any = await lastValueFrom(
+        this.accountRecoveryService.validateConfirmationCode(payload)
+      );
+      this.emitConfirmationCodeEvent.emit(
+        this.confirmationCodeForm.controls['confirmationCode'].value
+      );
       this.changeComponentEvent.emit('change-password');
-    }
-    catch {
-      this.confirmationCodeForm.controls['confirmationCode'].setErrors({'incorrect': true});
+    } catch {
+      this.confirmationCodeForm.controls['confirmationCode'].setErrors({
+        incorrect: true
+      });
       this.getAllFormValidationErrors();
     }
   }
 
   getAllFormValidationErrors() {
-    Object.keys(this.confirmationCodeForm.controls).forEach(control => {
-      const controlErrors: ValidationErrors = this.confirmationCodeForm.get(control).errors;
+    Object.keys(this.confirmationCodeForm.controls).forEach((control) => {
+      const controlErrors: ValidationErrors =
+        this.confirmationCodeForm.get(control).errors;
       if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(error => {
-          this.errorSummary.push(
-            {
-              control,
-              error
-            }
-          )
+        Object.keys(controlErrors).forEach((error) => {
+          this.errorSummary.push({
+            control,
+            error
+          });
         });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus())
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
   }
 
   onClickBack() {
-    this.changeComponentEvent.emit('email-confirm')
+    this.changeComponentEvent.emit('email-confirm');
   }
 
   onClickStartAgain() {
-    this.changeComponentEvent.emit('email-check')
+    this.changeComponentEvent.emit('email-check');
   }
-
 }

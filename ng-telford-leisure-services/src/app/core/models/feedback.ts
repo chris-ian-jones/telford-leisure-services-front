@@ -1,4 +1,4 @@
 export interface Feedback {
-  satisfaction: string,
-  improvements: string,
+  satisfaction: string;
+  improvements: string;
 }

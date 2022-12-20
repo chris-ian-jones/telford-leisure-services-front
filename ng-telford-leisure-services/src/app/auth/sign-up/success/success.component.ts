@@ -7,17 +7,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./success.component.scss']
 })
 export class SuccessComponent {
-  memberNumber:string = '123456777';
-  mainCenter:string = 'Donnington Wood';
+  memberNumber: string = '123456777';
+  mainCenter: string = 'Donnington Wood';
 
-  constructor(
-    private router: Router
-  ) {
+  constructor(private router: Router) {
     const routeData = this.router.getCurrentNavigation().extras.state;
     if (routeData) {
       this.memberNumber = routeData['memberNumber'];
       this.mainCenter = routeData['mainCenter'];
     }
   }
-
 }

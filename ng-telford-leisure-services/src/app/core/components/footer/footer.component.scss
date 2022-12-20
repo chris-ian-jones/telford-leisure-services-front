@@ -1,9 +1,9 @@
 .footer-container {
   display: flex;
   justify-content: center;
-  background-color: #DFE0E2;
+  background-color: #dfe0e2;
   width: 100%;
-  border-top: 1px solid #A0ACB1;
+  border-top: 1px solid #a0acb1;
 
   @media screen and (max-width: 960px) {
     width: calc(100% - 30px);
@@ -33,7 +33,7 @@
 
 .footer-address {
   margin-top: 30px;
-  color: #454A4C;
+  color: #454a4c;
   font-size: 16px;
 }
 
@@ -76,11 +76,10 @@
     flex-wrap: wrap;
   }
 
-
   li {
     a {
       text-decoration: underline;
-      color: #454A4C;
+      color: #454a4c;
       font-size: 16px;
       cursor: pointer;
     }
@@ -93,7 +92,7 @@
       outline: 3px solid transparent;
     }
   }
-  
+
   li:not(:last-child) {
     margin-right: 15px;
   }
@@ -106,7 +105,7 @@
 }
 
 .footer-copyright {
-  color: #454A4C;
+  color: #454a4c;
   font-size: 16px;
   margin-top: 15px;
   margin-bottom: 30px;

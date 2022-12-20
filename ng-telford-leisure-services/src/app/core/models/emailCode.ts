@@ -1,4 +1,4 @@
 export interface EmailCode {
-  email: string,
-  confirmationCode: string,
+  email: string;
+  confirmationCode: string;
 }

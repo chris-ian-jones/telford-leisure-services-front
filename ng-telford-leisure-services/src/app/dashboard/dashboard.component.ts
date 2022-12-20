@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
-declare let require: any
+declare let require: any;
 const confetti = require('canvas-confetti');
 
 @Component({
@@ -10,12 +10,9 @@ const confetti = require('canvas-confetti');
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   @ViewChild('confettiDiv', { static: false }) confettiDiv: ElementRef;
 
-  constructor(
-    private authService: AuthService
-  ) { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.showConfetti();
@@ -26,7 +23,7 @@ export class DashboardComponent implements OnInit {
       resize: true,
       particleCount: 600,
       spread: 180,
-      startVelocity: 30,
+      startVelocity: 30
     });
     myConfetti();
   }
@@ -34,5 +31,4 @@ export class DashboardComponent implements OnInit {
   onClickSignOut() {
     this.authService.signOut();
   }
-
 }

@@ -7,9 +7,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./success.component.scss']
 })
 export class SuccessComponent {
-
-  constructor(
-    private router: Router
-  ) { }
-
+  constructor(private router: Router) {}
 }
