@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,14 +6,11 @@ import { Router } from '@angular/router';
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss']
 })
-export class PasswordResetComponent implements OnInit {
+export class PasswordResetComponent {
 
   constructor(
     private router: Router
   ) { }
-
-  ngOnInit() {
-  }
 
   routeToSignIn() {
     this.router.navigateByUrl('/sign-in')

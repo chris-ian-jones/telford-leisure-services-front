@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { NavigationEnd, Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   showSystemMessage = false;
 
   constructor(private router: Router) {
@@ -16,7 +16,5 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit() {}
 
 }

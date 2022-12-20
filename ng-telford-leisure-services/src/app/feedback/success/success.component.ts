@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,13 +6,10 @@ import { Router } from '@angular/router';
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.scss']
 })
-export class SuccessComponent implements OnInit {
+export class SuccessComponent {
 
   constructor(
     private router: Router
   ) { }
-
-  ngOnInit() {
-  }
 
 }

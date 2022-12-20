@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.scss']
 })
-export class SuccessComponent implements OnInit {
+export class SuccessComponent {
   memberNumber:string = '123456777';
   mainCenter:string = 'Donnington Wood';
 
@@ -18,9 +18,6 @@ export class SuccessComponent implements OnInit {
       this.memberNumber = routeData['memberNumber'];
       this.mainCenter = routeData['mainCenter'];
     }
-  }
-
-  ngOnInit() {
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './check-answers.component.html',
   styleUrls: ['./check-answers.component.scss']
 })
-export class CheckAnswersComponent implements OnInit {
+export class CheckAnswersComponent {
 
   @Input() newMemberData!: Member;
   @Output() changeAnswerEvent = new EventEmitter<any>();
@@ -20,9 +20,6 @@ export class CheckAnswersComponent implements OnInit {
     private signUpService: SignUpService,
     private router: Router
   ) { }
-
-  ngOnInit() {
-  }
 
   onClickChange(pageNumber:number) {
     this.changeAnswerEvent.emit(pageNumber)

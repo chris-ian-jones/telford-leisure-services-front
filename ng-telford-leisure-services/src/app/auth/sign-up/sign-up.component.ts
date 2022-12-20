@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Member } from './../../core/models/member';
 
@@ -7,7 +7,7 @@ import { Member } from './../../core/models/member';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
 
   currentPageNumber: number = 1;
   totalPageNumbers: number = 8;
@@ -32,9 +32,6 @@ export class SignUpComponent implements OnInit {
   constructor(
     private router: Router
   ) { }
-
-  ngOnInit() {
-  }
 
   onClickBack() {
     if (this.currentPageNumber === 1) {

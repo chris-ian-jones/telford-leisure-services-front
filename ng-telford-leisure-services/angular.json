@@ -103,9 +103,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "ng-telford-leisure-services"
+  "defaultProject": "ng-telford-leisure-services",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './account-recovery.component.html',
   styleUrls: ['./account-recovery.component.scss']
 })
-export class AccountRecoveryComponent implements OnInit {
+export class AccountRecoveryComponent {
 
   shownComponent:string = '';
   path:string = ''
@@ -26,8 +26,6 @@ export class AccountRecoveryComponent implements OnInit {
       this.path = 'forgot-member-number';
     }
   }
-
-  ngOnInit() {}
 
   receiveComponentChange($event: any) {
     this.shownComponent = $event;

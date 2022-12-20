@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './member-number-recovered.component.html',
   styleUrls: ['./member-number-recovered.component.scss']
 })
-export class MemberNumberRecoveredComponent implements OnInit {
+export class MemberNumberRecoveredComponent {
 
   @Input() memberEmail!: string;
   @Input() memberNumber!: string;
@@ -14,8 +14,6 @@ export class MemberNumberRecoveredComponent implements OnInit {
   constructor(
     private router: Router
   ) { }
-
-  ngOnInit() {}
 
   routeToSignIn() {
     this.router.navigateByUrl('/sign-in')
