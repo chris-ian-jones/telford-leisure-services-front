@@ -7,14 +7,24 @@
         @if (emailForm.get('email').errors &&
         emailForm.get('email').hasError('required')) {
         <li>
-          <a routerLink="./" fragment="email" class="error-link" tabindex="3">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('email')"
+            class="error-link"
+            tabindex="3"
+          >
             Enter your email adress
           </a>
         </li>
         } @if (emailForm.get('email').errors &&
         emailForm.get('email').hasError('email')) {
         <li>
-          <a routerLink="./" fragment="email" class="error-link" tabindex="4">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('wmail')"
+            class="error-link"
+            tabindex="4"
+          >
             Enter the email address in the correct format, like
             name&#64;example.com
           </a>

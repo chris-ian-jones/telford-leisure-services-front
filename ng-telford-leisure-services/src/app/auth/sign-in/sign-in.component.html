@@ -7,28 +7,44 @@
         @if (signInForm.get('memberNumber').errors &&
         signInForm.get('memberNumber').hasError('required')) {
         <li>
-          <a routerLink="./" fragment="memberNumber" class="error-link">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('memberNumber')"
+            class="error-link"
+          >
             Enter your member number
           </a>
         </li>
         } @if (signInForm.get('password').errors &&
         signInForm.get('password').hasError('required')) {
         <li>
-          <a routerLink="./" fragment="password" class="error-link">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('password')"
+            class="error-link"
+          >
             Enter your password
           </a>
         </li>
         } @if (signInForm.get('memberNumber').errors &&
         signInForm.get('memberNumber').hasError('unauthorized')) {
         <li>
-          <a routerLink="./" fragment="memberNumber" class="error-link">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('memberNumber')"
+            class="error-link"
+          >
             Incorrect member number or password
           </a>
         </li>
         } @if (signInForm.get('memberNumber').errors &&
         signInForm.get('memberNumber').hasError('error')) {
         <li>
-          <a routerLink="./" fragment="memberNumber" class="error-link">
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('memberNumber')"
+            class="error-link"
+          >
             Server error
           </a>
         </li>
