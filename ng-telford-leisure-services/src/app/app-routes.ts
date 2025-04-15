@@ -15,10 +15,8 @@ export const routes: Routes = [
   },
   {
     path: 'sign-in',
-    loadChildren: () =>
-      import('./auth/sign-in/sign-in.module').then(
-        (module) => module.SignInModule
-      )
+    loadComponent: () =>
+      import('./auth/sign-in/sign-in.component').then((c) => c.SignInComponent)
   },
   {
     path: 'feedback',

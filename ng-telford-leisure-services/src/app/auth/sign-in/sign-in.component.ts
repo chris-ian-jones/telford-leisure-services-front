@@ -4,9 +4,12 @@ import {
   FormGroup,
   ValidationErrors,
   Validators,
-  FormControl
+  FormControl,
+  ReactiveFormsModule,
+  FormsModule
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { SignIn } from 'src/app/core/models/signIn';
 import { AuthService } from './../auth.service';
 import { lastValueFrom } from 'rxjs';
@@ -19,7 +22,9 @@ interface SignInForm {
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class SignInComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
