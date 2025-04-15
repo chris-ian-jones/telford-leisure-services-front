@@ -9,46 +9,32 @@ export const routes: Routes = [
   },
   {
     path: 'sign-up',
-    loadComponent: () =>
-      import('./auth/sign-up/sign-up.component').then((c) => c.SignUpComponent)
+    loadComponent: () => import('./auth/sign-up/sign-up.component')
   },
   {
     path: 'sign-up/success',
-    loadComponent: () =>
-      import('./auth/sign-up/success/success.component').then(
-        (c) => c.SuccessComponent
-      )
+    loadComponent: () => import('./auth/sign-up/success/success.component')
   },
   {
     path: 'sign-in',
-    loadComponent: () =>
-      import('./auth/sign-in/sign-in.component').then((c) => c.SignInComponent)
+    loadComponent: () => import('./auth/sign-in/sign-in.component')
   },
   {
     path: 'feedback',
-    loadComponent: () =>
-      import('./feedback/feedback.component').then((c) => c.FeedbackComponent)
+    loadComponent: () => import('./feedback/feedback.component')
   },
   {
     path: 'feedback/success',
-    loadComponent: () =>
-      import('./feedback/success/success.component').then(
-        (c) => c.SuccessComponent
-      )
+    loadComponent: () => import('./feedback/success/success.component')
   },
   {
     path: 'account-recovery',
     loadComponent: () =>
-      import('./auth/account-recovery/account-recovery.component').then(
-        (c) => c.AccountRecoveryComponent
-      )
+      import('./auth/account-recovery/account-recovery.component')
   },
   {
     path: 'dashboard',
-    loadComponent: () =>
-      import('./dashboard/dashboard.component').then(
-        (c) => c.DashboardComponent
-      ),
+    loadComponent: () => import('./dashboard/dashboard.component'),
     canActivate: [authenticatedGuard]
   }
 ];

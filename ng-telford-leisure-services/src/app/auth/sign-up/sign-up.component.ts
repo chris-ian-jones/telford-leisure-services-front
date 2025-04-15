@@ -32,7 +32,7 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ]
 })
-export class SignUpComponent {
+export default class SignUpComponent {
   currentPageNumber: number = 1;
   totalPageNumbers: number = 8;
   @Output() newMemberData: Member = {

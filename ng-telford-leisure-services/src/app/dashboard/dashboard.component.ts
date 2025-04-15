@@ -13,7 +13,7 @@ const confetti = require('canvas-confetti');
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
-export class DashboardComponent implements OnInit {
+export default class DashboardComponent implements OnInit {
   @ViewChild('confettiDiv', { static: false }) confettiDiv: ElementRef;
 
   constructor(private authService: AuthService) {}

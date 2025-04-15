@@ -26,7 +26,7 @@ interface SignInForm {
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
-export class SignInComponent implements OnInit {
+export default class SignInComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   signInForm!: FormGroup<SignInForm>;
   errorSummary: any = [];

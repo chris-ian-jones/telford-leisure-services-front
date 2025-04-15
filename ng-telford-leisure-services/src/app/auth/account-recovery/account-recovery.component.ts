@@ -26,7 +26,7 @@ import { EmailCheckComponent } from './email-check/email-check.component';
     NgSwitchCase
   ]
 })
-export class AccountRecoveryComponent {
+export default class AccountRecoveryComponent {
   shownComponent: string = '';
   path: string = '';
   memberEmail: string = '';

@@ -27,7 +27,7 @@ interface SatisfactionForm {
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
-export class FeedbackComponent implements OnInit {
+export default class FeedbackComponent implements OnInit {
   @ViewChild('verySatisfiedInput', { static: false })
   verySatisfiedInput: ElementRef;
   @ViewChild('satisfiedInput', { static: false }) satisfiedInput: ElementRef;
