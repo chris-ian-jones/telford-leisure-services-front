@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
   selector: 'app-success',
   templateUrl: './success.component.html',
   styleUrl: './success.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule]
 })
 export default class SuccessComponent {

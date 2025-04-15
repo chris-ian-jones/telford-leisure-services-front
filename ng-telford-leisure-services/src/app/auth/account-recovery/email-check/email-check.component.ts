@@ -25,7 +25,6 @@ interface EmailCheckForm {
   selector: 'app-email-check',
   templateUrl: './email-check.component.html',
   styleUrl: './email-check.component.scss',
-  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCheckComponent implements OnInit {

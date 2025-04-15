@@ -31,7 +31,6 @@ interface PasswordForm {
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
-  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class ChangePasswordComponent implements OnInit {

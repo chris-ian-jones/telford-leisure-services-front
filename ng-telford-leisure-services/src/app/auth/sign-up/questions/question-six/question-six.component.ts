@@ -27,7 +27,6 @@ interface QuestionSixForm {
   selector: 'app-question-six',
   templateUrl: './question-six.component.html',
   styleUrl: './question-six.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionSixComponent implements OnInit {

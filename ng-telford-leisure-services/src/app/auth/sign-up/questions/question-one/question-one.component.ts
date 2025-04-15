@@ -29,7 +29,6 @@ interface QuestionOneForm {
   selector: 'app-question-one',
   templateUrl: './question-one.component.html',
   styleUrl: './question-one.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionOneComponent implements OnInit {

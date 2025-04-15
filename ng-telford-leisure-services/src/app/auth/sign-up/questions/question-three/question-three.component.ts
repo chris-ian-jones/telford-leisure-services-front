@@ -27,7 +27,6 @@ interface QuestionThreeForm {
   selector: 'app-question-three',
   templateUrl: './question-three.component.html',
   styleUrl: './question-three.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionThreeComponent implements OnInit {

@@ -28,7 +28,6 @@ interface QuestionEightForm {
   selector: 'app-question-eight',
   templateUrl: './question-eight.component.html',
   styleUrl: './question-eight.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionEightComponent implements OnInit {

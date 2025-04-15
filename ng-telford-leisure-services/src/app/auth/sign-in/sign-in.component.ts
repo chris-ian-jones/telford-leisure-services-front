@@ -23,7 +23,6 @@ interface SignInForm {
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
-  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export default class SignInComponent implements OnInit {

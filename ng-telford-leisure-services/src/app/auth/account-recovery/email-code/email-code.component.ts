@@ -30,7 +30,6 @@ interface ConfirmationCodeForm {
   selector: 'app-email-code',
   templateUrl: './email-code.component.html',
   styleUrl: './email-code.component.scss',
-  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCodeComponent implements OnInit {

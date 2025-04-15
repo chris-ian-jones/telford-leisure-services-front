@@ -10,7 +10,6 @@ const confetti = require('canvas-confetti');
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule]
 })
 export default class DashboardComponent implements OnInit {

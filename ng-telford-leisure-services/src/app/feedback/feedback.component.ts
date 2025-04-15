@@ -24,7 +24,6 @@ interface SatisfactionForm {
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export default class FeedbackComponent implements OnInit {

@@ -12,7 +12,6 @@ import { EmailCheckComponent } from './email-check/email-check.component';
   selector: 'app-account-recovery',
   templateUrl: './account-recovery.component.html',
   styleUrl: './account-recovery.component.scss',
-  standalone: true,
   imports: [
     CommonModule,
     EmailCheckComponent,

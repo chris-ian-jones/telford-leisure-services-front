@@ -30,7 +30,6 @@ interface QuestionTwoForm {
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
   styleUrl: './question-two.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [DatePipe]
 })

@@ -29,7 +29,6 @@ interface EmailForm {
   selector: 'app-email-confirm',
   templateUrl: './email-confirm.component.html',
   styleUrl: './email-confirm.component.scss',
-  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailConfirmComponent implements OnInit {

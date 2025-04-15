@@ -29,7 +29,6 @@ interface QuestionFourForm {
   selector: 'app-question-four',
   templateUrl: './question-four.component.html',
   styleUrl: './question-four.component.scss',
-  standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionFourComponent implements OnInit {
