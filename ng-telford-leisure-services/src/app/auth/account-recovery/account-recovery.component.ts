@@ -1,4 +1,4 @@
-import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EmailCodeComponent } from './email-code/email-code.component';
@@ -21,9 +21,7 @@ import { EmailCheckComponent } from './email-check/email-check.component';
     MemberNumberRecoveredComponent,
     ChangePasswordComponent,
     PasswordResetComponent,
-    RouterModule,
-    NgSwitch,
-    NgSwitchCase
+    RouterModule
   ]
 })
 export default class AccountRecoveryComponent {
