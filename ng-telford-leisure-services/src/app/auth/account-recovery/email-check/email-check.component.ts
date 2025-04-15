@@ -13,7 +13,9 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface EmailCheckForm {
   emailCheck: FormControl<string | null>;
@@ -22,7 +24,9 @@ interface EmailCheckForm {
 @Component({
   selector: 'app-email-check',
   templateUrl: './email-check.component.html',
-  styleUrls: ['./email-check.component.scss']
+  styleUrls: ['./email-check.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCheckComponent implements OnInit {
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;

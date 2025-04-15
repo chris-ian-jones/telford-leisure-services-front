@@ -27,9 +27,9 @@ export const routes: Routes = [
   },
   {
     path: 'account-recovery',
-    loadChildren: () =>
-      import('./auth/account-recovery/account-recovery.module').then(
-        (module) => module.AccountRecoveryModule
+    loadComponent: () =>
+      import('./auth/account-recovery/account-recovery.component').then(
+        (c) => c.AccountRecoveryComponent
       )
   },
   {

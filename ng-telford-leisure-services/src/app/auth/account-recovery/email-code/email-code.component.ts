@@ -18,6 +18,9 @@ import { EmailCode } from 'src/app/core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface ConfirmationCodeForm {
   confirmationCode: FormControl<string | null>;
@@ -26,7 +29,9 @@ interface ConfirmationCodeForm {
 @Component({
   selector: 'app-email-code',
   templateUrl: './email-code.component.html',
-  styleUrls: ['./email-code.component.scss']
+  styleUrls: ['./email-code.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCodeComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;

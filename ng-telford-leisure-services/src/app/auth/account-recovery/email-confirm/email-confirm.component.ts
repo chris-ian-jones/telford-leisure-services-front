@@ -17,6 +17,9 @@ import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { Email } from './../../../core/models/email';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface EmailForm {
   email: FormControl<string | null>;
@@ -25,7 +28,9 @@ interface EmailForm {
 @Component({
   selector: 'app-email-confirm',
   templateUrl: './email-confirm.component.html',
-  styleUrls: ['./email-confirm.component.scss']
+  styleUrls: ['./email-confirm.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailConfirmComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;

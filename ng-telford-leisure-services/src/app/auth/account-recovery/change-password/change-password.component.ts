@@ -18,6 +18,9 @@ import { Router } from '@angular/router';
 import { ChangePassword } from 'src/app/core/models/changePassword';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface PasswordForm {
   password: FormControl<string | null>;
@@ -27,7 +30,9 @@ interface PasswordForm {
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  styleUrls: ['./change-password.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class ChangePasswordComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
