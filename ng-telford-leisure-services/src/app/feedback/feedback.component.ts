@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -26,13 +26,13 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('veryDissatisfiedInput', { static: false })
   veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  satisfactionForm!: FormGroup;
+  satisfactionForm!: UntypedFormGroup;
   remainingCharacters: number = 1200;
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private signUpService: SignUpService,
     private feedbackService: FeedbackService,
     private router: Router

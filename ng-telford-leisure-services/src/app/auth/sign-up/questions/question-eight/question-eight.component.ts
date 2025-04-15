@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -29,11 +29,11 @@ export class QuestionEightComponent implements OnInit {
   @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
   @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
   @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
-  questionEightForm!: FormGroup;
+  questionEightForm!: UntypedFormGroup;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.initQuestionEightForm();

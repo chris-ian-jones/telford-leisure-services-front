@@ -7,8 +7,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -26,11 +26,11 @@ export class EmailConfirmComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberEmailEvent = new EventEmitter<any>();
-  emailForm!: FormGroup;
+  emailForm!: UntypedFormGroup;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
   ) {}

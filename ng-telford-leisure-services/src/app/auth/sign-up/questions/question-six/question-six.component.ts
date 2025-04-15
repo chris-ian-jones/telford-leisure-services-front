@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -31,11 +31,11 @@ export class QuestionSixComponent implements OnInit {
   @ViewChild('chineseInput', { static: false }) chineseInput: ElementRef;
   @ViewChild('mixedInput', { static: false }) mixedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  questionSixForm!: FormGroup;
+  questionSixForm!: UntypedFormGroup;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.initQuestionSixForm();

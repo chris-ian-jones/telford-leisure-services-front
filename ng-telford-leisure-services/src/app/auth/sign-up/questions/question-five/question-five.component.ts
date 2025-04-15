@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -26,12 +26,12 @@ export class QuestionFiveComponent implements OnInit {
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerFiveEvent = new EventEmitter<any>();
-  questionFiveForm!: FormGroup;
+  questionFiveForm!: UntypedFormGroup;
   errorSummary: any = [];
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private signUpService: SignUpService
   ) {}
 

@@ -7,8 +7,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -23,11 +23,14 @@ export class EmailCheckComponent implements OnInit {
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
   @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  emailCheckForm!: FormGroup;
+  emailCheckForm!: UntypedFormGroup;
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.initEmailCheckForm();

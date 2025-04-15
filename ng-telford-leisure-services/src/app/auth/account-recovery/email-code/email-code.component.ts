@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -30,11 +30,11 @@ export class EmailCodeComponent implements OnInit {
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
   @Output() emitConfirmationCodeEvent = new EventEmitter<any>();
-  confirmationCodeForm!: FormGroup;
+  confirmationCodeForm!: UntypedFormGroup;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
   ) {}

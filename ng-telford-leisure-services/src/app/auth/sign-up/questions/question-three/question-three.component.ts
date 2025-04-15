@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -25,13 +25,13 @@ export class QuestionThreeComponent implements OnInit {
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerThreeEvent = new EventEmitter<any>();
-  questionThreeForm!: FormGroup;
+  questionThreeForm!: UntypedFormGroup;
   @ViewChild('maleInput', { static: false }) maleInput: ElementRef;
   @ViewChild('femaleInput', { static: false }) femaleInput: ElementRef;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.initQuestionThreeForm();

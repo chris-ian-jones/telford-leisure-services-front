@@ -8,8 +8,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -28,11 +28,11 @@ export class ChangePasswordComponent implements OnInit {
   @Input() memberEmail!: string;
   @Input() confirmationCode!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  passwordForm!: FormGroup;
+  passwordForm!: UntypedFormGroup;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private accountRecoveryService: AccountRecoveryService,
     private router: Router
   ) {}
