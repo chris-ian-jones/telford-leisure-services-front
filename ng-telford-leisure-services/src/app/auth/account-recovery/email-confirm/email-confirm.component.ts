@@ -28,7 +28,7 @@ interface EmailForm {
 @Component({
   selector: 'app-email-confirm',
   templateUrl: './email-confirm.component.html',
-  styleUrls: ['./email-confirm.component.scss'],
+  styleUrl: './email-confirm.component.scss',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })

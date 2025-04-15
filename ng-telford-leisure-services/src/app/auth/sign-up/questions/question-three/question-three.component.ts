@@ -26,7 +26,7 @@ interface QuestionThreeForm {
 @Component({
   selector: 'app-question-three',
   templateUrl: './question-three.component.html',
-  styleUrls: ['./question-three.component.scss'],
+  styleUrl: './question-three.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

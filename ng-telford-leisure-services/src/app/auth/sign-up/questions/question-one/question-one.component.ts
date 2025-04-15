@@ -28,7 +28,7 @@ interface QuestionOneForm {
 @Component({
   selector: 'app-question-one',
   templateUrl: './question-one.component.html',
-  styleUrls: ['./question-one.component.scss'],
+  styleUrl: './question-one.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

@@ -9,7 +9,7 @@ const confetti = require('canvas-confetti');
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrl: './dashboard.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule]
 })

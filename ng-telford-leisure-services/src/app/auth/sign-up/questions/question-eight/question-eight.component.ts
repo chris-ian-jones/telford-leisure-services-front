@@ -27,7 +27,7 @@ interface QuestionEightForm {
 @Component({
   selector: 'app-question-eight',
   templateUrl: './question-eight.component.html',
-  styleUrls: ['./question-eight.component.scss'],
+  styleUrl: './question-eight.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

@@ -32,7 +32,7 @@ interface QuestionFiveForm {
 @Component({
   selector: 'app-question-five',
   templateUrl: './question-five.component.html',
-  styleUrls: ['./question-five.component.scss'],
+  styleUrl: './question-five.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

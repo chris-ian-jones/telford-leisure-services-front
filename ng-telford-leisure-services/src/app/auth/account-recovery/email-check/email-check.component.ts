@@ -24,7 +24,7 @@ interface EmailCheckForm {
 @Component({
   selector: 'app-email-check',
   templateUrl: './email-check.component.html',
-  styleUrls: ['./email-check.component.scss'],
+  styleUrl: './email-check.component.scss',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })

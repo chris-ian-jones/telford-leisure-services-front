@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-member-number-recovered',
   templateUrl: './member-number-recovered.component.html',
-  styleUrls: ['./member-number-recovered.component.scss'],
+  styleUrl: './member-number-recovered.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule]
 })

@@ -28,7 +28,7 @@ interface QuestionFourForm {
 @Component({
   selector: 'app-question-four',
   templateUrl: './question-four.component.html',
-  styleUrls: ['./question-four.component.scss'],
+  styleUrl: './question-four.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

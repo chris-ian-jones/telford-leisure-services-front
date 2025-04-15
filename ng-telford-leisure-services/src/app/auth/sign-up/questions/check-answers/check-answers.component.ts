@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-check-answers',
   templateUrl: './check-answers.component.html',
-  styleUrls: ['./check-answers.component.scss'],
+  styleUrl: './check-answers.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule]
 })

@@ -26,7 +26,7 @@ interface QuestionSevenForm {
 @Component({
   selector: 'app-question-seven',
   templateUrl: './question-seven.component.html',
-  styleUrls: ['./question-seven.component.scss'],
+  styleUrl: './question-seven.component.scss',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })

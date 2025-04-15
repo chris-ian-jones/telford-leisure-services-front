@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  styleUrl: './sign-up.component.scss',
   standalone: true,
   imports: [
     CommonModule,

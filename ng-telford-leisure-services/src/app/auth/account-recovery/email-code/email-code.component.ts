@@ -29,7 +29,7 @@ interface ConfirmationCodeForm {
 @Component({
   selector: 'app-email-code',
   templateUrl: './email-code.component.html',
-  styleUrls: ['./email-code.component.scss'],
+  styleUrl: './email-code.component.scss',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
