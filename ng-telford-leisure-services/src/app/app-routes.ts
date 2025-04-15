@@ -9,11 +9,16 @@ export const routes: Routes = [
   },
   {
     path: 'sign-up',
-    loadComponent: () => import('./auth/sign-up/sign-up.component')
-  },
-  {
-    path: 'sign-up/success',
-    loadComponent: () => import('./auth/sign-up/success/success.component')
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./auth/sign-up/sign-up.component')
+      },
+      {
+        path: 'success',
+        loadComponent: () => import('./auth/sign-up/success/success.component')
+      }
+    ]
   },
   {
     path: 'sign-in',
@@ -21,11 +26,16 @@ export const routes: Routes = [
   },
   {
     path: 'feedback',
-    loadComponent: () => import('./feedback/feedback.component')
-  },
-  {
-    path: 'feedback/success',
-    loadComponent: () => import('./feedback/success/success.component')
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./feedback/feedback.component')
+      },
+      {
+        path: 'success',
+        loadComponent: () => import('./feedback/success/success.component')
+      }
+    ]
   },
   {
     path: 'account-recovery',
