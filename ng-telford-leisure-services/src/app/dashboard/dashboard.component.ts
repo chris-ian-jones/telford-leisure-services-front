@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 declare let require: any;
 const confetti = require('canvas-confetti');
@@ -7,7 +9,9 @@ const confetti = require('canvas-confetti');
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('confettiDiv', { static: false }) confettiDiv: ElementRef;
