@@ -11,15 +11,13 @@ export const routes: Routes = [
     path: 'sign-up',
     loadComponent: () =>
       import('./auth/sign-up/sign-up.component').then((c) => c.SignUpComponent),
-    children: [
-      {
-        path: 'success',
-        loadComponent: () =>
-          import('./auth/sign-up/success/success.component').then(
-            (c) => c.SuccessComponent
-          )
-      }
-    ]
+  },
+  {
+    path: 'sign-up/success',
+    loadComponent: () =>
+      import('./auth/sign-up/success/success.component').then(
+        (c) => c.SuccessComponent
+      )
   },
   {
     path: 'sign-in',
@@ -28,9 +26,14 @@ export const routes: Routes = [
   },
   {
     path: 'feedback',
-    loadChildren: () =>
-      import('./feedback/feedback.module').then(
-        (module) => module.FeedbackModule
+    loadComponent: () =>
+      import('./feedback/feedback.component').then((c) => c.FeedbackComponent),
+  },
+  {
+    path: 'feedback/success',
+    loadComponent: () =>
+      import('./feedback/success/success.component').then(
+        (c) => c.SuccessComponent
       )
   },
   {

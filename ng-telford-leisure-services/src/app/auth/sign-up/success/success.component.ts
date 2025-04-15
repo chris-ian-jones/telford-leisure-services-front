@@ -11,8 +11,8 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export class SuccessComponent {
-  memberNumber: string = '123456777';
-  mainCenter: string = 'Donnington Wood';
+  memberNumber: string;
+  mainCenter: string;
 
   constructor(private router: Router) {
     const routeData = this.router.getCurrentNavigation().extras.state;

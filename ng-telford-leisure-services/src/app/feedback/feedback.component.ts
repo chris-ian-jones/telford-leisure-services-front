@@ -11,6 +11,9 @@ import { SignUpService } from '../auth/sign-up/sign-up.service';
 import { Feedback } from '../core/models/feedback';
 import { FeedbackService } from './feedback.service';
 import { lastValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface SatisfactionForm {
   satisfaction: FormControl<string | null>;
@@ -20,7 +23,9 @@ interface SatisfactionForm {
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrls: ['./feedback.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class FeedbackComponent implements OnInit {
   @ViewChild('verySatisfiedInput', { static: false })
@@ -101,6 +106,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   onClickSendFeedback() {
+    console.log('onClickSendFeedback');
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
@@ -115,7 +121,7 @@ export class FeedbackComponent implements OnInit {
       let response: any = await lastValueFrom(
         this.feedbackService.createNewFeedback(feedback)
       );
-      this.router.navigateByUrl('feedback/success');
+      this.router.navigateByUrl('/feedback/success');
     } catch {
       this.satisfactionForm.controls['satisfaction'].setErrors({
         required: true
