@@ -16,6 +16,9 @@ import {
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionOneForm {
   firstName: FormControl<string | null>;
@@ -25,7 +28,9 @@ interface QuestionOneForm {
 @Component({
   selector: 'app-question-one',
   templateUrl: './question-one.component.html',
-  styleUrls: ['./question-one.component.scss']
+  styleUrls: ['./question-one.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionOneComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;

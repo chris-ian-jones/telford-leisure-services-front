@@ -15,6 +15,9 @@ import {
   FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionSevenForm {
   mainCenter: FormControl<string | null>;
@@ -23,7 +26,9 @@ interface QuestionSevenForm {
 @Component({
   selector: 'app-question-seven',
   templateUrl: './question-seven.component.html',
-  styleUrls: ['./question-seven.component.scss']
+  styleUrls: ['./question-seven.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionSevenComponent implements OnInit {
   @Input() currentPage!: number;

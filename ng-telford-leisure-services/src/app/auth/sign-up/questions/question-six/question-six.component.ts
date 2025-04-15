@@ -15,6 +15,9 @@ import {
   FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionSixForm {
   ethnicity: FormControl<string | null>;
@@ -23,7 +26,9 @@ interface QuestionSixForm {
 @Component({
   selector: 'app-question-six',
   templateUrl: './question-six.component.html',
-  styleUrls: ['./question-six.component.scss']
+  styleUrls: ['./question-six.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionSixComponent implements OnInit {
   @Input() currentPage!: number;

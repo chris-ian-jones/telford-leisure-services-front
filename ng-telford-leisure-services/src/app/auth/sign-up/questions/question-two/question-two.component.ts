@@ -17,6 +17,9 @@ import {
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 import * as moment from 'moment';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionTwoForm {
   day: FormControl<string | null>;
@@ -27,7 +30,9 @@ interface QuestionTwoForm {
 @Component({
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
-  styleUrls: ['./question-two.component.scss']
+  styleUrls: ['./question-two.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionTwoComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;

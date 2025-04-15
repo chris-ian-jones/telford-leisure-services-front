@@ -11,11 +11,15 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 interface QuestionFiveForm {
   addressLineOne: FormControl<string | null>;
@@ -28,7 +32,9 @@ interface QuestionFiveForm {
 @Component({
   selector: 'app-question-five',
   templateUrl: './question-five.component.html',
-  styleUrls: ['./question-five.component.scss']
+  styleUrls: ['./question-five.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionFiveComponent implements OnInit {
   @Input() currentPage!: number;

@@ -15,6 +15,9 @@ import {
   Validators
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionThreeForm {
   gender: FormControl<string | null>;
@@ -23,7 +26,9 @@ interface QuestionThreeForm {
 @Component({
   selector: 'app-question-three',
   templateUrl: './question-three.component.html',
-  styleUrls: ['./question-three.component.scss']
+  styleUrls: ['./question-three.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionThreeComponent implements OnInit {
   @Input() currentPage!: number;

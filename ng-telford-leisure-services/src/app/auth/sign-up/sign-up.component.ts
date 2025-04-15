@@ -1,11 +1,36 @@
 import { Component, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { Member } from './../../core/models/member';
+import { QuestionOneComponent } from './questions/question-one/question-one.component';
+import { QuestionTwoComponent } from './questions/question-two/question-two.component';
+import { QuestionThreeComponent } from './questions/question-three/question-three.component';
+import { QuestionFourComponent } from './questions/question-four/question-four.component';
+import { QuestionFiveComponent } from './questions/question-five/question-five.component';
+import { QuestionSixComponent } from './questions/question-six/question-six.component';
+import { QuestionSevenComponent } from './questions/question-seven/question-seven.component';
+import { QuestionEightComponent } from './questions/question-eight/question-eight.component';
+import { CheckAnswersComponent } from './questions/check-answers/check-answers.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    QuestionOneComponent,
+    QuestionTwoComponent,
+    QuestionThreeComponent,
+    QuestionFourComponent,
+    QuestionFiveComponent,
+    QuestionSixComponent,
+    QuestionSevenComponent,
+    QuestionEightComponent,
+    CheckAnswersComponent,
+    RouterModule
+  ]
 })
 export class SignUpComponent {
   currentPageNumber: number = 1;

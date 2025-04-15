@@ -16,6 +16,9 @@ import {
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface QuestionFourForm {
   email: FormControl<string | null>;
@@ -25,7 +28,9 @@ interface QuestionFourForm {
 @Component({
   selector: 'app-question-four',
   templateUrl: './question-four.component.html',
-  styleUrls: ['./question-four.component.scss']
+  styleUrls: ['./question-four.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionFourComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;

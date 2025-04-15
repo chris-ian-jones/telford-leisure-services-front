@@ -12,9 +12,13 @@ import {
   FormGroup,
   ValidationErrors,
   Validators,
-  FormControl
+  FormControl,
+  ReactiveFormsModule,
+  FormsModule
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface QuestionEightForm {
   membershipType: FormControl<string | null>;
@@ -23,7 +27,9 @@ interface QuestionEightForm {
 @Component({
   selector: 'app-question-eight',
   templateUrl: './question-eight.component.html',
-  styleUrls: ['./question-eight.component.scss']
+  styleUrls: ['./question-eight.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionEightComponent implements OnInit {
   @Input() currentPage!: number;
