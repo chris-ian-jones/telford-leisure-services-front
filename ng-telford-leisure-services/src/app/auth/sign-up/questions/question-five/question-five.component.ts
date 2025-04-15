@@ -51,11 +51,28 @@ export class QuestionFiveComponent implements OnInit {
   initQuestionFiveForm() {
     this.questionFiveForm = this.formBuilder.group<QuestionFiveForm>(
       {
-        addressLineOne: new FormControl(this.newMemberData.addressLineOne, { nonNullable: false, validators: [Validators.required] }),
-        addressLineTwo: new FormControl(this.newMemberData.addressLineTwo, { nonNullable: false }),
-        townOrCity: new FormControl(this.newMemberData.townOrCity, { nonNullable: false }),
-        county: new FormControl(this.newMemberData.county, { nonNullable: false }),
-        postcode: new FormControl(this.newMemberData.postcode, { nonNullable: false, validators: [Validators.required, Validators.pattern('^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$')] })
+        addressLineOne: new FormControl(this.newMemberData.addressLineOne, {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        addressLineTwo: new FormControl(this.newMemberData.addressLineTwo, {
+          nonNullable: false
+        }),
+        townOrCity: new FormControl(this.newMemberData.townOrCity, {
+          nonNullable: false
+        }),
+        county: new FormControl(this.newMemberData.county, {
+          nonNullable: false
+        }),
+        postcode: new FormControl(this.newMemberData.postcode, {
+          nonNullable: false,
+          validators: [
+            Validators.required,
+            Validators.pattern(
+              '^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$'
+            )
+          ]
+        })
       },
       { updateOn: 'submit' }
     );

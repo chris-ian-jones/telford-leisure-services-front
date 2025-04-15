@@ -47,7 +47,10 @@ export class EmailConfirmComponent implements OnInit {
   initEmailForm() {
     this.emailForm = this.formBuilder.group<EmailForm>(
       {
-        email: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.email] })
+        email: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.email]
+        })
       },
       { updateOn: 'submit' }
     );

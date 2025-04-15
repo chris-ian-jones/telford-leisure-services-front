@@ -48,11 +48,12 @@ export class QuestionSevenComponent implements OnInit {
   }
 
   initQuestionSevenForm() {
-    this.questionSevenForm = this.formBuilder.group<QuestionSevenForm>(
-      {
-        mainCenter: new FormControl(this.newMemberData.mainCenter, { nonNullable: false, validators: [Validators.required] })
-      }
-    );
+    this.questionSevenForm = this.formBuilder.group<QuestionSevenForm>({
+      mainCenter: new FormControl(this.newMemberData.mainCenter, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
+    });
   }
 
   selectInput(value: string) {

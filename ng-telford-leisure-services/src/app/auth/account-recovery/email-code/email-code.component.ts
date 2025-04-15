@@ -51,7 +51,10 @@ export class EmailCodeComponent implements OnInit {
   initConfirmationCodeForm() {
     this.confirmationCodeForm = this.formBuilder.group<ConfirmationCodeForm>(
       {
-        confirmationCode: new FormControl('', { nonNullable: false, validators: [Validators.required] })
+        confirmationCode: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );

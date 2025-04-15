@@ -48,8 +48,14 @@ export class QuestionFourComponent implements OnInit {
   initQuestionFourForm() {
     this.questionFourForm = this.formBuilder.group<QuestionFourForm>(
       {
-        email: new FormControl(this.newMemberData.email, { nonNullable: false, validators: [Validators.required, Validators.email] }),
-        phone: new FormControl(this.newMemberData.phone, { nonNullable: false, validators: [Validators.pattern('[- +()0-9]+')] })
+        email: new FormControl(this.newMemberData.email, {
+          nonNullable: false,
+          validators: [Validators.required, Validators.email]
+        }),
+        phone: new FormControl(this.newMemberData.phone, {
+          nonNullable: false,
+          validators: [Validators.pattern('[- +()0-9]+')]
+        })
       },
       { updateOn: 'submit' }
     );

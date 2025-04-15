@@ -45,11 +45,12 @@ export class QuestionEightComponent implements OnInit {
   }
 
   initQuestionEightForm() {
-    this.questionEightForm = this.formBuilder.group<QuestionEightForm>(
-      {
-        membershipType: new FormControl('', { nonNullable: false, validators: [Validators.required] })
-      }
-    );
+    this.questionEightForm = this.formBuilder.group<QuestionEightForm>({
+      membershipType: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
+    });
   }
 
   selectInput(value: string) {

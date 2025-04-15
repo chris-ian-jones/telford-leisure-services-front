@@ -34,7 +34,7 @@ export class QuestionTwoComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionTwoForm!:FormGroup;
+  questionTwoForm!: FormGroup;
   errorSummary: any = [];
   @Output() answerTwoEvent = new EventEmitter<any>();
 
@@ -50,9 +50,18 @@ export class QuestionTwoComponent implements OnInit {
   initQuestionTwoForm() {
     this.questionTwoForm = this.formBuilder.group<QuestionTwoForm>(
       {
-        day: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] }),
-        month: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] }),
-        year: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] })
+        day: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        }),
+        month: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        }),
+        year: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        })
       },
       { updateOn: 'submit' }
     );

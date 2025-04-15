@@ -47,11 +47,12 @@ export class QuestionSixComponent implements OnInit {
   }
 
   initQuestionSixForm() {
-    this.questionSixForm = this.formBuilder.group<QuestionSixForm>(
-      {
-        ethnicity: new FormControl(this.newMemberData.ethnicity, { nonNullable: false, validators: [Validators.required] })
-      }
-    );
+    this.questionSixForm = this.formBuilder.group<QuestionSixForm>({
+      ethnicity: new FormControl(this.newMemberData.ethnicity, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
+    });
   }
 
   selectInput(value: string) {

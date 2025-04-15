@@ -49,12 +49,16 @@ export class FeedbackComponent implements OnInit {
   }
 
   initSatisfactionForm() {
-    this.satisfactionForm = this.formBuilder.group<SatisfactionForm>(
-      {
-        satisfaction: new FormControl('', { nonNullable: false, validators: [Validators.required] }),
-        improvements: new FormControl('', { nonNullable: false, validators: [Validators.maxLength(1200)] })
-      }
-    );
+    this.satisfactionForm = this.formBuilder.group<SatisfactionForm>({
+      satisfaction: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      }),
+      improvements: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.maxLength(1200)]
+      })
+    });
     this.satisfactionForm
       .get('improvements')
       .valueChanges.subscribe((textString) => {

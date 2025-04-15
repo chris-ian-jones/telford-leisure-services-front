@@ -48,8 +48,14 @@ export class QuestionOneComponent implements OnInit {
   initQuestionOneForm() {
     this.questionOneForm = this.formBuilder.group<QuestionOneForm>(
       {
-        firstName: new FormControl(this.newMemberData.firstName, { nonNullable: false, validators: [Validators.required] }),
-        lastName: new FormControl(this.newMemberData.lastName, { nonNullable: false, validators: [Validators.required] })
+        firstName: new FormControl(this.newMemberData.firstName, {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        lastName: new FormControl(this.newMemberData.lastName, {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );

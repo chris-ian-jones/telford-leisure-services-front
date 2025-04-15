@@ -32,21 +32,19 @@ export class EmailCheckComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {}
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.initEmailCheckForm();
   }
 
   initEmailCheckForm() {
-    this.emailCheckForm = this.formBuilder.group<EmailCheckForm>(
-      {
-        emailCheck: new FormControl('', { nonNullable: false, validators: [Validators.required] })
-      }
-    );
+    this.emailCheckForm = this.formBuilder.group<EmailCheckForm>({
+      emailCheck: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
+    });
   }
 
   selectInput(value: string) {

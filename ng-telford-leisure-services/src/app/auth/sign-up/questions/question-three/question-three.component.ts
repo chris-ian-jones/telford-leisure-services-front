@@ -43,11 +43,12 @@ export class QuestionThreeComponent implements OnInit {
   }
 
   initQuestionThreeForm() {
-    this.questionThreeForm = this.formBuilder.group<QuestionThreeForm>(
-      {
-        gender: new FormControl(this.newMemberData.gender, { nonNullable: false, validators: [Validators.required] })
-      }
-    );
+    this.questionThreeForm = this.formBuilder.group<QuestionThreeForm>({
+      gender: new FormControl(this.newMemberData.gender, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
+    });
   }
 
   selectInput(value: string) {
