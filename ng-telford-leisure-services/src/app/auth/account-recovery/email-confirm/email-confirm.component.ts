@@ -7,8 +7,9 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -16,6 +17,10 @@ import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { Email } from './../../../core/models/email';
 import { lastValueFrom } from 'rxjs';
+
+interface EmailForm {
+  email: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-confirm',
@@ -26,11 +31,11 @@ export class EmailConfirmComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberEmailEvent = new EventEmitter<any>();
-  emailForm!: UntypedFormGroup;
+  emailForm!: FormGroup<EmailForm>;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
   ) {}
@@ -40,9 +45,9 @@ export class EmailConfirmComponent implements OnInit {
   }
 
   initEmailForm() {
-    this.emailForm = this.formBuilder.group(
+    this.emailForm = this.formBuilder.group<EmailForm>(
       {
-        email: ['', [Validators.required, Validators.email]]
+        email: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.email] })
       },
       { updateOn: 'submit' }
     );
@@ -52,7 +57,7 @@ export class EmailConfirmComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
-      const email: Email = this.emailForm.value;
+      const email: Email = this.emailForm.value as Email;
       this.sendConfirmationCodeEmail(email);
     } else {
       this.getAllFormValidationErrors();

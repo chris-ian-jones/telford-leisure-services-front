@@ -8,12 +8,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionThreeForm {
+  gender: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-three',
@@ -25,22 +30,24 @@ export class QuestionThreeComponent implements OnInit {
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerThreeEvent = new EventEmitter<any>();
-  questionThreeForm!: UntypedFormGroup;
+  questionThreeForm!: FormGroup;
   @ViewChild('maleInput', { static: false }) maleInput: ElementRef;
   @ViewChild('femaleInput', { static: false }) femaleInput: ElementRef;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionThreeForm();
   }
 
   initQuestionThreeForm() {
-    this.questionThreeForm = this.formBuilder.group({
-      gender: [this.newMemberData.gender, [Validators.required]]
-    });
+    this.questionThreeForm = this.formBuilder.group<QuestionThreeForm>(
+      {
+        gender: new FormControl(this.newMemberData.gender, { nonNullable: false, validators: [Validators.required] })
+      }
+    );
   }
 
   selectInput(value: string) {

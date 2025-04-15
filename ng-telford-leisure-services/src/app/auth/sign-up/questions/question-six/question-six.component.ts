@@ -8,12 +8,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionSixForm {
+  ethnicity: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-six',
@@ -31,20 +36,22 @@ export class QuestionSixComponent implements OnInit {
   @ViewChild('chineseInput', { static: false }) chineseInput: ElementRef;
   @ViewChild('mixedInput', { static: false }) mixedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  questionSixForm!: UntypedFormGroup;
+  questionSixForm!: FormGroup;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionSixForm();
   }
 
   initQuestionSixForm() {
-    this.questionSixForm = this.formBuilder.group({
-      ethnicity: [this.newMemberData.ethnicity, [Validators.required]]
-    });
+    this.questionSixForm = this.formBuilder.group<QuestionSixForm>(
+      {
+        ethnicity: new FormControl(this.newMemberData.ethnicity, { nonNullable: false, validators: [Validators.required] })
+      }
+    );
   }
 
   selectInput(value: string) {

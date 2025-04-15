@@ -1,4 +1,4 @@
 export interface SignIn {
-  memberNumber: number;
+  memberNumber: string;
   password: string;
 }

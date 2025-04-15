@@ -1,15 +1,21 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
 import { Feedback } from '../core/models/feedback';
 import { FeedbackService } from './feedback.service';
 import { lastValueFrom } from 'rxjs';
+
+interface SatisfactionForm {
+  satisfaction: FormControl<string | null>;
+  improvements: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-feedback',
@@ -26,13 +32,13 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('veryDissatisfiedInput', { static: false })
   veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  satisfactionForm!: UntypedFormGroup;
+  satisfactionForm!: FormGroup;
   remainingCharacters: number = 1200;
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private feedbackService: FeedbackService,
     private router: Router
@@ -43,10 +49,12 @@ export class FeedbackComponent implements OnInit {
   }
 
   initSatisfactionForm() {
-    this.satisfactionForm = this.formBuilder.group({
-      satisfaction: ['', [Validators.required]],
-      improvements: ['', [Validators.maxLength(1200)]]
-    });
+    this.satisfactionForm = this.formBuilder.group<SatisfactionForm>(
+      {
+        satisfaction: new FormControl('', { nonNullable: false, validators: [Validators.required] }),
+        improvements: new FormControl('', { nonNullable: false, validators: [Validators.maxLength(1200)] })
+      }
+    );
     this.satisfactionForm
       .get('improvements')
       .valueChanges.subscribe((textString) => {

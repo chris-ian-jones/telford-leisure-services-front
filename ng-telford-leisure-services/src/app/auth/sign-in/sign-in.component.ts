@@ -1,14 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignIn } from 'src/app/core/models/signIn';
 import { AuthService } from './../auth.service';
 import { lastValueFrom } from 'rxjs';
+
+interface SignInForm {
+  memberNumber: FormControl<string | null>;
+  password: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-sign-in',
@@ -17,12 +23,12 @@ import { lastValueFrom } from 'rxjs';
 })
 export class SignInComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  signInForm!: UntypedFormGroup;
+  signInForm!: FormGroup<SignInForm>;
   errorSummary: any = [];
 
   constructor(
     private router: Router,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private authService: AuthService
   ) {}
 
@@ -31,10 +37,16 @@ export class SignInComponent implements OnInit {
   }
 
   initSignInForm() {
-    this.signInForm = this.formBuilder.group(
+    this.signInForm = this.formBuilder.group<SignInForm>(
       {
-        memberNumber: ['', Validators.required],
-        password: ['', Validators.required]
+        memberNumber: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        password: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );

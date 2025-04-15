@@ -8,12 +8,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionSevenForm {
+  mainCenter: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-seven',
@@ -32,20 +37,22 @@ export class QuestionSevenComponent implements OnInit {
   @ViewChild('phoenixInput', { static: false }) phoenixInput: ElementRef;
   @ViewChild('stirchleyInput', { static: false }) stirchleyInput: ElementRef;
   @ViewChild('wellingtonInput', { static: false }) wellingtonInput: ElementRef;
-  questionSevenForm!: UntypedFormGroup;
+  questionSevenForm!: FormGroup;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionSevenForm();
   }
 
   initQuestionSevenForm() {
-    this.questionSevenForm = this.formBuilder.group({
-      mainCenter: [this.newMemberData.mainCenter, [Validators.required]]
-    });
+    this.questionSevenForm = this.formBuilder.group<QuestionSevenForm>(
+      {
+        mainCenter: new FormControl(this.newMemberData.mainCenter, { nonNullable: false, validators: [Validators.required] })
+      }
+    );
   }
 
   selectInput(value: string) {

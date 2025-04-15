@@ -8,14 +8,22 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 import * as moment from 'moment';
+
+interface QuestionTwoForm {
+  day: FormControl<string | null>;
+  month: FormControl<string | null>;
+  year: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
@@ -26,12 +34,12 @@ export class QuestionTwoComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionTwoForm!: UntypedFormGroup;
+  questionTwoForm!:FormGroup;
   errorSummary: any = [];
   @Output() answerTwoEvent = new EventEmitter<any>();
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService
   ) {}
 
@@ -40,11 +48,11 @@ export class QuestionTwoComponent implements OnInit {
   }
 
   initQuestionTwoForm() {
-    this.questionTwoForm = this.formBuilder.group(
+    this.questionTwoForm = this.formBuilder.group<QuestionTwoForm>(
       {
-        day: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        month: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        year: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+        day: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] }),
+        month: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] }),
+        year: new FormControl('', { nonNullable: false, validators: [Validators.required, Validators.pattern('^[0-9]*$')] })
       },
       { updateOn: 'submit' }
     );

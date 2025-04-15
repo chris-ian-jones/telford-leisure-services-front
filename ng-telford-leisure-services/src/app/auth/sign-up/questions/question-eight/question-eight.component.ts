@@ -8,12 +8,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionEightForm {
+  membershipType: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-eight',
@@ -29,20 +34,22 @@ export class QuestionEightComponent implements OnInit {
   @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
   @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
   @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
-  questionEightForm!: UntypedFormGroup;
+  questionEightForm!: FormGroup<QuestionEightForm>;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initQuestionEightForm();
   }
 
   initQuestionEightForm() {
-    this.questionEightForm = this.formBuilder.group({
-      membershipType: [this.newMemberData.membershipType, [Validators.required]]
-    });
+    this.questionEightForm = this.formBuilder.group<QuestionEightForm>(
+      {
+        membershipType: new FormControl('', { nonNullable: false, validators: [Validators.required] })
+      }
+    );
   }
 
   selectInput(value: string) {

@@ -8,8 +8,9 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -17,6 +18,10 @@ import { EmailCode } from 'src/app/core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
+
+interface ConfirmationCodeForm {
+  confirmationCode: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-code',
@@ -30,11 +35,11 @@ export class EmailCodeComponent implements OnInit {
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
   @Output() emitConfirmationCodeEvent = new EventEmitter<any>();
-  confirmationCodeForm!: UntypedFormGroup;
+  confirmationCodeForm!: FormGroup<ConfirmationCodeForm>;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private accountRecoveryService: AccountRecoveryService
   ) {}
@@ -44,9 +49,9 @@ export class EmailCodeComponent implements OnInit {
   }
 
   initConfirmationCodeForm() {
-    this.confirmationCodeForm = this.formBuilder.group(
+    this.confirmationCodeForm = this.formBuilder.group<ConfirmationCodeForm>(
       {
-        confirmationCode: ['', Validators.required]
+        confirmationCode: new FormControl('', { nonNullable: false, validators: [Validators.required] })
       },
       { updateOn: 'submit' }
     );

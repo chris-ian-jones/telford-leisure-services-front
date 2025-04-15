@@ -8,13 +8,19 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionOneForm {
+  firstName: FormControl<string | null>;
+  lastName: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-one',
@@ -26,12 +32,12 @@ export class QuestionOneComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionOneForm!: UntypedFormGroup;
+  questionOneForm!: FormGroup<QuestionOneForm>;
   errorSummary: any = [];
   @Output() answerOneEvent = new EventEmitter<any>();
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService
   ) {}
 
@@ -40,10 +46,10 @@ export class QuestionOneComponent implements OnInit {
   }
 
   initQuestionOneForm() {
-    this.questionOneForm = this.formBuilder.group(
+    this.questionOneForm = this.formBuilder.group<QuestionOneForm>(
       {
-        firstName: [this.newMemberData.firstName, Validators.required],
-        lastName: [this.newMemberData.lastName, Validators.required]
+        firstName: new FormControl(this.newMemberData.firstName, { nonNullable: false, validators: [Validators.required] }),
+        lastName: new FormControl(this.newMemberData.lastName, { nonNullable: false, validators: [Validators.required] })
       },
       { updateOn: 'submit' }
     );

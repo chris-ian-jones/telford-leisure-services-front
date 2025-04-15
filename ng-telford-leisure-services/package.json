@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run format && ng serve",
+    "start": "npm run format && kill-port 4200 && ng serve",
     "build": "ng build",
     "build:stats": "ng build --stats-json",
     "analyze": "webpack-bundle-analyzer dist/ng-telford-leisure-services/stats.json",
@@ -25,6 +25,7 @@
     "@angular/router": "^14.3.0",
     "canvas-confetti": "^1.6.0",
     "jwt-decode": "^3.1.2",
+    "kill-port": "^2.0.1",
     "moment": "^2.29.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

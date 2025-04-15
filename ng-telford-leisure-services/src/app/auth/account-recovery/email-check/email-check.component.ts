@@ -7,12 +7,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
+
+interface EmailCheckForm {
+  emailCheck: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-check',
@@ -23,12 +28,12 @@ export class EmailCheckComponent implements OnInit {
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
   @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  emailCheckForm!: UntypedFormGroup;
+  emailCheckForm!: FormGroup<EmailCheckForm>;
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router
   ) {}
 
@@ -37,9 +42,11 @@ export class EmailCheckComponent implements OnInit {
   }
 
   initEmailCheckForm() {
-    this.emailCheckForm = this.formBuilder.group({
-      emailCheck: ['', [Validators.required]]
-    });
+    this.emailCheckForm = this.formBuilder.group<EmailCheckForm>(
+      {
+        emailCheck: new FormControl('', { nonNullable: false, validators: [Validators.required] })
+      }
+    );
   }
 
   selectInput(value: string) {

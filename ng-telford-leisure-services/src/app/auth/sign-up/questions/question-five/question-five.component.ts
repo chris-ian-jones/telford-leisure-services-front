@@ -8,13 +8,22 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionFiveForm {
+  addressLineOne: FormControl<string | null>;
+  addressLineTwo: FormControl<string | null>;
+  townOrCity: FormControl<string | null>;
+  county: FormControl<string | null>;
+  postcode: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-five',
@@ -26,12 +35,12 @@ export class QuestionFiveComponent implements OnInit {
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerFiveEvent = new EventEmitter<any>();
-  questionFiveForm!: UntypedFormGroup;
+  questionFiveForm!: FormGroup<QuestionFiveForm>;
   errorSummary: any = [];
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService
   ) {}
 
@@ -40,24 +49,13 @@ export class QuestionFiveComponent implements OnInit {
   }
 
   initQuestionFiveForm() {
-    this.questionFiveForm = this.formBuilder.group(
+    this.questionFiveForm = this.formBuilder.group<QuestionFiveForm>(
       {
-        addressLineOne: [
-          this.newMemberData.addressLineOne,
-          Validators.required
-        ],
-        addressLineTwo: [this.newMemberData.addressLineTwo],
-        townOrCity: [this.newMemberData.townOrCity],
-        county: [this.newMemberData.county],
-        postcode: [
-          this.newMemberData.postcode,
-          [
-            Validators.required,
-            Validators.pattern(
-              '^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$'
-            )
-          ]
-        ]
+        addressLineOne: new FormControl(this.newMemberData.addressLineOne, { nonNullable: false, validators: [Validators.required] }),
+        addressLineTwo: new FormControl(this.newMemberData.addressLineTwo, { nonNullable: false }),
+        townOrCity: new FormControl(this.newMemberData.townOrCity, { nonNullable: false }),
+        county: new FormControl(this.newMemberData.county, { nonNullable: false }),
+        postcode: new FormControl(this.newMemberData.postcode, { nonNullable: false, validators: [Validators.required, Validators.pattern('^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$')] })
       },
       { updateOn: 'submit' }
     );

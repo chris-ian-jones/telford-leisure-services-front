@@ -8,13 +8,19 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+
+interface QuestionFourForm {
+  email: FormControl<string | null>;
+  phone: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-four',
@@ -26,12 +32,12 @@ export class QuestionFourComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionFourForm!: UntypedFormGroup;
+  questionFourForm!: FormGroup<QuestionFourForm>;
   @Output() answerFourEvent = new EventEmitter<any>();
   errorSummary: any = [];
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private signUpService: SignUpService
   ) {}
 
@@ -40,13 +46,10 @@ export class QuestionFourComponent implements OnInit {
   }
 
   initQuestionFourForm() {
-    this.questionFourForm = this.formBuilder.group(
+    this.questionFourForm = this.formBuilder.group<QuestionFourForm>(
       {
-        email: [
-          this.newMemberData.email,
-          [Validators.required, Validators.email]
-        ],
-        phone: [this.newMemberData.phone, Validators.pattern('[- +()0-9]+')]
+        email: new FormControl(this.newMemberData.email, { nonNullable: false, validators: [Validators.required, Validators.email] }),
+        phone: new FormControl(this.newMemberData.phone, { nonNullable: false, validators: [Validators.pattern('[- +()0-9]+')] })
       },
       { updateOn: 'submit' }
     );
