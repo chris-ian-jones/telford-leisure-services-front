@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ng-telford-leisure-services:build:production"
+              "buildTarget": "ng-telford-leisure-services:build:production"
             },
             "development": {
-              "browserTarget": "ng-telford-leisure-services:build:development"
+              "buildTarget": "ng-telford-leisure-services:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-telford-leisure-services:build"
+            "buildTarget": "ng-telford-leisure-services:build"
           }
         },
         "test": {
