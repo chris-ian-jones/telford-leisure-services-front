@@ -1,34 +1,12 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthenticatedGuard implements CanActivate, CanActivateChild {
-  constructor(private readonly router: Router) {}
+export const authenticatedGuard = () => {
+  const router = inject(Router);
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | boolean {
-    if (localStorage.getItem('sessionToken')) {
-      return true;
-    }
-    this.router.navigate(['/sign-in']);
-    return false;
+  if (localStorage.getItem('sessionToken')) {
+    return true;
   }
 
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | boolean {
-    return this.canActivate(next, state);
-  }
-}
+  return router.navigate(['/sign-in']);
+};
