@@ -8,7 +8,12 @@
           questionOneForm.get('firstName').hasError('required')
         "
       >
-        <a routerLink="./" fragment="firstName" class="error-link" tabindex="3">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('firstName')"
+          class="error-link"
+          tabindex="3"
+        >
           Enter your first name(s)
         </a>
       </li>
@@ -18,7 +23,12 @@
           questionOneForm.get('lastName').hasError('required')
         "
       >
-        <a routerLink="./" fragment="lastName" class="error-link" tabindex="4">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('lastName')"
+          class="error-link"
+          tabindex="4"
+        >
           Enter your last name
         </a>
       </li>

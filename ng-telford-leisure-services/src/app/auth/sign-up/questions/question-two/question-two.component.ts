@@ -16,8 +16,7 @@ import {
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
-import * as moment from 'moment';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -32,7 +31,8 @@ interface QuestionTwoForm {
   templateUrl: './question-two.component.html',
   styleUrls: ['./question-two.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  providers: [DatePipe]
 })
 export class QuestionTwoComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
@@ -45,7 +45,8 @@ export class QuestionTwoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private signUpService: SignUpService
+    private signUpService: SignUpService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -72,13 +73,16 @@ export class QuestionTwoComponent implements OnInit {
     );
 
     if (this.newMemberData.dateOfBirth) {
-      const dateOfBirth = moment(this.newMemberData.dateOfBirth);
-      const dayOfBirth = moment(dateOfBirth).date();
-      const monthOfBirth = 1 + moment(dateOfBirth).month();
-      const yearOfBirth = moment(dateOfBirth).year();
-      this.questionTwoForm.controls['day'].setValue(dayOfBirth);
-      this.questionTwoForm.controls['month'].setValue(monthOfBirth);
-      this.questionTwoForm.controls['year'].setValue(yearOfBirth);
+      const dateOfBirth = new Date(this.newMemberData.dateOfBirth);
+      const dayOfBirth = dateOfBirth.getDate();
+      const monthOfBirth = dateOfBirth.getMonth() + 1;
+      const yearOfBirth = dateOfBirth.getFullYear();
+
+      this.questionTwoForm.patchValue({
+        day: dayOfBirth,
+        month: monthOfBirth,
+        year: yearOfBirth
+      });
     }
   }
 
@@ -88,11 +92,20 @@ export class QuestionTwoComponent implements OnInit {
       const day = this.questionTwoForm.get('day').value;
       const month = this.questionTwoForm.get('month').value;
       const year = this.questionTwoForm.get('year').value;
-      const dateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const dateOfBirth = moment(dateString, 'YYYY-MM-DD', true);
-      if (dateOfBirth.isValid()) {
+      const dateString = `${year}-${month.toString().padStart(2, '0')}-${day
+        .toString()
+        .padStart(2, '0')}`;
+
+      const dateOfBirth = new Date(dateString);
+      const isValidDate =
+        !isNaN(dateOfBirth.getTime()) &&
+        dateOfBirth.getFullYear() === Number(year) &&
+        dateOfBirth.getMonth() === Number(month) - 1 &&
+        dateOfBirth.getDate() === Number(day);
+
+      if (isValidDate) {
         this.answerTwoEvent.emit({
-          dateOfBirth: dateOfBirth.format('YYYY-MM-DD')
+          dateOfBirth: this.datePipe.transform(dateOfBirth, 'yyyy-MM-dd')
         });
       } else {
         this.questionTwoForm.controls['day'].setErrors({ invalid: true });
@@ -117,5 +130,12 @@ export class QuestionTwoComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

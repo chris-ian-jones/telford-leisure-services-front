@@ -91,4 +91,11 @@ export class QuestionOneComponent implements OnInit {
       }
     });
   }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
+  }
 }

@@ -8,7 +8,12 @@
           questionTwoForm.get('day').hasError('required')
         "
       >
-        <a routerLink="./" fragment="day" class="error-link" tabindex="3">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('day')"
+          class="error-link"
+          tabindex="3"
+        >
           Enter the day you were born
         </a>
       </li>
@@ -18,7 +23,12 @@
           questionTwoForm.get('day').hasError('pattern')
         "
       >
-        <a routerLink="./" fragment="day" class="error-link" tabindex="3">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('day')"
+          class="error-link"
+          tabindex="3"
+        >
           Day must be a number
         </a>
       </li>
@@ -28,7 +38,12 @@
           questionTwoForm.get('month').hasError('required')
         "
       >
-        <a routerLink="./" fragment="month" class="error-link" tabindex="4">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('month')"
+          class="error-link"
+          tabindex="4"
+        >
           Enter the month you were born
         </a>
       </li>
@@ -38,7 +53,12 @@
           questionTwoForm.get('month').hasError('pattern')
         "
       >
-        <a routerLink="./" fragment="month" class="error-link" tabindex="3">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('month')"
+          class="error-link"
+          tabindex="3"
+        >
           Month must be a number
         </a>
       </li>
@@ -48,7 +68,12 @@
           questionTwoForm.get('year').hasError('required')
         "
       >
-        <a routerLink="./" fragment="year" class="error-link" tabindex="4">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('year')"
+          class="error-link"
+          tabindex="4"
+        >
           Enter the year you were born
         </a>
       </li>
@@ -58,7 +83,12 @@
           questionTwoForm.get('year').hasError('pattern')
         "
       >
-        <a routerLink="./" fragment="year" class="error-link" tabindex="4">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('year')"
+          class="error-link"
+          tabindex="4"
+        >
           Year must be a number
         </a>
       </li>
@@ -68,7 +98,12 @@
           questionTwoForm.get('day').hasError('invalid')
         "
       >
-        <a routerLink="./" fragment="day" class="error-link" tabindex="4">
+        <a
+          href="javascript:void(0)"
+          (click)="focusElement('day')"
+          class="error-link"
+          tabindex="4"
+        >
           Your date of birth must be a valid date
         </a>
       </li>
