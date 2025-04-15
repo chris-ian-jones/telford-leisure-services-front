@@ -88,10 +88,11 @@ export class QuestionTwoComponent implements OnInit {
       const day = this.questionTwoForm.get('day').value;
       const month = this.questionTwoForm.get('month').value;
       const year = this.questionTwoForm.get('year').value;
-      const dateOfBirth = moment(`${year}/${month}/${day}`);
-      if (moment(dateOfBirth, 'YYYY/MM/DD').isValid()) {
+      const dateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      const dateOfBirth = moment(dateString, 'YYYY-MM-DD', true);
+      if (dateOfBirth.isValid()) {
         this.answerTwoEvent.emit({
-          dateOfBirth: dateOfBirth.toString()
+          dateOfBirth: dateOfBirth.format('YYYY-MM-DD')
         });
       } else {
         this.questionTwoForm.controls['day'].setErrors({ invalid: true });
