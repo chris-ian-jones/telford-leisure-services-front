@@ -40,7 +40,7 @@ export class AuthService {
 
   signOut() {
     localStorage.clear();
-    this.ngZone.run(() => this.router.navigate(['/']));
+    this.ngZone.run(() => this.router.navigate(['sign-in']));
   }
 
   setAuthentication(response: any) {

@@ -4,13 +4,13 @@ import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./home/home.module').then((module) => module.HomeModule)
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'sign-up',
     loadComponent: () =>
-      import('./auth/sign-up/sign-up.component').then((c) => c.SignUpComponent),
+      import('./auth/sign-up/sign-up.component').then((c) => c.SignUpComponent)
   },
   {
     path: 'sign-up/success',
@@ -27,7 +27,7 @@ export const routes: Routes = [
   {
     path: 'feedback',
     loadComponent: () =>
-      import('./feedback/feedback.component').then((c) => c.FeedbackComponent),
+      import('./feedback/feedback.component').then((c) => c.FeedbackComponent)
   },
   {
     path: 'feedback/success',
