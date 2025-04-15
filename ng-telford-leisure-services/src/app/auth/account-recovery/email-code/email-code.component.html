@@ -10,47 +10,39 @@
           >Back</a
         >
       </div>
-      <ng-container *ngIf="errorSummary.length > 0">
-        <div #errorSummaryDiv class="error-summary-container" tabindex="2">
-          <h2 class="error-summary-title">There is a problem</h2>
-          <ul class="error-summary-list">
-            <li
-              *ngIf="
-                confirmationCodeForm.get('confirmationCode').errors &&
-                confirmationCodeForm
-                  .get('confirmationCode')
-                  .hasError('required')
-              "
+      @if (errorSummary.length > 0) {
+      <div #errorSummaryDiv class="error-summary-container" tabindex="2">
+        <h2 class="error-summary-title">There is a problem</h2>
+        <ul class="error-summary-list">
+          @if (confirmationCodeForm.get('confirmationCode').errors &&
+          confirmationCodeForm .get('confirmationCode') .hasError('required')) {
+          <li>
+            <a
+              routerLink="./"
+              fragment="confirmationCode"
+              class="error-link"
+              tabindex="3"
             >
-              <a
-                routerLink="./"
-                fragment="confirmationCode"
-                class="error-link"
-                tabindex="3"
-              >
-                Enter the 6 character confirmation code
-              </a>
-            </li>
-            <li
-              *ngIf="
-                confirmationCodeForm.get('confirmationCode').errors &&
-                confirmationCodeForm
-                  .get('confirmationCode')
-                  .hasError('incorrect')
-              "
+              Enter the 6 character confirmation code
+            </a>
+          </li>
+          } @if (confirmationCodeForm.get('confirmationCode').errors &&
+          confirmationCodeForm .get('confirmationCode') .hasError('incorrect'))
+          {
+          <li>
+            <a
+              routerLink="./"
+              fragment="confirmationCode"
+              class="error-link"
+              tabindex="3"
             >
-              <a
-                routerLink="./"
-                fragment="confirmationCode"
-                class="error-link"
-                tabindex="3"
-              >
-                Enter correct confirmation code
-              </a>
-            </li>
-          </ul>
-        </div>
-      </ng-container>
+              Enter correct confirmation code
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+      }
       <h1
         class="heading-large extra-margin-bottom"
         [class.custom-padding]="errorSummary.length === 0"
@@ -90,32 +82,19 @@
             Confirmation code
           </label>
           <p class="label-hint-text custom-label-margin">For example, DNCLRK</p>
-          <label
-            *ngIf="
-              confirmationCodeForm.get('confirmationCode').errors &&
-              confirmationCodeForm
-                .get('confirmationCode')
-                .hasError('required') &&
-              this.errorSummary.length > 0
-            "
-            for="confirmationCode"
-            class="input-label-error-message"
-          >
+          @if (confirmationCodeForm.get('confirmationCode').errors &&
+          confirmationCodeForm .get('confirmationCode') .hasError('required') &&
+          this.errorSummary.length > 0) {
+          <label for="confirmationCode" class="input-label-error-message">
             Enter the 6 character confirmation code
           </label>
-          <label
-            *ngIf="
-              confirmationCodeForm.get('confirmationCode').errors &&
-              confirmationCodeForm
-                .get('confirmationCode')
-                .hasError('incorrect') &&
-              this.errorSummary.length > 0
-            "
-            for="confirmationCode"
-            class="input-label-error-message"
-          >
+          } @if (confirmationCodeForm.get('confirmationCode').errors &&
+          confirmationCodeForm .get('confirmationCode') .hasError('incorrect')
+          && this.errorSummary.length > 0) {
+          <label for="confirmationCode" class="input-label-error-message">
             Enter correct confirmation code
           </label>
+          }
           <div>
             <input
               id="confirmationCode"

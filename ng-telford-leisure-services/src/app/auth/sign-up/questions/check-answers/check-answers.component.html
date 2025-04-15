@@ -1,15 +1,15 @@
-<ng-container *ngIf="errorMessage">
-  <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">There is a problem</h2>
-    <ul class="error-summary-list">
-      <li>
-        <a routerLink="/sign-in" class="error-link" tabindex="3">
-          {{ errorMessage }}
-        </a>
-      </li>
-    </ul>
-  </div>
-</ng-container>
+@if (errorMessage) {
+<div #errorSummary class="error-summary-container" tabindex="2">
+  <h2 class="error-summary-title">There is a problem</h2>
+  <ul class="error-summary-list">
+    <li>
+      <a routerLink="/sign-in" class="error-link" tabindex="3">
+        {{ errorMessage }}
+      </a>
+    </li>
+  </ul>
+</div>
+}
 <div class="check-answers-container">
   <h1 class="page-question placeholder-margin">
     Check your answers before creating your account

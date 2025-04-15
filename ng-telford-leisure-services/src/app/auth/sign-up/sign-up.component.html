@@ -1,14 +1,14 @@
 <div class="main-container">
   <div class="body-container">
-    <div *ngIf="!changeAnswer" class="backlink-container">
-      <a
-        class="breadcrumb-link"
-        href="javascript:void(0)"
-        (click)="onClickBack()"
-        tabindex="1"
-        >Back</a
-      >
-    </div>
+    @if (!changeAnswer) {
+    <a
+      class="breadcrumb-link"
+      href="javascript:void(0)"
+      (click)="onClickBack()"
+      tabindex="1"
+      >Back</a
+    >
+    }
     <ng-container [ngSwitch]="currentPageNumber">
       <app-question-one
         *ngSwitchCase="1"

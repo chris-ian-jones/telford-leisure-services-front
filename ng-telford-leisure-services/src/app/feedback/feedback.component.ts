@@ -147,4 +147,11 @@ export default class FeedbackComponent implements OnInit {
   onClickSatisfactionError() {
     setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
   }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
+  }
 }
