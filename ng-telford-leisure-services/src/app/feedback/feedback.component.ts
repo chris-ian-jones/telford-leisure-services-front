@@ -106,7 +106,6 @@ export class FeedbackComponent implements OnInit {
   }
 
   onClickSendFeedback() {
-    console.log('onClickSendFeedback');
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
