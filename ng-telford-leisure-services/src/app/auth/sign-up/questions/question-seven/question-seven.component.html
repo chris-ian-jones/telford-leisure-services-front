@@ -1,25 +1,25 @@
-<ng-container *ngIf="errorSummary.length > 0">
+@if (errorSummary.length > 0) {
   <div #errorSummary class="error-summary-container" tabindex="2">
     <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
-      <li
-        *ngIf="
-          questionSevenForm.get('mainCenter').errors &&
-          questionSevenForm.get('mainCenter').hasError('required')
-        "
-      >
-        <a
-          href="javascript:void(0)"
-          (click)="onClickMainCenterRequiredError()"
-          class="error-link"
-          tabindex="3"
-        >
-          Select your main center
-        </a>
-      </li>
+      @if (
+        questionSevenForm.get('mainCenter').errors &&
+        questionSevenForm.get('mainCenter').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="onClickMainCenterRequiredError()"
+            class="error-link"
+            tabindex="3"
+          >
+            Select your main center
+          </a>
+        </li>
+      }
     </ul>
   </div>
-</ng-container>
+}
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
 </h2>
@@ -37,17 +37,15 @@
       this.errorSummary.length > 0
     "
   >
-    <label
-      *ngIf="
-        questionSevenForm.get('mainCenter').errors &&
-        questionSevenForm.get('mainCenter').hasError('required') &&
-        this.errorSummary.length > 0
-      "
-      for="mainCenter"
-      class="input-label-error-message"
-    >
-      Select your main leisure center
-    </label>
+    @if (
+      questionSevenForm.get('mainCenter').errors &&
+      questionSevenForm.get('mainCenter').hasError('required') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="mainCenter" class="input-label-error-message">
+        Select your main leisure center
+      </label>
+    }
     <div
       #abrahamInput
       class="default-radio-input-container"

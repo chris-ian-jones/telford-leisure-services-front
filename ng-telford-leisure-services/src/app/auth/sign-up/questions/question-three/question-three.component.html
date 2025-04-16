@@ -1,26 +1,26 @@
-<ng-container *ngIf="errorSummary.length > 0">
+@if (errorSummary.length > 0) {
   <div #errorSummary class="error-summary-container" tabindex="2">
     <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
-      <li
-        *ngIf="
-          questionThreeForm.get('gender').errors &&
-          questionThreeForm.get('gender').hasError('required')
-        "
-      >
-        <a
-          href="javascript:void(0)"
-          (click)="onClickGenderRequiredError()"
-          fragment="male"
-          class="error-link"
-          tabindex="3"
-        >
-          Select your gender
-        </a>
-      </li>
+      @if (
+        questionThreeForm.get('gender').errors &&
+        questionThreeForm.get('gender').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="onClickGenderRequiredError()"
+            fragment="male"
+            class="error-link"
+            tabindex="3"
+          >
+            Select your gender
+          </a>
+        </li>
+      }
     </ul>
   </div>
-</ng-container>
+}
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
 </h2>
@@ -38,17 +38,15 @@
       this.errorSummary.length > 0
     "
   >
-    <label
-      *ngIf="
-        questionThreeForm.get('gender').errors &&
-        questionThreeForm.get('gender').hasError('required') &&
-        this.errorSummary.length > 0
-      "
-      for="gender"
-      class="input-label-error-message"
-    >
-      Select your gender
-    </label>
+    @if (
+      questionThreeForm.get('gender').errors &&
+      questionThreeForm.get('gender').hasError('required') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="gender" class="input-label-error-message">
+        Select your gender
+      </label>
+    }
     <div
       #maleInput
       class="default-radio-input-container"

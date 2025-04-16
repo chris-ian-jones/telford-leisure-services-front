@@ -11,14 +11,24 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl,
+  ReactiveFormsModule,
+  FormsModule
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+interface QuestionEightForm {
+  membershipType: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-eight',
   templateUrl: './question-eight.component.html',
-  styleUrls: ['./question-eight.component.scss']
+  styleUrl: './question-eight.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionEightComponent implements OnInit {
   @Input() currentPage!: number;
@@ -29,7 +39,7 @@ export class QuestionEightComponent implements OnInit {
   @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
   @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
   @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
-  questionEightForm!: FormGroup;
+  questionEightForm!: FormGroup<QuestionEightForm>;
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
@@ -40,8 +50,11 @@ export class QuestionEightComponent implements OnInit {
   }
 
   initQuestionEightForm() {
-    this.questionEightForm = this.formBuilder.group({
-      membershipType: [this.newMemberData.membershipType, [Validators.required]]
+    this.questionEightForm = this.formBuilder.group<QuestionEightForm>({
+      membershipType: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
     });
   }
 

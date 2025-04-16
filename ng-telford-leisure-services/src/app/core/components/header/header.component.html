@@ -15,7 +15,7 @@
 <div class="accent-bar-container">
   <div class="accent-bar"></div>
 </div>
-<ng-container *ngIf="showSystemMessage">
+@if (showSystemMessage) {
   <div class="system-message-container">
     <p class="system-message-content">
       The Terms and Conditions for the usage of this site have been updated,
@@ -35,4 +35,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

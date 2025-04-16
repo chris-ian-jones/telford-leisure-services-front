@@ -3,21 +3,31 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl,
+  ReactiveFormsModule,
+  FormsModule
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { SignIn } from 'src/app/core/models/signIn';
 import { AuthService } from './../auth.service';
 import { lastValueFrom } from 'rxjs';
 
+interface SignInForm {
+  memberNumber: FormControl<string | null>;
+  password: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrl: './sign-in.component.scss',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
-export class SignInComponent implements OnInit {
+export default class SignInComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  signInForm!: FormGroup;
+  signInForm!: FormGroup<SignInForm>;
   errorSummary: any = [];
 
   constructor(
@@ -31,10 +41,16 @@ export class SignInComponent implements OnInit {
   }
 
   initSignInForm() {
-    this.signInForm = this.formBuilder.group(
+    this.signInForm = this.formBuilder.group<SignInForm>(
       {
-        memberNumber: ['', Validators.required],
-        password: ['', Validators.required]
+        memberNumber: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        password: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -88,5 +104,12 @@ export class SignInComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

@@ -1,25 +1,25 @@
-<ng-container *ngIf="errorSummary.length > 0">
+@if (errorSummary.length > 0) {
   <div #errorSummary class="error-summary-container" tabindex="2">
     <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
-      <li
-        *ngIf="
-          questionSixForm.get('ethnicity').errors &&
-          questionSixForm.get('ethnicity').hasError('required')
-        "
-      >
-        <a
-          href="javascript:void(0)"
-          (click)="onClickEthnicityRequiredError()"
-          class="error-link"
-          tabindex="3"
-        >
-          Select your ethnicity
-        </a>
-      </li>
+      @if (
+        questionSixForm.get('ethnicity').errors &&
+        questionSixForm.get('ethnicity').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="onClickEthnicityRequiredError()"
+            class="error-link"
+            tabindex="3"
+          >
+            Select your ethnicity
+          </a>
+        </li>
+      }
     </ul>
   </div>
-</ng-container>
+}
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
 </h2>
@@ -37,17 +37,15 @@
       this.errorSummary.length > 0
     "
   >
-    <label
-      *ngIf="
-        questionSixForm.get('ethnicity').errors &&
-        questionSixForm.get('ethnicity').hasError('required') &&
-        this.errorSummary.length > 0
-      "
-      for="ethnicity"
-      class="input-label-error-message"
-    >
-      Select your ethnicity
-    </label>
+    @if (
+      questionSixForm.get('ethnicity').errors &&
+      questionSixForm.get('ethnicity').hasError('required') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="ethnicity" class="input-label-error-message">
+        Select your ethnicity
+      </label>
+    }
     <div
       #whiteInput
       class="default-radio-input-container"

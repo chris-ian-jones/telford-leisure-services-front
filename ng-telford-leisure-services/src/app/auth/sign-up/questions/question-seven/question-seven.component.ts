@@ -11,14 +11,23 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionSevenForm {
+  mainCenter: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-seven',
   templateUrl: './question-seven.component.html',
-  styleUrls: ['./question-seven.component.scss']
+  styleUrl: './question-seven.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionSevenComponent implements OnInit {
   @Input() currentPage!: number;
@@ -43,8 +52,11 @@ export class QuestionSevenComponent implements OnInit {
   }
 
   initQuestionSevenForm() {
-    this.questionSevenForm = this.formBuilder.group({
-      mainCenter: [this.newMemberData.mainCenter, [Validators.required]]
+    this.questionSevenForm = this.formBuilder.group<QuestionSevenForm>({
+      mainCenter: new FormControl(this.newMemberData.mainCenter, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
     });
   }
 

@@ -641,7 +641,9 @@ p {
       color: #0b0c0c;
       outline: 3px solid transparent;
       background-color: #ffdd00;
-      box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+      box-shadow:
+        0 -2px #ffdd00,
+        0 4px #0b0c0c;
       text-decoration: none;
     }
   }
@@ -658,8 +660,12 @@ p {
   color: #0b0c0c;
   outline: 3px solid transparent;
   background-color: #fd0;
-  -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  -webkit-box-shadow:
+    0 -2px #fd0,
+    0 4px #0b0c0c;
+  box-shadow:
+    0 -2px #fd0,
+    0 4px #0b0c0c;
   text-decoration: none;
 }
 
@@ -702,6 +708,7 @@ p {
   margin-bottom: 15px;
   padding-left: 14px;
   cursor: pointer;
+  width: fit-content;
 }
 
 .breadcrumb-link::before {
@@ -729,8 +736,12 @@ p {
 .breadcrumb-link:focus {
   outline: 3px solid transparent;
   background-color: #fd0;
-  -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  -webkit-box-shadow:
+    0 -2px #fd0,
+    0 4px #0b0c0c;
+  box-shadow:
+    0 -2px #fd0,
+    0 4px #0b0c0c;
   text-decoration: none;
 }
 

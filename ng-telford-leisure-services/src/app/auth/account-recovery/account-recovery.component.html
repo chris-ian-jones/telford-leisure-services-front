@@ -1,31 +1,43 @@
-<ng-container [ngSwitch]="shownComponent">
-  <app-email-check
-    *ngSwitchCase="'email-check'"
-    (changeComponentEvent)="receiveComponentChange($event)"
-  ></app-email-check>
-  <app-email-confirm
-    *ngSwitchCase="'email-confirm'"
-    (changeComponentEvent)="receiveComponentChange($event)"
-    (emitMemberEmailEvent)="receiveMemberEmail($event)"
-  ></app-email-confirm>
-  <app-email-code
-    *ngSwitchCase="'email-code'"
-    [memberEmail]="memberEmail"
-    [path]="path"
-    (changeComponentEvent)="receiveComponentChange($event)"
-    (emitMemberNumberEvent)="receiveMemberNumber($event)"
-    (emitConfirmationCodeEvent)="receiveConfirmationCode($event)"
-  ></app-email-code>
-  <app-member-number-recovered
-    *ngSwitchCase="'member-number-recovered'"
-    [memberEmail]="memberEmail"
-    [memberNumber]="memberNumber"
-  ></app-member-number-recovered>
-  <app-change-password
-    *ngSwitchCase="'change-password'"
-    [memberEmail]="memberEmail"
-    [confirmationCode]="confirmationCode"
-    (changeComponentEvent)="receiveComponentChange($event)"
-  ></app-change-password>
-  <app-password-reset *ngSwitchCase="'password-reset'"></app-password-reset>
-</ng-container>
+@switch (shownComponent) {
+  @case ('email-check') {
+    <app-email-check
+      (changeComponentEvent)="receiveComponentChange($event)"
+    ></app-email-check>
+  }
+  @case ('email-confirm') {
+    <app-email-confirm
+      (changeComponentEvent)="receiveComponentChange($event)"
+      (emitMemberEmailEvent)="receiveMemberEmail($event)"
+    ></app-email-confirm>
+  }
+  @case ('email-code') {
+    <app-email-code
+      [memberEmail]="memberEmail"
+      [path]="path"
+      (changeComponentEvent)="receiveComponentChange($event)"
+      (emitMemberNumberEvent)="receiveMemberNumber($event)"
+      (emitConfirmationCodeEvent)="receiveConfirmationCode($event)"
+    ></app-email-code>
+  }
+  @case ('member-number-recovered') {
+    <app-member-number-recovered
+      [memberEmail]="memberEmail"
+      [memberNumber]="memberNumber"
+    ></app-member-number-recovered>
+  }
+  @case ('change-password') {
+    <app-change-password
+      [memberEmail]="memberEmail"
+      [confirmationCode]="confirmationCode"
+      (changeComponentEvent)="receiveComponentChange($event)"
+    ></app-change-password>
+  }
+  @case ('password-reset') {
+    <app-password-reset></app-password-reset>
+  }
+  @default {
+    <app-email-check
+      (changeComponentEvent)="receiveComponentChange($event)"
+    ></app-email-check>
+  }
+}

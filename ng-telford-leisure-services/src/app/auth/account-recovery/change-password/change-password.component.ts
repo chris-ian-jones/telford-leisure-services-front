@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
@@ -17,18 +18,27 @@ import { Router } from '@angular/router';
 import { ChangePassword } from 'src/app/core/models/changePassword';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+interface PasswordForm {
+  password: FormControl<string | null>;
+  confirmPassword: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  styleUrl: './change-password.component.scss',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class ChangePasswordComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Input() memberEmail!: string;
   @Input() confirmationCode!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  passwordForm!: FormGroup;
+  passwordForm!: FormGroup<PasswordForm>;
   errorSummary: any = [];
 
   constructor(
@@ -42,19 +52,22 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   initPasswordForm() {
-    this.passwordForm = this.formBuilder.group(
+    this.passwordForm = this.formBuilder.group<PasswordForm>(
       {
-        password: [
-          '',
-          [
+        password: new FormControl('', {
+          nonNullable: false,
+          validators: [
             Validators.required,
             Validators.minLength(8),
             Validators.pattern(
               /^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{0,}$/
             )
           ]
-        ],
-        confirmPassword: ['', Validators.required]
+        }),
+        confirmPassword: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -118,5 +131,12 @@ export class ChangePasswordComponent implements OnInit {
         state: { route: 'email-confirm', path: 'forgot-password' }
       });
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

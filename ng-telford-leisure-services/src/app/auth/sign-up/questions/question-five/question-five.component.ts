@@ -9,24 +9,38 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+interface QuestionFiveForm {
+  addressLineOne: FormControl<string | null>;
+  addressLineTwo: FormControl<string | null>;
+  townOrCity: FormControl<string | null>;
+  county: FormControl<string | null>;
+  postcode: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-five',
   templateUrl: './question-five.component.html',
-  styleUrls: ['./question-five.component.scss']
+  styleUrl: './question-five.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionFiveComponent implements OnInit {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   @Output() answerFiveEvent = new EventEmitter<any>();
-  questionFiveForm!: FormGroup;
+  questionFiveForm!: FormGroup<QuestionFiveForm>;
   errorSummary: any = [];
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
 
@@ -40,24 +54,30 @@ export class QuestionFiveComponent implements OnInit {
   }
 
   initQuestionFiveForm() {
-    this.questionFiveForm = this.formBuilder.group(
+    this.questionFiveForm = this.formBuilder.group<QuestionFiveForm>(
       {
-        addressLineOne: [
-          this.newMemberData.addressLineOne,
-          Validators.required
-        ],
-        addressLineTwo: [this.newMemberData.addressLineTwo],
-        townOrCity: [this.newMemberData.townOrCity],
-        county: [this.newMemberData.county],
-        postcode: [
-          this.newMemberData.postcode,
-          [
+        addressLineOne: new FormControl(this.newMemberData.addressLineOne, {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        addressLineTwo: new FormControl(this.newMemberData.addressLineTwo, {
+          nonNullable: false
+        }),
+        townOrCity: new FormControl(this.newMemberData.townOrCity, {
+          nonNullable: false
+        }),
+        county: new FormControl(this.newMemberData.county, {
+          nonNullable: false
+        }),
+        postcode: new FormControl(this.newMemberData.postcode, {
+          nonNullable: false,
+          validators: [
             Validators.required,
             Validators.pattern(
               '^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$'
             )
           ]
-        ]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -87,5 +107,12 @@ export class QuestionFiveComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

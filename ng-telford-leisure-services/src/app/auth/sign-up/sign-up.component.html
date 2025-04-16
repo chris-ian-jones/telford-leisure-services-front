@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="body-container">
-    <div *ngIf="!changeAnswer" class="backlink-container">
+    @if (!changeAnswer) {
       <a
         class="breadcrumb-link"
         href="javascript:void(0)"
@@ -8,69 +8,86 @@
         tabindex="1"
         >Back</a
       >
-    </div>
-    <ng-container [ngSwitch]="currentPageNumber">
-      <app-question-one
-        *ngSwitchCase="1"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerOneEvent)="receiveAnswer($event)"
-      ></app-question-one>
-      <app-question-two
-        *ngSwitchCase="2"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerTwoEvent)="receiveAnswer($event)"
-      ></app-question-two>
-      <app-question-three
-        *ngSwitchCase="3"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerThreeEvent)="receiveAnswer($event)"
-      ></app-question-three>
-      <app-question-four
-        *ngSwitchCase="4"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerFourEvent)="receiveAnswer($event)"
-      ></app-question-four>
-      <app-question-five
-        *ngSwitchCase="5"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerFiveEvent)="receiveAnswer($event)"
-      ></app-question-five>
-      <app-question-six
-        *ngSwitchCase="6"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerSixEvent)="receiveAnswer($event)"
-      ></app-question-six>
-      <app-question-seven
-        *ngSwitchCase="7"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerSevenEvent)="receiveAnswer($event)"
-      ></app-question-seven>
-      <app-question-eight
-        *ngSwitchCase="8"
-        [currentPage]="currentPageNumber"
-        [totalPages]="totalPageNumbers"
-        [newMemberData]="newMemberData"
-        (answerEightEvent)="receiveAnswer($event)"
-      ></app-question-eight>
-      <app-check-answers
-        *ngSwitchCase="9"
-        [newMemberData]="newMemberData"
-        (changeAnswerEvent)="receiveChangeAnswerPage($event)"
-      ></app-check-answers>
-    </ng-container>
+    }
+    @switch (currentPageNumber) {
+      @case (1) {
+        <app-question-one
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerOneEvent)="receiveAnswer($event)"
+        ></app-question-one>
+      }
+      @case (2) {
+        <app-question-two
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerTwoEvent)="receiveAnswer($event)"
+        ></app-question-two>
+      }
+      @case (3) {
+        <app-question-three
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerThreeEvent)="receiveAnswer($event)"
+        ></app-question-three>
+      }
+      @case (4) {
+        <app-question-four
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerFourEvent)="receiveAnswer($event)"
+        ></app-question-four>
+      }
+      @case (5) {
+        <app-question-five
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerFiveEvent)="receiveAnswer($event)"
+        ></app-question-five>
+      }
+      @case (6) {
+        <app-question-six
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerSixEvent)="receiveAnswer($event)"
+        ></app-question-six>
+      }
+      @case (7) {
+        <app-question-seven
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerSevenEvent)="receiveAnswer($event)"
+        ></app-question-seven>
+      }
+      @case (8) {
+        <app-question-eight
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerEightEvent)="receiveAnswer($event)"
+        ></app-question-eight>
+      }
+      @case (9) {
+        <app-check-answers
+          [newMemberData]="newMemberData"
+          (changeAnswerEvent)="receiveChangeAnswerPage($event)"
+        ></app-check-answers>
+      }
+      @default {
+        <app-question-one
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerOneEvent)="receiveAnswer($event)"
+        ></app-question-one>
+      }
+    }
   </div>
 </div>

@@ -11,15 +11,27 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
-import * as moment from 'moment';
+import { CommonModule, DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionTwoForm {
+  day: FormControl<string | null>;
+  month: FormControl<string | null>;
+  year: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
-  styleUrls: ['./question-two.component.scss']
+  styleUrl: './question-two.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  providers: [DatePipe]
 })
 export class QuestionTwoComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
@@ -32,7 +44,8 @@ export class QuestionTwoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private signUpService: SignUpService
+    private signUpService: SignUpService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -40,23 +53,35 @@ export class QuestionTwoComponent implements OnInit {
   }
 
   initQuestionTwoForm() {
-    this.questionTwoForm = this.formBuilder.group(
+    this.questionTwoForm = this.formBuilder.group<QuestionTwoForm>(
       {
-        day: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        month: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        year: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+        day: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        }),
+        month: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        }),
+        year: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
+        })
       },
       { updateOn: 'submit' }
     );
 
     if (this.newMemberData.dateOfBirth) {
-      const dateOfBirth = moment(this.newMemberData.dateOfBirth);
-      const dayOfBirth = moment(dateOfBirth).date();
-      const monthOfBirth = 1 + moment(dateOfBirth).month();
-      const yearOfBirth = moment(dateOfBirth).year();
-      this.questionTwoForm.controls['day'].setValue(dayOfBirth);
-      this.questionTwoForm.controls['month'].setValue(monthOfBirth);
-      this.questionTwoForm.controls['year'].setValue(yearOfBirth);
+      const dateOfBirth = new Date(this.newMemberData.dateOfBirth);
+      const dayOfBirth = dateOfBirth.getDate();
+      const monthOfBirth = dateOfBirth.getMonth() + 1;
+      const yearOfBirth = dateOfBirth.getFullYear();
+
+      this.questionTwoForm.patchValue({
+        day: dayOfBirth,
+        month: monthOfBirth,
+        year: yearOfBirth
+      });
     }
   }
 
@@ -66,10 +91,20 @@ export class QuestionTwoComponent implements OnInit {
       const day = this.questionTwoForm.get('day').value;
       const month = this.questionTwoForm.get('month').value;
       const year = this.questionTwoForm.get('year').value;
-      const dateOfBirth = moment(`${year}/${month}/${day}`);
-      if (moment(dateOfBirth, 'YYYY/MM/DD').isValid()) {
+      const dateString = `${year}-${month.toString().padStart(2, '0')}-${day
+        .toString()
+        .padStart(2, '0')}`;
+
+      const dateOfBirth = new Date(dateString);
+      const isValidDate =
+        !isNaN(dateOfBirth.getTime()) &&
+        dateOfBirth.getFullYear() === Number(year) &&
+        dateOfBirth.getMonth() === Number(month) - 1 &&
+        dateOfBirth.getDate() === Number(day);
+
+      if (isValidDate) {
         this.answerTwoEvent.emit({
-          dateOfBirth: dateOfBirth.toString()
+          dateOfBirth: this.datePipe.transform(dateOfBirth, 'yyyy-MM-dd')
         });
       } else {
         this.questionTwoForm.controls['day'].setErrors({ invalid: true });
@@ -94,5 +129,12 @@ export class QuestionTwoComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

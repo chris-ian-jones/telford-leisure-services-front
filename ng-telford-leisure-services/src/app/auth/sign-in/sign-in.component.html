@@ -1,52 +1,68 @@
 <div class="main-container">
   <div class="body-container">
-    <ng-container *ngIf="errorSummary.length > 0">
+    @if (errorSummary.length > 0) {
       <div #errorSummary class="error-summary-container" tabindex="1">
         <h2 class="error-summary-title">There is a problem</h2>
         <ul class="error-summary-list">
-          <li
-            *ngIf="
-              signInForm.get('memberNumber').errors &&
-              signInForm.get('memberNumber').hasError('required')
-            "
-          >
-            <a routerLink="./" fragment="memberNumber" class="error-link">
-              Enter your member number
-            </a>
-          </li>
-          <li
-            *ngIf="
-              signInForm.get('password').errors &&
-              signInForm.get('password').hasError('required')
-            "
-          >
-            <a routerLink="./" fragment="password" class="error-link">
-              Enter your password
-            </a>
-          </li>
-          <li
-            *ngIf="
-              signInForm.get('memberNumber').errors &&
-              signInForm.get('memberNumber').hasError('unauthorized')
-            "
-          >
-            <a routerLink="./" fragment="memberNumber" class="error-link">
-              Incorrect member number or password
-            </a>
-          </li>
-          <li
-            *ngIf="
-              signInForm.get('memberNumber').errors &&
-              signInForm.get('memberNumber').hasError('error')
-            "
-          >
-            <a routerLink="./" fragment="memberNumber" class="error-link">
-              Server error
-            </a>
-          </li>
+          @if (
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('required')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('memberNumber')"
+                class="error-link"
+              >
+                Enter your member number
+              </a>
+            </li>
+          }
+          @if (
+            signInForm.get('password').errors &&
+            signInForm.get('password').hasError('required')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('password')"
+                class="error-link"
+              >
+                Enter your password
+              </a>
+            </li>
+          }
+          @if (
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('unauthorized')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('memberNumber')"
+                class="error-link"
+              >
+                Incorrect member number or password
+              </a>
+            </li>
+          }
+          @if (
+            signInForm.get('memberNumber').errors &&
+            signInForm.get('memberNumber').hasError('error')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('memberNumber')"
+                class="error-link"
+              >
+                Server error
+              </a>
+            </li>
+          }
         </ul>
       </div>
-    </ng-container>
+    }
     <h1 class="page-header">Sign in to your Leisure Services account</h1>
     <div class="inset-container">
       <span class="inset-content"
@@ -71,39 +87,33 @@
         <label for="memberNumber" class="default-input-label">
           Member number
         </label>
-        <label
-          *ngIf="
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('required') &&
-            this.errorSummary.length > 0
-          "
-          for="memberNumber"
-          class="input-label-error-message"
-        >
-          Enter your member number
-        </label>
-        <label
-          *ngIf="
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('unauthorized') &&
-            this.errorSummary.length > 0
-          "
-          for="memberNumber"
-          class="input-label-error-message"
-        >
-          Incorrect member number or password
-        </label>
-        <label
-          *ngIf="
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('error') &&
-            this.errorSummary.length > 0
-          "
-          for="memberNumber"
-          class="input-label-error-message"
-        >
-          Server error
-        </label>
+        @if (
+          signInForm.get('memberNumber').errors &&
+          signInForm.get('memberNumber').hasError('required') &&
+          this.errorSummary.length > 0
+        ) {
+          <label for="memberNumber" class="input-label-error-message">
+            Enter your member number
+          </label>
+        }
+        @if (
+          signInForm.get('memberNumber').errors &&
+          signInForm.get('memberNumber').hasError('unauthorized') &&
+          this.errorSummary.length > 0
+        ) {
+          <label for="memberNumber" class="input-label-error-message">
+            Incorrect member number or password
+          </label>
+        }
+        @if (
+          signInForm.get('memberNumber').errors &&
+          signInForm.get('memberNumber').hasError('error') &&
+          this.errorSummary.length > 0
+        ) {
+          <label for="memberNumber" class="input-label-error-message">
+            Server error
+          </label>
+        }
         <div>
           <input
             id="memberNumber"
@@ -126,28 +136,24 @@
         "
       >
         <label for="password" class="default-input-label"> Password </label>
-        <label
-          *ngIf="
-            signInForm.get('password').errors &&
-            signInForm.get('password').hasError('required') &&
-            this.errorSummary.length > 0
-          "
-          for="memberNumber"
-          class="input-label-error-message"
-        >
-          Enter your password
-        </label>
-        <label
-          *ngIf="
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('unauthorized') &&
-            this.errorSummary.length > 0
-          "
-          for="memberNumber"
-          class="input-label-error-message"
-        >
-          Incorrect member number or password
-        </label>
+        @if (
+          signInForm.get('password').errors &&
+          signInForm.get('password').hasError('required') &&
+          this.errorSummary.length > 0
+        ) {
+          <label for="memberNumber" class="input-label-error-message">
+            Enter your password
+          </label>
+        }
+        @if (
+          signInForm.get('memberNumber').errors &&
+          signInForm.get('memberNumber').hasError('unauthorized') &&
+          this.errorSummary.length > 0
+        ) {
+          <label for="memberNumber" class="input-label-error-message">
+            Incorrect member number or password
+          </label>
+        }
         <div>
           <input
             id="password"
