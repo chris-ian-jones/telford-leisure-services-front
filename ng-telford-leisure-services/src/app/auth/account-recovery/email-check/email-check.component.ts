@@ -8,34 +8,48 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+interface EmailCheckForm {
+  emailCheck: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-check',
   templateUrl: './email-check.component.html',
-  styleUrls: ['./email-check.component.scss']
+  styleUrl: './email-check.component.scss',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCheckComponent implements OnInit {
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
   @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  emailCheckForm!: FormGroup;
+  emailCheckForm!: FormGroup<EmailCheckForm>;
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.initEmailCheckForm();
   }
 
   initEmailCheckForm() {
-    this.emailCheckForm = this.formBuilder.group({
-      emailCheck: ['', [Validators.required]]
+    this.emailCheckForm = this.formBuilder.group<EmailCheckForm>({
+      emailCheck: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
     });
   }
 

@@ -1,27 +1,27 @@
 <div class="main-container">
   <div class="body-container">
-    <ng-container *ngIf="errorSummary.length > 0">
+    @if (errorSummary.length > 0) {
       <div #errorSummaryDiv class="error-summary-container" tabindex="2">
         <h2 class="error-summary-title">There is a problem</h2>
         <ul class="error-summary-list">
-          <li
-            *ngIf="
-              emailCheckForm.get('emailCheck').errors &&
-              emailCheckForm.get('emailCheck').hasError('required')
-            "
-          >
-            <a
-              href="javascript:void(0)"
-              (click)="onClickEmailCheckError()"
-              class="error-link"
-              tabindex="3"
-            >
-              Select yes if you have found your member number
-            </a>
-          </li>
+          @if (
+            emailCheckForm.get('emailCheck').errors &&
+            emailCheckForm.get('emailCheck').hasError('required')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="onClickEmailCheckError()"
+                class="error-link"
+                tabindex="3"
+              >
+                Select yes if you have found your member number
+              </a>
+            </li>
+          }
         </ul>
       </div>
-    </ng-container>
+    }
     <div
       class="two-thirds-container"
       [class.custom-padding]="errorSummary.length === 0"
@@ -45,17 +45,15 @@
             this.errorSummary.length > 0
           "
         >
-          <label
-            *ngIf="
-              emailCheckForm.get('emailCheck').errors &&
-              emailCheckForm.get('emailCheck').hasError('required') &&
-              this.errorSummary.length > 0
-            "
-            for="emailCheck"
-            class="input-label-error-message"
-          >
-            Select yes if you have found your member number
-          </label>
+          @if (
+            emailCheckForm.get('emailCheck').errors &&
+            emailCheckForm.get('emailCheck').hasError('required') &&
+            this.errorSummary.length > 0
+          ) {
+            <label for="emailCheck" class="input-label-error-message">
+              Select yes if you have found your member number
+            </label>
+          }
           <div
             #yesInput
             class="default-radio-input-container"

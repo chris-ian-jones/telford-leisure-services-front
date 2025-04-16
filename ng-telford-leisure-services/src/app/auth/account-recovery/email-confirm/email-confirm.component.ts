@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
@@ -16,17 +17,25 @@ import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { Email } from './../../../core/models/email';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+interface EmailForm {
+  email: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-confirm',
   templateUrl: './email-confirm.component.html',
-  styleUrls: ['./email-confirm.component.scss']
+  styleUrl: './email-confirm.component.scss',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailConfirmComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberEmailEvent = new EventEmitter<any>();
-  emailForm!: FormGroup;
+  emailForm!: FormGroup<EmailForm>;
   errorSummary: any = [];
 
   constructor(
@@ -40,9 +49,12 @@ export class EmailConfirmComponent implements OnInit {
   }
 
   initEmailForm() {
-    this.emailForm = this.formBuilder.group(
+    this.emailForm = this.formBuilder.group<EmailForm>(
       {
-        email: ['', [Validators.required, Validators.email]]
+        email: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required, Validators.email]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -52,7 +64,7 @@ export class EmailConfirmComponent implements OnInit {
     this.errorSummary.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.emailForm.valid) {
-      const email: Email = this.emailForm.value;
+      const email: Email = this.emailForm.value as Email;
       this.sendConfirmationCodeEmail(email);
     } else {
       this.getAllFormValidationErrors();
@@ -89,5 +101,12 @@ export class EmailConfirmComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

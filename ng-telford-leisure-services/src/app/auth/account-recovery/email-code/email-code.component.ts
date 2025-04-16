@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
@@ -17,11 +18,19 @@ import { EmailCode } from 'src/app/core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+interface ConfirmationCodeForm {
+  confirmationCode: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-email-code',
   templateUrl: './email-code.component.html',
-  styleUrls: ['./email-code.component.scss']
+  styleUrl: './email-code.component.scss',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
 })
 export class EmailCodeComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
@@ -30,7 +39,7 @@ export class EmailCodeComponent implements OnInit {
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
   @Output() emitConfirmationCodeEvent = new EventEmitter<any>();
-  confirmationCodeForm!: FormGroup;
+  confirmationCodeForm!: FormGroup<ConfirmationCodeForm>;
   errorSummary: any = [];
 
   constructor(
@@ -44,9 +53,12 @@ export class EmailCodeComponent implements OnInit {
   }
 
   initConfirmationCodeForm() {
-    this.confirmationCodeForm = this.formBuilder.group(
+    this.confirmationCodeForm = this.formBuilder.group<ConfirmationCodeForm>(
       {
-        confirmationCode: ['', Validators.required]
+        confirmationCode: new FormControl('', {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -125,5 +137,12 @@ export class EmailCodeComponent implements OnInit {
 
   onClickStartAgain() {
     this.changeComponentEvent.emit('email-check');
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

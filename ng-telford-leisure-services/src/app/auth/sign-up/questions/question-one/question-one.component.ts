@@ -9,24 +9,34 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionOneForm {
+  firstName: FormControl<string | null>;
+  lastName: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-one',
   templateUrl: './question-one.component.html',
-  styleUrls: ['./question-one.component.scss']
+  styleUrl: './question-one.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionOneComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionOneForm!: FormGroup;
+  questionOneForm!: FormGroup<QuestionOneForm>;
   errorSummary: any = [];
   @Output() answerOneEvent = new EventEmitter<any>();
 
@@ -40,10 +50,16 @@ export class QuestionOneComponent implements OnInit {
   }
 
   initQuestionOneForm() {
-    this.questionOneForm = this.formBuilder.group(
+    this.questionOneForm = this.formBuilder.group<QuestionOneForm>(
       {
-        firstName: [this.newMemberData.firstName, Validators.required],
-        lastName: [this.newMemberData.lastName, Validators.required]
+        firstName: new FormControl(this.newMemberData.firstName, {
+          nonNullable: false,
+          validators: [Validators.required]
+        }),
+        lastName: new FormControl(this.newMemberData.lastName, {
+          nonNullable: false,
+          validators: [Validators.required]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -73,5 +89,12 @@ export class QuestionOneComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

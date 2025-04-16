@@ -12,7 +12,10 @@ const authHeaders = new HttpHeaders({
   providedIn: 'root'
 })
 export class SignUpService {
-  constructor(private location: Location, private readonly http: HttpClient) {}
+  constructor(
+    private location: Location,
+    private readonly http: HttpClient
+  ) {}
 
   removeHashPathFromCurrentPath() {
     const pathWithoutHash = this.location.path(false);

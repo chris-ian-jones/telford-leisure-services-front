@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 import { lastValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-check-answers',
   templateUrl: './check-answers.component.html',
-  styleUrls: ['./check-answers.component.scss']
+  styleUrl: './check-answers.component.scss',
+  imports: [CommonModule, RouterModule]
 })
 export class CheckAnswersComponent {
   @Input() newMemberData!: Member;
@@ -22,7 +25,10 @@ export class CheckAnswersComponent {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorMessage: string = '';
 
-  constructor(private signUpService: SignUpService, private router: Router) {}
+  constructor(
+    private signUpService: SignUpService,
+    private router: Router
+  ) {}
 
   onClickChange(pageNumber: number) {
     this.changeAnswerEvent.emit(pageNumber);

@@ -11,14 +11,23 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionSixForm {
+  ethnicity: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-six',
   templateUrl: './question-six.component.html',
-  styleUrls: ['./question-six.component.scss']
+  styleUrl: './question-six.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionSixComponent implements OnInit {
   @Input() currentPage!: number;
@@ -42,8 +51,11 @@ export class QuestionSixComponent implements OnInit {
   }
 
   initQuestionSixForm() {
-    this.questionSixForm = this.formBuilder.group({
-      ethnicity: [this.newMemberData.ethnicity, [Validators.required]]
+    this.questionSixForm = this.formBuilder.group<QuestionSixForm>({
+      ethnicity: new FormControl(this.newMemberData.ethnicity, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
     });
   }
 

@@ -3,20 +3,30 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
+  FormControl
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
 import { Feedback } from '../core/models/feedback';
 import { FeedbackService } from './feedback.service';
 import { lastValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface SatisfactionForm {
+  satisfaction: FormControl<string | null>;
+  improvements: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrl: './feedback.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
-export class FeedbackComponent implements OnInit {
+export default class FeedbackComponent implements OnInit {
   @ViewChild('verySatisfiedInput', { static: false })
   verySatisfiedInput: ElementRef;
   @ViewChild('satisfiedInput', { static: false }) satisfiedInput: ElementRef;
@@ -43,9 +53,15 @@ export class FeedbackComponent implements OnInit {
   }
 
   initSatisfactionForm() {
-    this.satisfactionForm = this.formBuilder.group({
-      satisfaction: ['', [Validators.required]],
-      improvements: ['', [Validators.maxLength(1200)]]
+    this.satisfactionForm = this.formBuilder.group<SatisfactionForm>({
+      satisfaction: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required]
+      }),
+      improvements: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.maxLength(1200)]
+      })
     });
     this.satisfactionForm
       .get('improvements')
@@ -103,7 +119,7 @@ export class FeedbackComponent implements OnInit {
       let response: any = await lastValueFrom(
         this.feedbackService.createNewFeedback(feedback)
       );
-      this.router.navigateByUrl('feedback/success');
+      this.router.navigateByUrl('/feedback/success');
     } catch {
       this.satisfactionForm.controls['satisfaction'].setErrors({
         required: true
@@ -129,5 +145,12 @@ export class FeedbackComponent implements OnInit {
 
   onClickSatisfactionError() {
     setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

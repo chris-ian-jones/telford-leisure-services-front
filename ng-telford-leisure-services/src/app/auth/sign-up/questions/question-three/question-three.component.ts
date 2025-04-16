@@ -9,16 +9,25 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionThreeForm {
+  gender: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-three',
   templateUrl: './question-three.component.html',
-  styleUrls: ['./question-three.component.scss']
+  styleUrl: './question-three.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionThreeComponent implements OnInit {
   @Input() currentPage!: number;
@@ -38,8 +47,11 @@ export class QuestionThreeComponent implements OnInit {
   }
 
   initQuestionThreeForm() {
-    this.questionThreeForm = this.formBuilder.group({
-      gender: [this.newMemberData.gender, [Validators.required]]
+    this.questionThreeForm = this.formBuilder.group<QuestionThreeForm>({
+      gender: new FormControl(this.newMemberData.gender, {
+        nonNullable: false,
+        validators: [Validators.required]
+      })
     });
   }
 

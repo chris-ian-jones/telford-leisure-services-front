@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-member-number-recovered',
   templateUrl: './member-number-recovered.component.html',
-  styleUrls: ['./member-number-recovered.component.scss']
+  styleUrl: './member-number-recovered.component.scss',
+  imports: [CommonModule, RouterModule]
 })
 export class MemberNumberRecoveredComponent {
   @Input() memberEmail!: string;

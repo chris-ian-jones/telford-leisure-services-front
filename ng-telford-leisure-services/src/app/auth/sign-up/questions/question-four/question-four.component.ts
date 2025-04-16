@@ -9,24 +9,34 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+interface QuestionFourForm {
+  email: FormControl<string | null>;
+  phone: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-question-four',
   templateUrl: './question-four.component.html',
-  styleUrls: ['./question-four.component.scss']
+  styleUrl: './question-four.component.scss',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class QuestionFourComponent implements OnInit {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
-  questionFourForm!: FormGroup;
+  questionFourForm!: FormGroup<QuestionFourForm>;
   @Output() answerFourEvent = new EventEmitter<any>();
   errorSummary: any = [];
 
@@ -40,13 +50,16 @@ export class QuestionFourComponent implements OnInit {
   }
 
   initQuestionFourForm() {
-    this.questionFourForm = this.formBuilder.group(
+    this.questionFourForm = this.formBuilder.group<QuestionFourForm>(
       {
-        email: [
-          this.newMemberData.email,
-          [Validators.required, Validators.email]
-        ],
-        phone: [this.newMemberData.phone, Validators.pattern('[- +()0-9]+')]
+        email: new FormControl(this.newMemberData.email, {
+          nonNullable: false,
+          validators: [Validators.required, Validators.email]
+        }),
+        phone: new FormControl(this.newMemberData.phone, {
+          nonNullable: false,
+          validators: [Validators.pattern('[- +()0-9]+')]
+        })
       },
       { updateOn: 'submit' }
     );
@@ -76,5 +89,12 @@ export class QuestionFourComponent implements OnInit {
         setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
       }
     });
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }
