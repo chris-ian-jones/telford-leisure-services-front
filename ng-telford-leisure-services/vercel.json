@@ -1,18 +1,23 @@
 {
-    "routes": [
-      {
-        "handle": "filesystem"
-      },
-      {
-        "src": "/browser/(.*\\.js)",
-        "headers": {
-          "Content-Type": "application/javascript"
+    "headers": [
+        {
+            "source": "/browser/(.*).js",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "text/javascript; charset=utf-8"
+                }
+            ]
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/:path*",
+            "destination": "/browser/:path*"
         },
-        "continue": true
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/browser/index.html"
-      }
+        {
+            "source": "/(.*)",
+            "destination": "/browser/index.html"
+        }
     ]
   }
