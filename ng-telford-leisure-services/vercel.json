@@ -4,6 +4,13 @@
         "handle": "filesystem"
       },
       {
+        "src": "/browser/(.*\\.js)",
+        "headers": {
+          "Content-Type": "application/javascript"
+        },
+        "continue": true
+      },
+      {
         "src": "/(.*)",
         "dest": "/browser/index.html"
       }
