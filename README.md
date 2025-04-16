@@ -70,7 +70,7 @@ $ ng serve -o
 - [Angular](https://angular.io/) - The modern web
 developer's platform
 - [GOV.UK Design System](https://design-system.service.gov.uk/) - Design system to make your service consistent with GOV.UK. Learn from the research and experience of other service teams and avoid repeating work that’s already been done
-- [Resend](https://www.resend.com/) - Resend’s API is used as an email router to send out emails
+- [Mailtrap](https://www.mailtrap.io/) - Mailtrap’s API is used as an email router to send out emails
 
 ---
 
