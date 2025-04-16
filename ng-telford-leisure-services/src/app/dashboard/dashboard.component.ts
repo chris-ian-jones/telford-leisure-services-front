@@ -1,10 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-declare let require: any;
-const confetti = require('canvas-confetti');
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,23 +10,37 @@ const confetti = require('canvas-confetti');
   styleUrl: './dashboard.component.scss',
   imports: [CommonModule, RouterModule]
 })
-export default class DashboardComponent implements OnInit {
-  @ViewChild('confettiDiv', { static: false }) confettiDiv: ElementRef;
-
+export default class DashboardComponent implements AfterViewInit {
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.showConfetti();
   }
 
   showConfetti() {
-    const myConfetti = confetti.create(this.confettiDiv, {
-      resize: true,
-      particleCount: 600,
-      spread: 180,
-      startVelocity: 30
-    });
-    myConfetti();
+    const duration = 4 * 1000;
+    const end = Date.now() + duration;
+
+    const renderFrame = () => {
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 }
+      });
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 }
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(renderFrame);
+      }
+    };
+
+    renderFrame();
   }
 
   onClickSignOut() {
