@@ -1,37 +1,42 @@
 <div class="main-container">
   <div class="body-container">
     @if (errorSummary.length > 0) {
-    <div #errorSummaryDiv class="error-summary-container" tabindex="2">
-      <h2 class="error-summary-title">There is a problem</h2>
-      <ul class="error-summary-list">
-        @if (emailForm.get('email').errors &&
-        emailForm.get('email').hasError('required')) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="focusElement('email')"
-            class="error-link"
-            tabindex="3"
-          >
-            Enter your email adress
-          </a>
-        </li>
-        } @if (emailForm.get('email').errors &&
-        emailForm.get('email').hasError('email')) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="focusElement('wmail')"
-            class="error-link"
-            tabindex="4"
-          >
-            Enter the email address in the correct format, like
-            name&#64;example.com
-          </a>
-        </li>
-        }
-      </ul>
-    </div>
+      <div #errorSummaryDiv class="error-summary-container" tabindex="2">
+        <h2 class="error-summary-title">There is a problem</h2>
+        <ul class="error-summary-list">
+          @if (
+            emailForm.get('email').errors &&
+            emailForm.get('email').hasError('required')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('email')"
+                class="error-link"
+                tabindex="3"
+              >
+                Enter your email adress
+              </a>
+            </li>
+          }
+          @if (
+            emailForm.get('email').errors &&
+            emailForm.get('email').hasError('email')
+          ) {
+            <li>
+              <a
+                href="javascript:void(0)"
+                (click)="focusElement('wmail')"
+                class="error-link"
+                tabindex="4"
+              >
+                Enter the email address in the correct format, like
+                name&#64;example.com
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
     }
     <div
       class="two-thirds-container"
@@ -58,19 +63,24 @@
           "
         >
           <label for="email" class="default-input-label"> Email address </label>
-          @if (emailForm.get('email').errors &&
-          emailForm.get('email').hasError('required') &&
-          this.errorSummary.length > 0) {
-          <label for="email" class="input-label-error-message">
-            Enter your email address
-          </label>
-          } @if (emailForm.get('email').errors &&
-          emailForm.get('email').hasError('email') && this.errorSummary.length >
-          0) {
-          <label for="email" class="input-label-error-message">
-            Enter the email address in the correct format, like
-            name&#64;example.com
-          </label>
+          @if (
+            emailForm.get('email').errors &&
+            emailForm.get('email').hasError('required') &&
+            this.errorSummary.length > 0
+          ) {
+            <label for="email" class="input-label-error-message">
+              Enter your email address
+            </label>
+          }
+          @if (
+            emailForm.get('email').errors &&
+            emailForm.get('email').hasError('email') &&
+            this.errorSummary.length > 0
+          ) {
+            <label for="email" class="input-label-error-message">
+              Enter the email address in the correct format, like
+              name&#64;example.com
+            </label>
           }
           <div>
             <input

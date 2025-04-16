@@ -30,7 +30,10 @@ export default class AccountRecoveryComponent {
   memberNumber: string = '';
   confirmationCode: string = '';
 
-  constructor(public activatedRoute: ActivatedRoute, public router: Router) {
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public router: Router
+  ) {
     if (this.router.getCurrentNavigation().extras.state) {
       this.shownComponent =
         this.router.getCurrentNavigation().extras.state['route'];

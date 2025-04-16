@@ -25,7 +25,10 @@ export class CheckAnswersComponent {
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
   errorMessage: string = '';
 
-  constructor(private signUpService: SignUpService, private router: Router) {}
+  constructor(
+    private signUpService: SignUpService,
+    private router: Router
+  ) {}
 
   onClickChange(pageNumber: number) {
     this.changeAnswerEvent.emit(pageNumber);

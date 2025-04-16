@@ -1,81 +1,93 @@
 <div class="main-container">
   <div class="body-container">
     @if (!changeAnswer) {
-    <a
-      class="breadcrumb-link"
-      href="javascript:void(0)"
-      (click)="onClickBack()"
-      tabindex="1"
-      >Back</a
-    >
-    } @switch (currentPageNumber) { @case (1) {
-    <app-question-one
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerOneEvent)="receiveAnswer($event)"
-    ></app-question-one>
-    } @case (2) {
-    <app-question-two
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerTwoEvent)="receiveAnswer($event)"
-    ></app-question-two>
-    } @case (3) {
-    <app-question-three
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerThreeEvent)="receiveAnswer($event)"
-    ></app-question-three>
-    } @case (4) {
-    <app-question-four
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerFourEvent)="receiveAnswer($event)"
-    ></app-question-four>
-    } @case (5) {
-    <app-question-five
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerFiveEvent)="receiveAnswer($event)"
-    ></app-question-five>
-    } @case (6) {
-    <app-question-six
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerSixEvent)="receiveAnswer($event)"
-    ></app-question-six>
-    } @case (7) {
-    <app-question-seven
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerSevenEvent)="receiveAnswer($event)"
-    ></app-question-seven>
-    } @case (8) {
-    <app-question-eight
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerEightEvent)="receiveAnswer($event)"
-    ></app-question-eight>
-    } @case (9) {
-    <app-check-answers
-      [newMemberData]="newMemberData"
-      (changeAnswerEvent)="receiveChangeAnswerPage($event)"
-    ></app-check-answers>
-    } @default {
-    <app-question-one
-      [currentPage]="currentPageNumber"
-      [totalPages]="totalPageNumbers"
-      [newMemberData]="newMemberData"
-      (answerOneEvent)="receiveAnswer($event)"
-    ></app-question-one>
-    } }
+      <a
+        class="breadcrumb-link"
+        href="javascript:void(0)"
+        (click)="onClickBack()"
+        tabindex="1"
+        >Back</a
+      >
+    }
+    @switch (currentPageNumber) {
+      @case (1) {
+        <app-question-one
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerOneEvent)="receiveAnswer($event)"
+        ></app-question-one>
+      }
+      @case (2) {
+        <app-question-two
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerTwoEvent)="receiveAnswer($event)"
+        ></app-question-two>
+      }
+      @case (3) {
+        <app-question-three
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerThreeEvent)="receiveAnswer($event)"
+        ></app-question-three>
+      }
+      @case (4) {
+        <app-question-four
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerFourEvent)="receiveAnswer($event)"
+        ></app-question-four>
+      }
+      @case (5) {
+        <app-question-five
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerFiveEvent)="receiveAnswer($event)"
+        ></app-question-five>
+      }
+      @case (6) {
+        <app-question-six
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerSixEvent)="receiveAnswer($event)"
+        ></app-question-six>
+      }
+      @case (7) {
+        <app-question-seven
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerSevenEvent)="receiveAnswer($event)"
+        ></app-question-seven>
+      }
+      @case (8) {
+        <app-question-eight
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerEightEvent)="receiveAnswer($event)"
+        ></app-question-eight>
+      }
+      @case (9) {
+        <app-check-answers
+          [newMemberData]="newMemberData"
+          (changeAnswerEvent)="receiveChangeAnswerPage($event)"
+        ></app-check-answers>
+      }
+      @default {
+        <app-question-one
+          [currentPage]="currentPageNumber"
+          [totalPages]="totalPageNumbers"
+          [newMemberData]="newMemberData"
+          (answerOneEvent)="receiveAnswer($event)"
+        ></app-question-one>
+      }
+    }
   </div>
 </div>

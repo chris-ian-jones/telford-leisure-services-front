@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Url } from './../core/constants/urls';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { SignIn } from '../core/models/signIn';
 
 const authHeaders = new HttpHeaders({
@@ -50,7 +50,7 @@ export class AuthService {
 
   getDecodedSessionToken(token: string): any {
     try {
-      return jwt_decode(token);
+      return jwtDecode(token);
     } catch (Error) {
       return null;
     }

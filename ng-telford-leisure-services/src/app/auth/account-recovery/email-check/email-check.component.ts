@@ -35,7 +35,10 @@ export class EmailCheckComponent implements OnInit {
   @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
   errorSummary: any = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.initEmailCheckForm();

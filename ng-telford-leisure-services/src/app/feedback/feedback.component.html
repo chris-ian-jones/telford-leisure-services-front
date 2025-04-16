@@ -5,36 +5,41 @@
         <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>
       </div>
       @if (errorSummary.length > 0) {
-      <div #errorSummaryDiv class="error-summary-container" tabindex="2">
-        <h2 class="error-summary-title">There is a problem</h2>
-        <ul class="error-summary-list">
-          @if (satisfactionForm.get('satisfaction').errors &&
-          satisfactionForm.get('satisfaction').hasError('required')) {
-          <li>
-            <a
-              href="javascript:void(0)"
-              (click)="onClickSatisfactionError()"
-              class="error-link"
-              tabindex="3"
-            >
-              Select how you felt about the service you received
-            </a>
-          </li>
-          } @if (satisfactionForm.get('improvements').errors &&
-          satisfactionForm.get('improvements').hasError('maxlength')) {
-          <li>
-            <a
-              href="javascript:void(0)"
-              (click)="focusElement('improvements')"
-              class="error-link"
-              tabindex="4"
-            >
-              Overall feedback must be 1200 characters or fewer
-            </a>
-          </li>
-          }
-        </ul>
-      </div>
+        <div #errorSummaryDiv class="error-summary-container" tabindex="2">
+          <h2 class="error-summary-title">There is a problem</h2>
+          <ul class="error-summary-list">
+            @if (
+              satisfactionForm.get('satisfaction').errors &&
+              satisfactionForm.get('satisfaction').hasError('required')
+            ) {
+              <li>
+                <a
+                  href="javascript:void(0)"
+                  (click)="onClickSatisfactionError()"
+                  class="error-link"
+                  tabindex="3"
+                >
+                  Select how you felt about the service you received
+                </a>
+              </li>
+            }
+            @if (
+              satisfactionForm.get('improvements').errors &&
+              satisfactionForm.get('improvements').hasError('maxlength')
+            ) {
+              <li>
+                <a
+                  href="javascript:void(0)"
+                  (click)="focusElement('improvements')"
+                  class="error-link"
+                  tabindex="4"
+                >
+                  Overall feedback must be 1200 characters or fewer
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
       }
       <h1 class="page-title">Give feedback on Telford Leisure Services</h1>
       <h2 class="heading-medium">Satisfaction survey</h2>
@@ -54,12 +59,14 @@
             this.errorSummary.length > 0
           "
         >
-          @if (satisfactionForm.get('satisfaction').errors &&
-          satisfactionForm.get('satisfaction').hasError('required') &&
-          this.errorSummary.length > 0) {
-          <label for="satisfaction" class="input-label-error-message">
-            Select how you felt about the service you received today
-          </label>
+          @if (
+            satisfactionForm.get('satisfaction').errors &&
+            satisfactionForm.get('satisfaction').hasError('required') &&
+            this.errorSummary.length > 0
+          ) {
+            <label for="satisfaction" class="input-label-error-message">
+              Select how you felt about the service you received today
+            </label>
           }
           <div
             #verySatisfiedInput
@@ -216,19 +223,20 @@
           placehoder="some text"
         ></textarea>
         @if (remainingCharacters >= 0) {
-        <p class="text-area-help-text">
-          You have {{ remainingCharacters }} character{{
-            remainingCharacters === 1 ? '' : 's'
-          }}
-          remaining
-        </p>
-        } @if (remainingCharacters < 0) {
-        <p class="text-area-help-text text-area-error-text">
-          You have {{ -remainingCharacters }} character{{
-            remainingCharacters === -1 ? '' : 's'
-          }}
-          too many
-        </p>
+          <p class="text-area-help-text">
+            You have {{ remainingCharacters }} character{{
+              remainingCharacters === 1 ? '' : 's'
+            }}
+            remaining
+          </p>
+        }
+        @if (remainingCharacters < 0) {
+          <p class="text-area-help-text text-area-error-text">
+            You have {{ -remainingCharacters }} character{{
+              remainingCharacters === -1 ? '' : 's'
+            }}
+            too many
+          </p>
         }
         <div>
           <button class="default-btn" type="submit">Send feedback</button>

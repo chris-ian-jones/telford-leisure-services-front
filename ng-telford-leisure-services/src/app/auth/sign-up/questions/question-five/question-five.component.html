@@ -1,46 +1,54 @@
 @if (errorSummary.length > 0) {
-<div #errorSummary class="error-summary-container" tabindex="2">
-  <h2 class="error-summary-title">There is a problem</h2>
-  <ul class="error-summary-list">
-    @if (questionFiveForm.get('addressLineOne').errors &&
-    questionFiveForm.get('addressLineOne').hasError('required')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('addressLineOne')"
-        class="error-link"
-        tabindex="3"
-      >
-        Enter your address line 1
-      </a>
-    </li>
-    } @if (questionFiveForm.get('postcode').errors &&
-    questionFiveForm.get('postcode').hasError('required')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('postcode')"
-        class="error-link"
-        tabindex="4"
-      >
-        Enter your postcode
-      </a>
-    </li>
-    } @if (questionFiveForm.get('postcode').errors &&
-    questionFiveForm.get('postcode').hasError('pattern')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('postcode')"
-        class="error-link"
-        tabindex="4"
-      >
-        Enter a real postcode
-      </a>
-    </li>
-    }
-  </ul>
-</div>
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">There is a problem</h2>
+    <ul class="error-summary-list">
+      @if (
+        questionFiveForm.get('addressLineOne').errors &&
+        questionFiveForm.get('addressLineOne').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('addressLineOne')"
+            class="error-link"
+            tabindex="3"
+          >
+            Enter your address line 1
+          </a>
+        </li>
+      }
+      @if (
+        questionFiveForm.get('postcode').errors &&
+        questionFiveForm.get('postcode').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('postcode')"
+            class="error-link"
+            tabindex="4"
+          >
+            Enter your postcode
+          </a>
+        </li>
+      }
+      @if (
+        questionFiveForm.get('postcode').errors &&
+        questionFiveForm.get('postcode').hasError('pattern')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('postcode')"
+            class="error-link"
+            tabindex="4"
+          >
+            Enter a real postcode
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
@@ -62,12 +70,14 @@
     <label for="addressLineOne" class="default-input-label">
       Address line 1
     </label>
-    @if (questionFiveForm.get('addressLineOne').errors &&
-    questionFiveForm.get('addressLineOne').hasError('required') &&
-    this.errorSummary.length > 0) {
-    <label for="addressLineOne" class="input-label-error-message">
-      Enter your address line 1
-    </label>
+    @if (
+      questionFiveForm.get('addressLineOne').errors &&
+      questionFiveForm.get('addressLineOne').hasError('required') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="addressLineOne" class="input-label-error-message">
+        Enter your address line 1
+      </label>
     }
     <div>
       <input
@@ -128,18 +138,23 @@
     "
   >
     <label for="postcode" class="default-input-label"> Postcode </label>
-    @if (questionFiveForm.get('postcode').errors &&
-    questionFiveForm.get('postcode').hasError('required') &&
-    this.errorSummary.length > 0) {
-    <label for="postcode" class="input-label-error-message">
-      Enter your postcode
-    </label>
-    } @if (questionFiveForm.get('postcode').errors &&
-    questionFiveForm.get('postcode').hasError('pattern') &&
-    this.errorSummary.length > 0) {
-    <label for="postcode" class="input-label-error-message">
-      Enter a real postcode
-    </label>
+    @if (
+      questionFiveForm.get('postcode').errors &&
+      questionFiveForm.get('postcode').hasError('required') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="postcode" class="input-label-error-message">
+        Enter your postcode
+      </label>
+    }
+    @if (
+      questionFiveForm.get('postcode').errors &&
+      questionFiveForm.get('postcode').hasError('pattern') &&
+      this.errorSummary.length > 0
+    ) {
+      <label for="postcode" class="input-label-error-message">
+        Enter a real postcode
+      </label>
     }
     <div>
       <input

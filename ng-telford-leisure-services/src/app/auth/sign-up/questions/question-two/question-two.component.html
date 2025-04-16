@@ -1,94 +1,114 @@
 @if (errorSummary.length > 0) {
-<div #errorSummary class="error-summary-container" tabindex="2">
-  <h2 class="error-summary-title">There is a problem</h2>
-  <ul class="error-summary-list">
-    @if (questionTwoForm.get('day').errors &&
-    questionTwoForm.get('day').hasError('required')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('day')"
-        class="error-link"
-        tabindex="3"
-      >
-        Enter the day you were born
-      </a>
-    </li>
-    } @if (questionTwoForm.get('day').errors &&
-    questionTwoForm.get('day').hasError('pattern')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('day')"
-        class="error-link"
-        tabindex="3"
-      >
-        Day must be a number
-      </a>
-    </li>
-    } @if (questionTwoForm.get('month').errors &&
-    questionTwoForm.get('month').hasError('required')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('month')"
-        class="error-link"
-        tabindex="4"
-      >
-        Enter the month you were born
-      </a>
-    </li>
-    } @if (questionTwoForm.get('month').errors &&
-    questionTwoForm.get('month').hasError('pattern')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('month')"
-        class="error-link"
-        tabindex="3"
-      >
-        Month must be a number
-      </a>
-    </li>
-    } @if (questionTwoForm.get('year').errors &&
-    questionTwoForm.get('year').hasError('required')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('year')"
-        class="error-link"
-        tabindex="4"
-      >
-        Enter the year you were born
-      </a>
-    </li>
-    } @if (questionTwoForm.get('year').errors &&
-    questionTwoForm.get('year').hasError('pattern')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('year')"
-        class="error-link"
-        tabindex="4"
-      >
-        Year must be a number
-      </a>
-    </li>
-    } @if (questionTwoForm.get('day').errors &&
-    questionTwoForm.get('day').hasError('invalid')) {
-    <li>
-      <a
-        href="javascript:void(0)"
-        (click)="focusElement('day')"
-        class="error-link"
-        tabindex="4"
-      >
-        Your date of birth must be a valid date
-      </a>
-    </li>
-    }
-  </ul>
-</div>
+  <div #errorSummary class="error-summary-container" tabindex="2">
+    <h2 class="error-summary-title">There is a problem</h2>
+    <ul class="error-summary-list">
+      @if (
+        questionTwoForm.get('day').errors &&
+        questionTwoForm.get('day').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('day')"
+            class="error-link"
+            tabindex="3"
+          >
+            Enter the day you were born
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('day').errors &&
+        questionTwoForm.get('day').hasError('pattern')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('day')"
+            class="error-link"
+            tabindex="3"
+          >
+            Day must be a number
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('month').errors &&
+        questionTwoForm.get('month').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('month')"
+            class="error-link"
+            tabindex="4"
+          >
+            Enter the month you were born
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('month').errors &&
+        questionTwoForm.get('month').hasError('pattern')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('month')"
+            class="error-link"
+            tabindex="3"
+          >
+            Month must be a number
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('year').errors &&
+        questionTwoForm.get('year').hasError('required')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('year')"
+            class="error-link"
+            tabindex="4"
+          >
+            Enter the year you were born
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('year').errors &&
+        questionTwoForm.get('year').hasError('pattern')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('year')"
+            class="error-link"
+            tabindex="4"
+          >
+            Year must be a number
+          </a>
+        </li>
+      }
+      @if (
+        questionTwoForm.get('day').errors &&
+        questionTwoForm.get('day').hasError('invalid')
+      ) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="focusElement('day')"
+            class="error-link"
+            tabindex="4"
+          >
+            Your date of birth must be a valid date
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
