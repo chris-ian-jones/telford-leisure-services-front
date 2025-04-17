@@ -149,5 +149,12 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'abrahamInput',
       tabIndex: 3
     }
+  },
+  membershipType: {
+    required: {
+      message: 'Select your membership type',
+      focusElementId: 'adtInput',
+      tabIndex: 3
+    }
   }
 };
