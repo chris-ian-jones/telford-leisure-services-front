@@ -16,7 +16,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerOneEvent)="receiveAnswer($event)"
-        ></app-question-one>
+        />
       }
       @case (2) {
         <app-question-two
@@ -24,7 +24,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerTwoEvent)="receiveAnswer($event)"
-        ></app-question-two>
+        />
       }
       @case (3) {
         <app-question-three
@@ -32,7 +32,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerThreeEvent)="receiveAnswer($event)"
-        ></app-question-three>
+        />
       }
       @case (4) {
         <app-question-four
@@ -40,7 +40,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerFourEvent)="receiveAnswer($event)"
-        ></app-question-four>
+        />
       }
       @case (5) {
         <app-question-five
@@ -48,7 +48,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerFiveEvent)="receiveAnswer($event)"
-        ></app-question-five>
+        />
       }
       @case (6) {
         <app-question-six
@@ -56,7 +56,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerSixEvent)="receiveAnswer($event)"
-        ></app-question-six>
+        />
       }
       @case (7) {
         <app-question-seven
@@ -64,7 +64,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerSevenEvent)="receiveAnswer($event)"
-        ></app-question-seven>
+        />
       }
       @case (8) {
         <app-question-eight
@@ -72,13 +72,13 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerEightEvent)="receiveAnswer($event)"
-        ></app-question-eight>
+        />
       }
       @case (9) {
         <app-check-answers
           [newMemberData]="newMemberData"
           (changeAnswerEvent)="receiveChangeAnswerPage($event)"
-        ></app-check-answers>
+        />
       }
       @default {
         <app-question-one
@@ -86,7 +86,7 @@
           [totalPages]="totalPageNumbers"
           [newMemberData]="newMemberData"
           (answerOneEvent)="receiveAnswer($event)"
-        ></app-question-one>
+        />
       }
     }
   </div>
