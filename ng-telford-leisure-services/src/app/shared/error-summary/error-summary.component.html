@@ -8,6 +8,7 @@
             href="javascript:void(0)"
             (click)="onErrorClick(error.focusElementId)"
             class="error-link"
+            [attr.tabindex]="error.tabIndex"
           >
             {{ error.message }}
           </a>
