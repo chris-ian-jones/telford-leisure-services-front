@@ -177,5 +177,17 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'yesInput',
       tabIndex: 3
     }
+  },
+  confirmationCode: {
+    required: {
+      message: 'Enter the 6 character confirmation code',
+      focusElementId: 'confirmationCode',
+      tabIndex: 3
+    },
+    incorrect: {
+      message: 'Enter correct confirmation code',
+      focusElementId: 'confirmationCode',
+      tabIndex: 3
+    }
   }
 };

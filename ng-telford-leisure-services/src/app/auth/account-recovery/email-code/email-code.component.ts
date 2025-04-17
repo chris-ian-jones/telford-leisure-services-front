@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -11,7 +10,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { EmailCode } from 'src/app/core/models/emailCode';
@@ -21,6 +19,11 @@ import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface ConfirmationCodeForm {
   confirmationCode: FormControl<string | null>;
@@ -30,17 +33,23 @@ interface ConfirmationCodeForm {
   selector: 'app-email-code',
   templateUrl: './email-code.component.html',
   styleUrl: './email-code.component.scss',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    ErrorSummaryComponent
+  ]
 })
 export class EmailCodeComponent implements OnInit {
-  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Input() memberEmail!: string;
   @Input() path: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
   @Output() emitConfirmationCodeEvent = new EventEmitter<any>();
   confirmationCodeForm!: FormGroup<ConfirmationCodeForm>;
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +74,7 @@ export class EmailCodeComponent implements OnInit {
   }
 
   onClickConfirm() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.confirmationCodeForm.valid) {
       const payload: EmailCode = {
@@ -79,7 +88,7 @@ export class EmailCodeComponent implements OnInit {
         this.validateConfirmationCode(payload);
       }
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
@@ -94,7 +103,7 @@ export class EmailCodeComponent implements OnInit {
       this.confirmationCodeForm.controls['confirmationCode'].setErrors({
         incorrect: true
       });
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
@@ -111,24 +120,30 @@ export class EmailCodeComponent implements OnInit {
       this.confirmationCodeForm.controls['confirmationCode'].setErrors({
         incorrect: true
       });
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.confirmationCodeForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.confirmationCodeForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.confirmationCodeForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   onClickBack() {
