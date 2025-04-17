@@ -156,5 +156,19 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'adtInput',
       tabIndex: 3
     }
+  },
+  satisfaction: {
+    required: {
+      message: 'Select how you felt about the service you received',
+      focusElementId: 'verySatisfiedInput',
+      tabIndex: 3
+    }
+  },
+  improvements: {
+    maxlength: {
+      message: 'Overall feedback must be 1200 characters or fewer',
+      focusElementId: 'improvements',
+      tabIndex: 4
+    }
   }
 };

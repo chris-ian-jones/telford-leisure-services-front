@@ -4,42 +4,12 @@
       <div class="backlink-container">
         <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>
       </div>
-      @if (errorSummary.length > 0) {
-        <div #errorSummaryDiv class="error-summary-container" tabindex="2">
-          <h2 class="error-summary-title">There is a problem</h2>
-          <ul class="error-summary-list">
-            @if (
-              satisfactionForm.get('satisfaction').errors &&
-              satisfactionForm.get('satisfaction').hasError('required')
-            ) {
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  (click)="onClickSatisfactionError()"
-                  class="error-link"
-                  tabindex="3"
-                >
-                  Select how you felt about the service you received
-                </a>
-              </li>
-            }
-            @if (
-              satisfactionForm.get('improvements').errors &&
-              satisfactionForm.get('improvements').hasError('maxlength')
-            ) {
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  (click)="focusElement('improvements')"
-                  class="error-link"
-                  tabindex="4"
-                >
-                  Overall feedback must be 1200 characters or fewer
-                </a>
-              </li>
-            }
-          </ul>
-        </div>
+      @if (errors.length > 0) {
+        <app-error-summary
+          [errors]="errors"
+          [tabIndex]="1"
+          (focusField)="focusElement($event)"
+        />
       }
       <h1 class="page-title">Give feedback on Telford Leisure Services</h1>
       <h2 class="heading-medium">Satisfaction survey</h2>
@@ -56,13 +26,13 @@
           [class.input-container-error]="
             (satisfactionForm.get('satisfaction').errors ||
               satisfactionForm.get('satisfaction').hasError('required')) &&
-            this.errorSummary.length > 0
+            this.errors.length > 0
           "
         >
           @if (
             satisfactionForm.get('satisfaction').errors &&
             satisfactionForm.get('satisfaction').hasError('required') &&
-            this.errorSummary.length > 0
+            this.errors.length > 0
           ) {
             <label for="satisfaction" class="input-label-error-message">
               Select how you felt about the service you received today
@@ -70,6 +40,7 @@
           }
           <div
             #verySatisfiedInput
+            id="verySatisfiedInput"
             class="default-radio-input-container"
             tabindex="0"
             (click)="selectInput('Very satisfied')"
