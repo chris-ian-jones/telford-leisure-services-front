@@ -89,5 +89,12 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'year',
       tabIndex: 4
     }
+  },
+  gender: {
+    required: {
+      message: 'Select your gender',
+      focusElementId: 'maleInput',
+      tabIndex: 3
+    }
   }
 };
