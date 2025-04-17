@@ -10,7 +10,6 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl
 } from '@angular/forms';
@@ -18,6 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface QuestionSevenForm {
   mainCenter: FormControl<string | null>;
@@ -27,7 +31,13 @@ interface QuestionSevenForm {
   selector: 'app-question-seven',
   templateUrl: './question-seven.component.html',
   styleUrl: './question-seven.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionSevenComponent implements OnInit {
   @Input() currentPage!: number;
@@ -42,8 +52,8 @@ export class QuestionSevenComponent implements OnInit {
   @ViewChild('stirchleyInput', { static: false }) stirchleyInput: ElementRef;
   @ViewChild('wellingtonInput', { static: false }) wellingtonInput: ElementRef;
   questionSevenForm!: FormGroup;
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -62,7 +72,7 @@ export class QuestionSevenComponent implements OnInit {
 
   selectInput(value: string) {
     this.questionSevenForm.controls['mainCenter'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
 
     switch (value) {
       case 'Abraham Darby Sports and Leisure Center': {
@@ -104,24 +114,37 @@ export class QuestionSevenComponent implements OnInit {
     if (this.questionSevenForm.valid) {
       this.answerSevenEvent.emit(this.questionSevenForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionSevenForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionSevenForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionSevenForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
+  }
+
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 
   onClickMainCenterRequiredError() {

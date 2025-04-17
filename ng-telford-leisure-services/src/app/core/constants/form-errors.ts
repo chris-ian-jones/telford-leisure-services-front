@@ -142,5 +142,12 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'whiteInput',
       tabIndex: 3
     }
+  },
+  mainCenter: {
+    required: {
+      message: 'Select your main center',
+      focusElementId: 'abrahamInput',
+      tabIndex: 3
+    }
   }
 };

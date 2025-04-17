@@ -1,24 +1,9 @@
-@if (errorSummary.length > 0) {
-  <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">There is a problem</h2>
-    <ul class="error-summary-list">
-      @if (
-        questionSevenForm.get('mainCenter').errors &&
-        questionSevenForm.get('mainCenter').hasError('required')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="onClickMainCenterRequiredError()"
-            class="error-link"
-            tabindex="3"
-          >
-            Select your main center
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
+@if (errors.length > 0) {
+  <app-error-summary
+    [errors]="errors"
+    [tabIndex]="1"
+    (focusField)="focusElement($event)"
+  />
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
@@ -34,13 +19,13 @@
     [class.input-container-error]="
       (questionSevenForm.get('mainCenter').errors ||
         questionSevenForm.get('mainCenter').hasError('required')) &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     "
   >
     @if (
       questionSevenForm.get('mainCenter').errors &&
       questionSevenForm.get('mainCenter').hasError('required') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="mainCenter" class="input-label-error-message">
         Select your main leisure center
@@ -48,6 +33,7 @@
     }
     <div
       #abrahamInput
+      id="abrahamInput"
       class="default-radio-input-container"
       tabindex="0"
       (click)="selectInput('Abraham Darby Sports and Leisure Center')"
