@@ -1,24 +1,9 @@
-@if (errorSummary.length > 0) {
-  <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">There is a problem</h2>
-    <ul class="error-summary-list">
-      @if (
-        questionSixForm.get('ethnicity').errors &&
-        questionSixForm.get('ethnicity').hasError('required')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="onClickEthnicityRequiredError()"
-            class="error-link"
-            tabindex="3"
-          >
-            Select your ethnicity
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
+@if (errors.length > 0) {
+  <app-error-summary
+    [errors]="errors"
+    [tabIndex]="1"
+    (focusField)="focusElement($event)"
+  />
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
@@ -34,13 +19,13 @@
     [class.input-container-error]="
       (questionSixForm.get('ethnicity').errors ||
         questionSixForm.get('ethnicity').hasError('required')) &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     "
   >
     @if (
       questionSixForm.get('ethnicity').errors &&
       questionSixForm.get('ethnicity').hasError('required') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="ethnicity" class="input-label-error-message">
         Select your ethnicity
@@ -48,6 +33,7 @@
     }
     <div
       #whiteInput
+      id="whiteInput"
       class="default-radio-input-container"
       tabindex="0"
       (click)="selectInput('White UK/Irish/Euro')"

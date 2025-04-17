@@ -135,5 +135,12 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'postcode',
       tabIndex: 4
     }
+  },
+  ethnicity: {
+    required: {
+      message: 'Select your ethnicity',
+      focusElementId: 'whiteInput',
+      tabIndex: 3
+    }
   }
 };
