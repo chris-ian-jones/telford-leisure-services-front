@@ -170,5 +170,12 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'improvements',
       tabIndex: 4
     }
+  },
+  emailCheck: {
+    required: {
+      message: 'Select yes if you have found your member number',
+      focusElementId: 'yesInput',
+      tabIndex: 3
+    }
   }
 };
