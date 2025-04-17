@@ -48,5 +48,46 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'lastName',
       tabIndex: 4
     }
+  },
+  day: {
+    required: {
+      message: 'Enter the day you were born',
+      focusElementId: 'day',
+      tabIndex: 3
+    },
+    pattern: {
+      message: 'Day must be a number',
+      focusElementId: 'day',
+      tabIndex: 3
+    },
+    invalid: {
+      message: 'Your date of birth must be a valid date',
+      focusElementId: 'day',
+      tabIndex: 4
+    }
+  },
+  month: {
+    required: {
+      message: 'Enter the month you were born',
+      focusElementId: 'month',
+      tabIndex: 4
+    },
+    pattern: {
+      message: 'Month must be a number',
+      focusElementId: 'month',
+      tabIndex: 3
+    }
+  },
+  year: {
+    required: {
+      message: 'Enter the year you were born',
+      focusElementId: 'year',
+      tabIndex: 4
+    },
+    pattern: {
+      message: 'Year must be a number',
+      focusElementId: 'year',
+      tabIndex: 4
+    }
   }
 };

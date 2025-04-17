@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -10,7 +9,6 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl
 } from '@angular/forms';
@@ -19,7 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
 interface QuestionTwoForm {
   day: FormControl<string | null>;
   month: FormControl<string | null>;
@@ -30,16 +32,22 @@ interface QuestionTwoForm {
   selector: 'app-question-two',
   templateUrl: './question-two.component.html',
   styleUrl: './question-two.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ],
   providers: [DatePipe]
 })
 export class QuestionTwoComponent implements OnInit {
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   questionTwoForm!: FormGroup;
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
   @Output() answerTwoEvent = new EventEmitter<any>();
 
   constructor(
@@ -108,27 +116,33 @@ export class QuestionTwoComponent implements OnInit {
         });
       } else {
         this.questionTwoForm.controls['day'].setErrors({ invalid: true });
-        this.getAllFormValidationErrors();
+        this.handleFormValidationErrors();
       }
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionTwoForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionTwoForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionTwoForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
