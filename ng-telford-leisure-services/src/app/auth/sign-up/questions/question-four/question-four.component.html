@@ -1,55 +1,9 @@
-@if (errorSummary.length > 0) {
-  <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">There is a problem</h2>
-    <ul class="error-summary-list">
-      @if (
-        questionFourForm.get('email').errors &&
-        questionFourForm.get('email').hasError('required')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="focusElement('email')"
-            class="error-link"
-            tabindex="3"
-          >
-            Enter your email address
-          </a>
-        </li>
-      }
-      @if (
-        questionFourForm.get('email').errors &&
-        questionFourForm.get('email').hasError('email')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="focusElement('email')"
-            class="error-link"
-            tabindex="3"
-          >
-            Enter the email address in the correct format, like
-            name&#64;example.com
-          </a>
-        </li>
-      }
-      @if (
-        questionFourForm.get('phone').errors &&
-        questionFourForm.get('phone').hasError('pattern')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="focusElement('phone')"
-            class="error-link"
-            tabindex="4"
-          >
-            Enter a valid phone number
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
+@if (errors.length > 0) {
+  <app-error-summary
+    [errors]="errors"
+    [tabIndex]="1"
+    (focusField)="focusElement($event)"
+  />
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
@@ -65,14 +19,14 @@
     [class.input-container-error]="
       (questionFourForm.get('email').errors ||
         questionFourForm.get('email').hasError('required')) &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     "
   >
     <label for="email" class="default-input-label"> Email address </label>
     @if (
       questionFourForm.get('email').errors &&
       questionFourForm.get('email').hasError('required') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="email" class="input-label-error-message">
         Enter your email address
@@ -81,7 +35,7 @@
     @if (
       questionFourForm.get('email').errors &&
       questionFourForm.get('email').hasError('email') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="email" class="input-label-error-message">
         Enter the email address in the correct format, like name&#64;example.com
@@ -94,7 +48,7 @@
         type="text"
         class="default-text-input"
         [class.text-input-error]="
-          questionFourForm.get('email').errors && this.errorSummary.length > 0
+          questionFourForm.get('email').errors && this.errors.length > 0
         "
       />
     </div>
@@ -102,7 +56,7 @@
   <div
     class="default-input-container"
     [class.input-container-error]="
-      questionFourForm.get('phone').errors && this.errorSummary.length > 0
+      questionFourForm.get('phone').errors && this.errors.length > 0
     "
   >
     <label for="phone" class="default-input-label">
@@ -111,7 +65,7 @@
     @if (
       questionFourForm.get('phone').errors &&
       questionFourForm.get('phone').hasError('pattern') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="email" class="input-label-error-message">
         Enter a valid phone number
@@ -124,7 +78,7 @@
         type="text"
         class="default-text-input three-quarters-text-input"
         [class.text-input-error]="
-          questionFourForm.get('phone').errors && this.errorSummary.length > 0
+          questionFourForm.get('phone').errors && this.errors.length > 0
         "
       />
     </div>

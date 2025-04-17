@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -11,7 +10,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
@@ -19,7 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 interface QuestionFourForm {
   email: FormControl<string | null>;
   phone: FormControl<string | null>;
@@ -29,16 +31,22 @@ interface QuestionFourForm {
   selector: 'app-question-four',
   templateUrl: './question-four.component.html',
   styleUrl: './question-four.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionFourComponent implements OnInit {
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   questionFourForm!: FormGroup<QuestionFourForm>;
   @Output() answerFourEvent = new EventEmitter<any>();
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,29 +74,35 @@ export class QuestionFourComponent implements OnInit {
   }
 
   onClickContinue() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionFourForm.valid) {
       this.answerFourEvent.emit(this.questionFourForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionFourForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionFourForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionFourForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {

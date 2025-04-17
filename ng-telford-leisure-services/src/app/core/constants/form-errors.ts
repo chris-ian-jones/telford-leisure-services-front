@@ -96,5 +96,25 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'maleInput',
       tabIndex: 3
     }
+  },
+  email: {
+    required: {
+      message: 'Enter your email address',
+      focusElementId: 'email',
+      tabIndex: 3
+    },
+    email: {
+      message:
+        'Enter the email address in the correct format, like name@example.com',
+      focusElementId: 'email',
+      tabIndex: 3
+    }
+  },
+  phone: {
+    pattern: {
+      message: 'Enter a valid phone number',
+      focusElementId: 'phone',
+      tabIndex: 4
+    }
   }
 };
