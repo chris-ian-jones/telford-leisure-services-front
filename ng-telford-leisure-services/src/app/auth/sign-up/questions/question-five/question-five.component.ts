@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -13,13 +12,17 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface QuestionFiveForm {
   addressLineOne: FormControl<string | null>;
@@ -33,7 +36,13 @@ interface QuestionFiveForm {
   selector: 'app-question-five',
   templateUrl: './question-five.component.html',
   styleUrl: './question-five.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionFiveComponent implements OnInit {
   @Input() currentPage!: number;
@@ -41,8 +50,8 @@ export class QuestionFiveComponent implements OnInit {
   @Input() newMemberData!: Member;
   @Output() answerFiveEvent = new EventEmitter<any>();
   questionFiveForm!: FormGroup<QuestionFiveForm>;
-  errorSummary: any = [];
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  errors: ErrorSummaryItem[] = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,29 +93,35 @@ export class QuestionFiveComponent implements OnInit {
   }
 
   onClickContinue() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionFiveForm.valid) {
       this.answerFiveEvent.emit(this.questionFiveForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionFiveForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionFiveForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionFiveForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {

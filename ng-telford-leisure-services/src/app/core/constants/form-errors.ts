@@ -116,5 +116,24 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       focusElementId: 'phone',
       tabIndex: 4
     }
+  },
+  addressLineOne: {
+    required: {
+      message: 'Enter your address line 1',
+      focusElementId: 'addressLineOne',
+      tabIndex: 3
+    }
+  },
+  postcode: {
+    required: {
+      message: 'Enter your postcode',
+      focusElementId: 'postcode',
+      tabIndex: 4
+    },
+    pattern: {
+      message: 'Enter a real postcode',
+      focusElementId: 'postcode',
+      tabIndex: 4
+    }
   }
 };

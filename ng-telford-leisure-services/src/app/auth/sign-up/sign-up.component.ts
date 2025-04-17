@@ -33,7 +33,7 @@ import { RouterModule } from '@angular/router';
 })
 export default class SignUpComponent {
   // currentPageNumber: number = 1;
-  currentPageNumber: number = 4;
+  currentPageNumber: number = 5;
   totalPageNumbers: number = 8;
   @Output() newMemberData: Member = {
     firstName: '',
