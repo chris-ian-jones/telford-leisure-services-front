@@ -33,6 +33,35 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       message: 'Enter your password',
       focusElementId: 'password',
       tabIndex: 5
+    },
+    minlength: {
+      message: 'Password must be 8 characters or more',
+      focusElementId: 'password',
+      tabIndex: 3
+    },
+    pattern: {
+      message:
+        'Password must be in the correct format which contains at least one capital letter, one lower case letter, one number and one symbol (eg ?!£%)',
+      focusElementId: 'password',
+      tabIndex: 3
+    },
+    token: {
+      message:
+        'Confirmation code has expired. Click this link to go back and generate a new one',
+      focusElementId: 'reloadCurrentRoute',
+      tabIndex: 3
+    }
+  },
+  confirmPassword: {
+    required: {
+      message: 'Confirm your password',
+      focusElementId: 'confirmPassword',
+      tabIndex: 3
+    },
+    match: {
+      message: 'Confirm password and password should match',
+      focusElementId: 'confirmPassword',
+      tabIndex: 3
     }
   },
   firstName: {

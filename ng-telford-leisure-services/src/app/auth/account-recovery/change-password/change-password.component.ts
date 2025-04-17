@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -11,7 +10,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,6 +19,11 @@ import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface PasswordForm {
   password: FormControl<string | null>;
@@ -31,15 +34,21 @@ interface PasswordForm {
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    ErrorSummaryComponent
+  ]
 })
 export class ChangePasswordComponent implements OnInit {
-  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Input() memberEmail!: string;
   @Input() confirmationCode!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
   passwordForm!: FormGroup<PasswordForm>;
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -92,7 +101,7 @@ export class ChangePasswordComponent implements OnInit {
       };
       this.changePassword(payload);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
@@ -104,24 +113,30 @@ export class ChangePasswordComponent implements OnInit {
       this.changeComponentEvent.emit('password-reset');
     } catch {
       this.passwordForm.controls['password'].setErrors({ token: true });
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.passwordForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.passwordForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.passwordForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   reloadCurrentRoute() {
@@ -134,9 +149,13 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   focusElement(elementId: string) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
+    if (elementId === 'reloadCurrentRoute') {
+      this.reloadCurrentRoute();
+    } else {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.focus();
+      }
     }
   }
 }
