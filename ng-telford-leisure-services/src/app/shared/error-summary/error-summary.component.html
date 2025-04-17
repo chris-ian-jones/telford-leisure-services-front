@@ -1,0 +1,19 @@
+@if (errors.length > 0) {
+  <div #errorSummary class="error-summary-container" [attr.tabindex]="tabIndex">
+    <h2 class="error-summary-title">There is a problem</h2>
+    <ul class="error-summary-list">
+      @for (error of errors; track error.focusElementId) {
+        <li>
+          <a
+            href="javascript:void(0)"
+            (click)="onErrorClick(error.focusElementId)"
+            class="error-link"
+            [attr.tabindex]="error.tabIndex"
+          >
+            {{ error.message }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+}

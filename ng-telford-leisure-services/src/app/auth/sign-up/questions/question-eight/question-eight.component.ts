@@ -10,7 +10,6 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl,
   ReactiveFormsModule,
@@ -19,7 +18,11 @@ import {
 import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 interface QuestionEightForm {
   membershipType: FormControl<string | null>;
 }
@@ -28,7 +31,13 @@ interface QuestionEightForm {
   selector: 'app-question-eight',
   templateUrl: './question-eight.component.html',
   styleUrl: './question-eight.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionEightComponent implements OnInit {
   @Input() currentPage!: number;
@@ -40,8 +49,8 @@ export class QuestionEightComponent implements OnInit {
   @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
   @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
   questionEightForm!: FormGroup<QuestionEightForm>;
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -60,7 +69,7 @@ export class QuestionEightComponent implements OnInit {
 
   selectInput(value: string) {
     this.questionEightForm.controls['membershipType'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
 
     switch (value) {
       case 'TLC Adt Resident 16+ - ADT': {
@@ -90,27 +99,36 @@ export class QuestionEightComponent implements OnInit {
     if (this.questionEightForm.valid) {
       this.answerEightEvent.emit(this.questionEightForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionEightForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionEightForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionEightForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
-  onClickMembershipTypeRequiredError() {
-    setTimeout(() => this.adtInput.nativeElement.focus());
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

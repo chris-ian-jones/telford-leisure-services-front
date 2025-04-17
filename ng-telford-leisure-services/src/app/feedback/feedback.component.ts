@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl
 } from '@angular/forms';
@@ -14,6 +13,11 @@ import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from '../core/constants/form-errors';
+import { ErrorSummaryComponent } from '../shared/error-summary/error-summary.component';
 
 interface SatisfactionForm {
   satisfaction: FormControl<string | null>;
@@ -24,7 +28,13 @@ interface SatisfactionForm {
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export default class FeedbackComponent implements OnInit {
   @ViewChild('verySatisfiedInput', { static: false })
@@ -38,8 +48,8 @@ export default class FeedbackComponent implements OnInit {
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
   satisfactionForm!: FormGroup;
   remainingCharacters: number = 1200;
-  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -74,7 +84,7 @@ export default class FeedbackComponent implements OnInit {
 
   selectInput(value: string) {
     this.satisfactionForm.controls['satisfaction'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
 
     switch (value) {
       case 'Very satisfied': {
@@ -105,12 +115,12 @@ export default class FeedbackComponent implements OnInit {
   }
 
   onClickSendFeedback() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.satisfactionForm.valid) {
       this.createNewFeedback(this.satisfactionForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
@@ -127,24 +137,26 @@ export default class FeedbackComponent implements OnInit {
     }
   }
 
-  getAllFormValidationErrors() {
-    Object.keys(this.satisfactionForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.satisfactionForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
-    });
-  }
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
 
-  onClickSatisfactionError() {
-    setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
+    Object.keys(this.satisfactionForm.controls).forEach((control) => {
+      const controlErrors = this.satisfactionForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
+    });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {

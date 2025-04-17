@@ -10,7 +10,6 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl
 } from '@angular/forms';
@@ -18,6 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface QuestionSixForm {
   ethnicity: FormControl<string | null>;
@@ -27,7 +31,13 @@ interface QuestionSixForm {
   selector: 'app-question-six',
   templateUrl: './question-six.component.html',
   styleUrl: './question-six.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionSixComponent implements OnInit {
   @Input() currentPage!: number;
@@ -41,8 +51,8 @@ export class QuestionSixComponent implements OnInit {
   @ViewChild('mixedInput', { static: false }) mixedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
   questionSixForm!: FormGroup;
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -61,7 +71,7 @@ export class QuestionSixComponent implements OnInit {
 
   selectInput(value: string) {
     this.questionSixForm.controls['ethnicity'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
 
     switch (value) {
       case 'White UK/Irish/Euro': {
@@ -99,27 +109,36 @@ export class QuestionSixComponent implements OnInit {
     if (this.questionSixForm.valid) {
       this.answerSixEvent.emit(this.questionSixForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionSixForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionSixForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionSixForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
-  onClickEthnicityRequiredError() {
-    setTimeout(() => this.whiteInput.nativeElement.focus());
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

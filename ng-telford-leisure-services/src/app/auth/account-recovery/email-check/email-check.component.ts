@@ -10,12 +10,16 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface EmailCheckForm {
   emailCheck: FormControl<string | null>;
@@ -25,15 +29,21 @@ interface EmailCheckForm {
   selector: 'app-email-check',
   templateUrl: './email-check.component.html',
   styleUrl: './email-check.component.scss',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    ErrorSummaryComponent
+  ]
 })
 export class EmailCheckComponent implements OnInit {
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
   @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @Output() changeComponentEvent = new EventEmitter<any>();
   emailCheckForm!: FormGroup<EmailCheckForm>;
-  @ViewChild('errorSummaryDiv', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,7 +65,7 @@ export class EmailCheckComponent implements OnInit {
 
   selectInput(value: string) {
     this.emailCheckForm.controls['emailCheck'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
 
     switch (value) {
       case 'Yes': {
@@ -74,7 +84,7 @@ export class EmailCheckComponent implements OnInit {
   }
 
   onClickContinue() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     if (this.emailCheckForm.valid) {
       if (this.emailCheckForm.controls['emailCheck'].value === 'Yes') {
         this.router.navigateByUrl('/sign-in');
@@ -82,27 +92,36 @@ export class EmailCheckComponent implements OnInit {
         this.changeComponentEvent.emit('email-confirm');
       }
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.emailCheckForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.emailCheckForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.emailCheckForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
-  onClickEmailCheckError() {
-    setTimeout(() => this.yesInput.nativeElement.focus());
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

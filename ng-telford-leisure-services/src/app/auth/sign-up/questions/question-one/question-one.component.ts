@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -11,7 +10,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { SignUpService } from '../../sign-up.service';
@@ -19,6 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
 
 interface QuestionOneForm {
   firstName: FormControl<string | null>;
@@ -29,15 +32,21 @@ interface QuestionOneForm {
   selector: 'app-question-one',
   templateUrl: './question-one.component.html',
   styleUrl: './question-one.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionOneComponent implements OnInit {
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() newMemberData!: Member;
   questionOneForm!: FormGroup<QuestionOneForm>;
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
   @Output() answerOneEvent = new EventEmitter<any>();
 
   constructor(
@@ -66,29 +75,35 @@ export class QuestionOneComponent implements OnInit {
   }
 
   onClickContinue() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     this.signUpService.removeHashPathFromCurrentPath();
     if (this.questionOneForm.valid) {
       this.answerOneEvent.emit(this.questionOneForm.value);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionOneForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionOneForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionOneForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {

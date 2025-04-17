@@ -11,13 +11,17 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ERROR_MESSAGES,
+  ErrorSummaryItem
+} from 'src/app/core/constants/form-errors';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
 
 interface QuestionThreeForm {
   gender: FormControl<string | null>;
@@ -27,7 +31,13 @@ interface QuestionThreeForm {
   selector: 'app-question-three',
   templateUrl: './question-three.component.html',
   styleUrl: './question-three.component.scss',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ErrorSummaryComponent
+  ]
 })
 export class QuestionThreeComponent implements OnInit {
   @Input() currentPage!: number;
@@ -37,8 +47,8 @@ export class QuestionThreeComponent implements OnInit {
   questionThreeForm!: FormGroup;
   @ViewChild('maleInput', { static: false }) maleInput: ElementRef;
   @ViewChild('femaleInput', { static: false }) femaleInput: ElementRef;
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  errorSummary: any = [];
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  errors: ErrorSummaryItem[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -57,7 +67,7 @@ export class QuestionThreeComponent implements OnInit {
 
   selectInput(value: string) {
     this.questionThreeForm.controls['gender'].setValue(value);
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     if (value === 'Male') {
       setTimeout(() => this.maleInput.nativeElement.focus());
     } else if (value === 'Female') {
@@ -71,27 +81,36 @@ export class QuestionThreeComponent implements OnInit {
         gender: this.questionThreeForm.controls['gender'].value
       });
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.questionThreeForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.questionThreeForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.questionThreeForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
-  onClickGenderRequiredError() {
-    setTimeout(() => this.maleInput.nativeElement.focus());
+  focusElement(elementId: string) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.focus();
+    }
   }
 }

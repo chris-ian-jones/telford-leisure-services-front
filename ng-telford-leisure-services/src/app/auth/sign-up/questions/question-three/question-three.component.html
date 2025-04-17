@@ -1,25 +1,9 @@
-@if (errorSummary.length > 0) {
-  <div #errorSummary class="error-summary-container" tabindex="2">
-    <h2 class="error-summary-title">There is a problem</h2>
-    <ul class="error-summary-list">
-      @if (
-        questionThreeForm.get('gender').errors &&
-        questionThreeForm.get('gender').hasError('required')
-      ) {
-        <li>
-          <a
-            href="javascript:void(0)"
-            (click)="onClickGenderRequiredError()"
-            fragment="male"
-            class="error-link"
-            tabindex="3"
-          >
-            Select your gender
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
+@if (errors.length > 0) {
+  <app-error-summary
+    [errors]="errors"
+    [tabIndex]="1"
+    (focusField)="focusElement($event)"
+  />
 }
 <h2 class="page-question-number">
   Question {{ currentPage }} of {{ totalPages }}
@@ -35,26 +19,27 @@
     [class.input-container-error]="
       (questionThreeForm.get('gender').errors ||
         questionThreeForm.get('gender').hasError('required')) &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     "
   >
     @if (
       questionThreeForm.get('gender').errors &&
       questionThreeForm.get('gender').hasError('required') &&
-      this.errorSummary.length > 0
+      this.errors.length > 0
     ) {
       <label for="gender" class="input-label-error-message">
         Select your gender
       </label>
     }
     <div
-      #maleInput
+      id="maleInput"
       class="default-radio-input-container"
       tabindex="0"
       (click)="selectInput('Male')"
       (keydown.space)="selectInput('Male')"
     >
       <input
+        #maleInput
         id="male"
         value="Male"
         formControlName="gender"
