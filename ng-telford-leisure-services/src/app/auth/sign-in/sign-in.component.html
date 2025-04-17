@@ -1,68 +1,10 @@
 <div class="main-container">
   <div class="body-container">
-    @if (errorSummary.length > 0) {
-      <div #errorSummary class="error-summary-container" tabindex="1">
-        <h2 class="error-summary-title">There is a problem</h2>
-        <ul class="error-summary-list">
-          @if (
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('required')
-          ) {
-            <li>
-              <a
-                href="javascript:void(0)"
-                (click)="focusElement('memberNumber')"
-                class="error-link"
-              >
-                Enter your member number
-              </a>
-            </li>
-          }
-          @if (
-            signInForm.get('password').errors &&
-            signInForm.get('password').hasError('required')
-          ) {
-            <li>
-              <a
-                href="javascript:void(0)"
-                (click)="focusElement('password')"
-                class="error-link"
-              >
-                Enter your password
-              </a>
-            </li>
-          }
-          @if (
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('unauthorized')
-          ) {
-            <li>
-              <a
-                href="javascript:void(0)"
-                (click)="focusElement('memberNumber')"
-                class="error-link"
-              >
-                Incorrect member number or password
-              </a>
-            </li>
-          }
-          @if (
-            signInForm.get('memberNumber').errors &&
-            signInForm.get('memberNumber').hasError('error')
-          ) {
-            <li>
-              <a
-                href="javascript:void(0)"
-                (click)="focusElement('memberNumber')"
-                class="error-link"
-              >
-                Server error
-              </a>
-            </li>
-          }
-        </ul>
-      </div>
-    }
+    <app-error-summary
+      [errors]="errors"
+      [tabIndex]="1"
+      (focusField)="focusElement($event)"
+    ></app-error-summary>
     <h1 class="page-header">Sign in to your Leisure Services account</h1>
     <div class="inset-container">
       <span class="inset-content"
@@ -81,7 +23,7 @@
       <div
         class="input-container"
         [class.input-container-error]="
-          signInForm.get('memberNumber').errors && this.errorSummary.length > 0
+          signInForm.get('memberNumber').errors && this.errors.length > 0
         "
       >
         <label for="memberNumber" class="default-input-label">
@@ -90,7 +32,7 @@
         @if (
           signInForm.get('memberNumber').errors &&
           signInForm.get('memberNumber').hasError('required') &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Enter your member number
@@ -99,7 +41,7 @@
         @if (
           signInForm.get('memberNumber').errors &&
           signInForm.get('memberNumber').hasError('unauthorized') &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Incorrect member number or password
@@ -108,7 +50,7 @@
         @if (
           signInForm.get('memberNumber').errors &&
           signInForm.get('memberNumber').hasError('error') &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Server error
@@ -121,8 +63,7 @@
             type="number"
             class="default-text-input number-input"
             [class.text-input-error]="
-              signInForm.get('memberNumber').errors &&
-              this.errorSummary.length > 0
+              signInForm.get('memberNumber').errors && this.errors.length > 0
             "
           />
         </div>
@@ -132,14 +73,14 @@
         [class.input-container-error]="
           (signInForm.get('password').errors ||
             signInForm.get('memberNumber').hasError('unauthorized')) &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         "
       >
         <label for="password" class="default-input-label"> Password </label>
         @if (
           signInForm.get('password').errors &&
           signInForm.get('password').hasError('required') &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Enter your password
@@ -148,7 +89,7 @@
         @if (
           signInForm.get('memberNumber').errors &&
           signInForm.get('memberNumber').hasError('unauthorized') &&
-          this.errorSummary.length > 0
+          this.errors.length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Incorrect member number or password
@@ -161,7 +102,7 @@
             type="password"
             class="default-text-input"
             [class.text-input-error]="
-              signInForm.get('password').errors && this.errorSummary.length > 0
+              signInForm.get('password').errors && this.errors.length > 0
             "
           />
         </div>

@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
   FormControl,
   ReactiveFormsModule,
@@ -13,6 +12,11 @@ import { Router, RouterModule } from '@angular/router';
 import { SignIn } from 'src/app/core/models/signIn';
 import { AuthService } from './../auth.service';
 import { lastValueFrom } from 'rxjs';
+import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+import {
+  ErrorSummaryItem,
+  ERROR_MESSAGES
+} from 'src/app/core/constants/form-errors';
 
 interface SignInForm {
   memberNumber: FormControl<string | null>;
@@ -23,12 +27,18 @@ interface SignInForm {
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule]
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    ErrorSummaryComponent
+  ]
 })
 export default class SignInComponent implements OnInit {
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   signInForm!: FormGroup<SignInForm>;
-  errorSummary: any = [];
+  errors: ErrorSummaryItem[] = [];
 
   constructor(
     private router: Router,
@@ -57,7 +67,7 @@ export default class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.errorSummary.length = 0;
+    this.errors.length = 0;
     if (this.signInForm.valid) {
       const unformattedMemberNumber = this.signInForm.get('memberNumber').value;
       const payload: SignIn = {
@@ -66,7 +76,7 @@ export default class SignInComponent implements OnInit {
       };
       this.memberSignIn(payload);
     } else {
-      this.getAllFormValidationErrors();
+      this.handleFormValidationErrors();
     }
   }
 
@@ -81,29 +91,35 @@ export default class SignInComponent implements OnInit {
         this.signInForm.controls['memberNumber'].setErrors({
           unauthorized: true
         });
-        this.getAllFormValidationErrors();
+        this.handleFormValidationErrors();
       } else {
         this.signInForm.controls['memberNumber'].setErrors({ error: true });
-        this.getAllFormValidationErrors();
+        this.handleFormValidationErrors();
       }
-      setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
+      setTimeout(() => this.errorSummary.focusErrorSummary());
     }
   }
 
-  getAllFormValidationErrors() {
+  handleFormValidationErrors() {
+    this.errors.length = 0;
+    const newErrors: ErrorSummaryItem[] = [];
+
     Object.keys(this.signInForm.controls).forEach((control) => {
-      const controlErrors: ValidationErrors =
-        this.signInForm.get(control).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((error) => {
-          this.errorSummary.push({
-            control,
-            error
-          });
-        });
-        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-      }
+      const controlErrors = this.signInForm.get(control)?.errors;
+      if (!controlErrors) return;
+
+      const controlErrorMessages = ERROR_MESSAGES[control];
+      if (!controlErrorMessages) return;
+
+      Object.keys(controlErrors).forEach((errorType) => {
+        if (controlErrorMessages[errorType]) {
+          newErrors.push(controlErrorMessages[errorType]);
+        }
+      });
     });
+
+    this.errors = newErrors;
+    setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
