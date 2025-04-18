@@ -13,7 +13,7 @@ import {
   Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChangePassword } from 'src/app/core/models/changePassword';
+import { ChangePassword } from './../../../core/models/changePassword';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -22,8 +22,8 @@ import { RouterModule } from '@angular/router';
 import {
   ERROR_MESSAGES,
   ErrorSummaryItem
-} from 'src/app/core/constants/form-errors';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+} from './../../../core/constants/form-errors';
+import { ErrorSummaryComponent } from '../../../shared/components/error-summary/error-summary.component';
 
 interface PasswordForm {
   password: FormControl<string | null>;

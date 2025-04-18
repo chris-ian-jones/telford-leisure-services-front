@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { ErrorSummaryItem } from './../../core/constants/form-errors';
+import { ErrorSummaryItem } from './../../../core/constants/form-errors';
 
 @Component({
   selector: 'app-error-summary',

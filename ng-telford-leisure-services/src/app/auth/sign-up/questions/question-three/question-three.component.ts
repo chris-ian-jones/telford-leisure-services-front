@@ -20,8 +20,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   ERROR_MESSAGES,
   ErrorSummaryItem
-} from 'src/app/core/constants/form-errors';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+} from './../../../../core/constants/form-errors';
+import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 
 interface QuestionThreeForm {
   gender: FormControl<string | null>;

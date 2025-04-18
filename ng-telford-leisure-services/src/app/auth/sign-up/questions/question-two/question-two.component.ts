@@ -17,11 +17,11 @@ import { Member } from './../../../../core/models/member';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 import {
   ERROR_MESSAGES,
   ErrorSummaryItem
-} from 'src/app/core/constants/form-errors';
+} from './../../../../core/constants/form-errors';
 interface QuestionTwoForm {
   day: FormControl<string | null>;
   month: FormControl<string | null>;

@@ -12,7 +12,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { EmailCode } from 'src/app/core/models/emailCode';
+import { EmailCode } from '../../../core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { lastValueFrom } from 'rxjs';
@@ -22,8 +22,8 @@ import { RouterModule } from '@angular/router';
 import {
   ERROR_MESSAGES,
   ErrorSummaryItem
-} from 'src/app/core/constants/form-errors';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+} from './../../../core/constants/form-errors';
+import { ErrorSummaryComponent } from './../../../shared/components/error-summary/error-summary.component';
 
 interface ConfirmationCodeForm {
   confirmationCode: FormControl<string | null>;
