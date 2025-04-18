@@ -15,7 +15,7 @@
   (ngSubmit)="onClickContinue()"
 >
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionFiveForm.get('addressLineOne').errors ||
         questionFiveForm.get('addressLineOne').hasError('required')) &&
@@ -47,7 +47,7 @@
       />
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="input-container">
     <label for="addressLineTwo" class="default-input-label">
       Address line 2 (Optional)
     </label>
@@ -60,7 +60,7 @@
       />
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="input-container">
     <label for="townOrCity" class="default-input-label">
       Town/City (Optional)
     </label>
@@ -73,7 +73,7 @@
       />
     </div>
   </div>
-  <div class="default-input-container">
+  <div class="input-container">
     <label for="county" class="default-input-label"> County (Optional) </label>
     <div>
       <input
@@ -85,7 +85,7 @@
     </div>
   </div>
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionFiveForm.get('postcode').errors ||
         questionFiveForm.get('postcode').hasError('required')) &&

@@ -1,4 +1,4 @@
-@use './../styles/colors.scss' as *;
+@use './../styles/palette/colors.scss' as *;
 
 .no-arrow {
   padding-left: 0px;
@@ -18,14 +18,6 @@
 
 .sub-heading-custom-margin {
   margin-top: -5px;
-}
-
-.custom-margin-bottom {
-  margin-bottom: 10px;
-}
-
-.heading-small-with-help-text {
-  margin-bottom: 10px;
 }
 
 .question-help-text {

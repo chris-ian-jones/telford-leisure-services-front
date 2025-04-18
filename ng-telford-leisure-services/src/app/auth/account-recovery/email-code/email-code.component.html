@@ -18,7 +18,7 @@
         />
       }
       <h1
-        class="heading-large extra-margin-bottom"
+        class="heading-large mb-xxxl"
         [class.custom-padding]="errors.length === 0"
       >
         Enter code to confirm your email address
@@ -40,7 +40,7 @@
         (ngSubmit)="onClickConfirm()"
       >
         <div
-          class="default-input-container"
+          class="input-container"
           [class.input-container-error]="
             (confirmationCodeForm.get('confirmationCode').errors ||
               confirmationCodeForm
@@ -89,7 +89,7 @@
             />
           </div>
         </div>
-        <details class="details-container">
+        <details class="details-container mb-lg">
           <summary class="details-summary">
             I have not received the email
           </summary>

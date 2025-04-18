@@ -1,0 +1,48 @@
+@use './../palette/colors.scss' as *;
+
+.breadcrumb-link {
+  display: inline-block;
+  position: relative;
+  color: $govuk-black;
+  font-size: 16px;
+  text-decoration: underline;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 14px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.breadcrumb-link::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 7px;
+  height: 7px;
+  margin: auto 0;
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg);
+  border: solid;
+  border-width: 1px 1px 0 0;
+  border-color: $govuk-dark-grey;
+}
+
+.breadcrumb-link:hover {
+  text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
+}
+
+.breadcrumb-link:focus {
+  outline: 3px solid transparent;
+  background-color: $govuk-yellow;
+  -webkit-box-shadow:
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
+  box-shadow:
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
+  text-decoration: none;
+}

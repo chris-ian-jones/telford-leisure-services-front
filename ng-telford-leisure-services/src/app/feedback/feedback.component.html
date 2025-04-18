@@ -22,7 +22,7 @@
         (ngSubmit)="onClickSendFeedback()"
       >
         <div
-          class="default-input-container custom-margin-bottom"
+          class="input-container mb-sm"
           [class.input-container-error]="
             (satisfactionForm.get('satisfaction').errors ||
               satisfactionForm.get('satisfaction').hasError('required')) &&
@@ -177,7 +177,7 @@
             </label>
           </div>
         </div>
-        <h3 class="heading-small-with-help-text">
+        <h3 class="mb-sm">
           Overall, how did you feel about the service you received today?
         </h3>
         <label class="question-help-text" for="improvements">

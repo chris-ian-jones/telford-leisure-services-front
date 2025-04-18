@@ -1,0 +1,28 @@
+@use './../palette/colors.scss' as *;
+
+.details-summary {
+  font-size: 19px;
+  color: $govuk-blue;
+  width: fit-content;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.details-summary:focus {
+  outline: 3px solid transparent;
+  color: $govuk-black;
+  background-color: $govuk-yellow;
+  -webkit-box-shadow:
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
+  box-shadow:
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
+  text-decoration: none;
+}
+
+.details-content-container {
+  font-size: 19px;
+  border-left: 5px solid $govuk-mid-grey;
+  padding: 25px 0px 25px 20px;
+}

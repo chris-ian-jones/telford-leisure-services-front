@@ -15,7 +15,7 @@
   (ngSubmit)="onClickContinue()"
 >
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionEightForm.get('membershipType').errors ||
         questionEightForm.get('membershipType').hasError('required')) &&
@@ -66,8 +66,8 @@
         </label>
       </div>
       <details class="details-container">
-        <summary class="details-summary">More information</summary>
-        <div class="details-content-container">
+        <summary class="details-summary ml-md">More information</summary>
+        <div class="details-content-container ml-md">
           <p class="details-text">
             Free Telford Loyalty Card for Telford & Wrekin residents aged 16 and
             over. Gives discount of up to 25% on most activities.

@@ -1,4 +1,4 @@
-@use './../../../../styles/colors.scss' as *;
+@use './../../../../styles/palette/colors.scss' as *;
 
 .check-answers-container {
   width: 80%;
@@ -12,10 +12,6 @@
     width: 95%;
     padding: 0px 2.5%;
   }
-}
-
-.placeholder-margin {
-  margin-top: 45px;
 }
 
 .summary-list-container {
@@ -72,10 +68,6 @@
   }
 }
 
-.margin-top-small {
-  margin-top: 10px;
-}
-
 .summary-list-actions {
   width: 20%;
   margin-bottom: 15px;
@@ -92,9 +84,4 @@
     margin-inline-start: 0px;
     padding-bottom: 0px;
   }
-}
-
-.continue-btn-container {
-  margin-top: 30px;
-  margin-bottom: 60px;
 }

@@ -15,7 +15,7 @@
   (ngSubmit)="onClickContinue()"
 >
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionFourForm.get('email').errors ||
         questionFourForm.get('email').hasError('required')) &&
@@ -54,7 +54,7 @@
     </div>
   </div>
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       questionFourForm.get('phone').errors && this.errors.length > 0
     "

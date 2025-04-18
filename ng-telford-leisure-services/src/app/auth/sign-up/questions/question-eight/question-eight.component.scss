@@ -1,4 +1,4 @@
-@use './../../../../styles/colors.scss' as *;
+@use './../../../../styles/palette/colors.scss' as *;
 
 .flex-column {
   flex-direction: column;
@@ -8,15 +8,6 @@
   align-self: flex-start;
   margin-top: 2px;
   margin-bottom: 10px;
-}
-
-.details-summary {
-  font-size: 19px;
-  color: $govuk-blue;
-  width: fit-content;
-  margin-bottom: 5px;
-  margin-left: 17px;
-  cursor: pointer;
 }
 
 .details-summary:focus {
@@ -33,11 +24,6 @@
 }
 
 .details-content-container {
-  font-size: 19px;
-  border-left: 5px solid $govuk-mid-grey;
-  padding: 25px 0px 25px 20px;
-  margin-left: 17px;
-
   ul {
     margin-block-start: 15px;
     margin-block-end: 0px;
