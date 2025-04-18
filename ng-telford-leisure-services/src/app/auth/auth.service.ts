@@ -1,34 +1,48 @@
-import { Injectable, NgZone } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Url } from './../core/constants/urls';
 import { jwtDecode } from 'jwt-decode';
 import { SignIn } from '../core/models/signIn';
+import { Observable } from 'rxjs';
 
 const authHeaders = new HttpHeaders({
   'Content-Type': 'application/json'
-});
-
-const exposeXAuthHeader = new HttpHeaders({
-  'Access-Control-Expose-Headers': 'X-Authorization'
 });
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(
-    private readonly http: HttpClient,
-    private readonly router: Router,
-    private readonly ngZone: NgZone
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
-  get isLoggedIn() {
-    return localStorage.getItem('sessionToken') ? true : false;
+  private readonly authToken = signal<string | null>(
+    localStorage.getItem('sessionToken')
+  );
+  private readonly navigationState = signal<string | null>(null);
+
+  readonly isLoggedIn = computed(() => !!this.authToken());
+
+  readonly decodedToken = computed(() => {
+    const token = this.authToken();
+    if (!token) return null;
+
+    return jwtDecode(token) as object | null;
+  });
+
+  constructor() {
+    effect(() => {
+      const route = this.navigationState();
+      if (route !== null) {
+        this.router.navigate([route]);
+        this.navigationState.set(null);
+      }
+    });
   }
 
-  memberSignIn(signInData: SignIn) {
+  memberSignIn(signInData: SignIn): Observable<any> {
     const body = JSON.stringify(signInData);
     return this.http
       .post(`${Url.AUTH}/signin`, body, {
@@ -39,20 +53,18 @@ export class AuthService {
   }
 
   signOut() {
+    this.authToken.set(null);
     localStorage.clear();
-    this.ngZone.run(() => this.router.navigate(['sign-in']));
+    this.navigationState.set('sign-in');
   }
 
-  setAuthentication(response: any) {
+  private setAuthentication(response: any) {
     const token = response.body.token;
     localStorage.setItem('sessionToken', token);
+    this.authToken.set(token);
   }
 
-  getDecodedSessionToken(token: string): any {
-    try {
-      return jwtDecode(token);
-    } catch (Error) {
-      return null;
-    }
+  getDecodedSessionToken() {
+    return this.decodedToken();
   }
 }

@@ -1,8 +1,8 @@
 <div class="main-container">
   <div class="body-container">
-    @if (errors.length > 0) {
+    @if (errors().length > 0) {
       <app-error-summary
-        [errors]="errors"
+        [errors]="errors()"
         [tabIndex]="1"
         (focusField)="focusElement($event)"
       />
@@ -110,7 +110,9 @@
         </div>
       </div>
       <div>
-        <button class="default-btn" type="submit">Sign in</button>
+        <button class="default-btn" [disabled]="isLoading()" type="submit">
+          Sign in
+        </button>
       </div>
     </form>
     <p class="inset-help-text mt-xxxl mb-md">Help signing in</p>
