@@ -1,3 +1,5 @@
+@use './../../../styles/colors.scss' as *;
+
 .extra-margin-bottom {
   margin-bottom: 50px;
 }
@@ -19,10 +21,10 @@
   min-width: 35px;
   min-height: 35px;
   margin-top: -7px;
-  border: 3px solid #0b0c0c;
+  border: 3px solid $govuk-black;
   border-radius: 50%;
-  color: #ffffff;
-  background: #0b0c0c;
+  color: $govuk-white;
+  background: $govuk-black;
   font-size: 30px;
   line-height: 29px;
   text-align: center;
@@ -46,7 +48,7 @@
 
 .details-summary {
   font-size: 19px;
-  color: #035da5;
+  color: $govuk-blue;
   width: fit-content;
   margin-bottom: 5px;
   cursor: pointer;
@@ -54,20 +56,20 @@
 
 .details-summary:focus {
   outline: 3px solid transparent;
-  color: #0b0c0c;
-  background-color: #fd0;
+  color: $govuk-black;
+  background-color: $govuk-yellow;
   -webkit-box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
 }
 
 .details-content-container {
   font-size: 19px;
-  border-left: 5px solid #b1b4b6;
+  border-left: 5px solid $govuk-mid-grey;
   padding: 25px 0px 25px 20px;
 }
 
@@ -77,21 +79,21 @@
 }
 
 .inset-link {
-  color: #2b8cc4;
+  color: $govuk-blue;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .inset-link:hover {
-  color: #003078;
+  color: $govuk-dark-blue;
 }
 
 .inset-link:focus {
-  color: #0b0c0c;
-  background-color: #fd0;
+  color: $govuk-black;
+  background-color: $govuk-yellow;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
   outline: 3px solid transparent;
 }

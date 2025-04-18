@@ -1,3 +1,5 @@
+@use './../styles/colors.scss' as *;
+
 .no-arrow {
   padding-left: 0px;
 }
@@ -28,7 +30,7 @@
 
 .question-help-text {
   font-size: 19px;
-  color: #505a5f;
+  color: $govuk-dark-grey;
 }
 
 .text-area-input {
@@ -37,12 +39,12 @@
   font-size: 19px;
   padding: 5px;
   resize: vertical;
-  border: 2px solid #0b0c0c;
+  border: 2px solid $govuk-black;
   min-height: 40px;
 }
 
 .text-area-input:focus {
-  outline: 3px solid #fd0;
+  outline: 3px solid $govuk-yellow;
   outline-offset: 0;
   -webkit-box-shadow: inset 0 0 0 2px;
   box-shadow: inset 0 0 0 2px;
@@ -52,10 +54,10 @@
   margin-top: 5px;
   margin-bottom: 30px;
   font-size: 19px;
-  color: #505a5f;
+  color: $govuk-dark-grey;
 }
 
 .text-area-error-text {
-  color: #d4351c;
+  color: $govuk-red;
   font-weight: 700;
 }

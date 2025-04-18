@@ -1,7 +1,10 @@
+@use './app/styles/colors.scss' as *;
+@use './app/styles/functions.scss' as *;
+
 /* You can add global styles to this file, and also import other style files */
 * {
   font-family: 'arial', sans-serif;
-  color: #0b0c0c;
+  color: $govuk-black;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -395,7 +398,7 @@ p {
 
 .page-question-number {
   font-weight: 400;
-  color: #505a5f;
+  color: $govuk-dark-grey;
   margin: 40px 0px 0px 0px;
   font-size: 24px;
 }
@@ -412,7 +415,7 @@ p {
 
 .hint-text {
   font-size: 19px;
-  color: #505a5f;
+  color: $govuk-dark-grey;
   font-weight: 400;
   margin: 0px 0px 20px 0px;
 }
@@ -435,7 +438,7 @@ p {
 
 .default-text-input {
   width: 420px;
-  border: 2px solid #0b0c0c;
+  border: 2px solid $govuk-black;
   padding: 5px;
   border-radius: 0px;
   font-size: 19px;
@@ -447,7 +450,7 @@ p {
 }
 
 .default-text-input:focus {
-  outline: 3px solid #ffdd00;
+  outline: 3px solid $govuk-yellow;
   outline-offset: 0;
   box-shadow: inset 0 0 0 2px;
 }
@@ -491,8 +494,8 @@ p {
     border-width: 4px;
     outline: 3px solid transparent;
     outline-offset: 1px;
-    -webkit-box-shadow: 0 0 0 4px #fd0;
-    box-shadow: 0 0 0 4px #fd0;
+    -webkit-box-shadow: 0 0 0 4px $govuk-yellow;
+    box-shadow: 0 0 0 4px $govuk-yellow;
   }
 }
 
@@ -501,8 +504,8 @@ p {
     border-width: 4px;
     outline: 3px solid transparent;
     outline-offset: 1px;
-    -webkit-box-shadow: 0 0 0 4px #fd0;
-    box-shadow: 0 0 0 4px #fd0;
+    -webkit-box-shadow: 0 0 0 4px $govuk-yellow;
+    box-shadow: 0 0 0 4px $govuk-yellow;
   }
 }
 
@@ -553,7 +556,7 @@ p {
 
 .label-hint-text {
   display: block;
-  color: #505a5f;
+  color: $govuk-dark-grey;
   margin-top: 7px;
   font-size: 19px;
 }
@@ -576,9 +579,9 @@ p {
   padding: 8px 10px 7px;
   border: 2px solid transparent;
   border-radius: 0;
-  color: #fff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002d18;
+  color: $govuk-white;
+  background-color: $govuk-green;
+  box-shadow: 0 2px 0 shade($govuk-green, 50%);
   text-align: center;
   vertical-align: top;
   cursor: pointer;
@@ -587,14 +590,14 @@ p {
 }
 
 .default-btn:hover {
-  background-color: #005a30;
+  background-color: shade($govuk-green, 50%);
 }
 
 .default-btn:focus {
-  border-color: #fd0;
+  border-color: $govuk-yellow;
   outline: 3px solid transparent;
-  -webkit-box-shadow: inset 0 0 0 1px #fd0;
-  box-shadow: inset 0 0 0 1px #fd0;
+  -webkit-box-shadow: inset 0 0 0 1px $govuk-yellow;
+  box-shadow: inset 0 0 0 1px $govuk-yellow;
 }
 
 .default-btn:active {
@@ -604,12 +607,12 @@ p {
 .error-summary-container {
   margin: 60px 0px 50px 0px;
   padding: 20px;
-  border: 5px solid #d4351c;
+  border: 5px solid $govuk-red;
   max-width: 600px;
 }
 
 .error-summary-container:focus {
-  outline: 3px solid #ffdd00;
+  outline: 3px solid $govuk-yellow;
 }
 
 .error-summary-title {
@@ -629,7 +632,7 @@ p {
     margin-bottom: 5px;
 
     a {
-      color: #d4351c;
+      color: $govuk-red;
       font-weight: 700;
       text-decoration: underline;
       font-size: 19px;
@@ -638,34 +641,34 @@ p {
     }
 
     a:focus {
-      color: #0b0c0c;
+      color: $govuk-black;
       outline: 3px solid transparent;
-      background-color: #ffdd00;
+      background-color: $govuk-yellow;
       box-shadow:
-        0 -2px #ffdd00,
-        0 4px #0b0c0c;
+        0 -2px $govuk-yellow,
+        0 4px $govuk-black;
       text-decoration: none;
     }
   }
 }
 
 .standard-link {
-  color: #1d70b8;
+  color: $govuk-blue;
   font-size: 19px;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .standard-link:focus {
-  color: #0b0c0c;
+  color: $govuk-black;
   outline: 3px solid transparent;
-  background-color: #fd0;
+  background-color: $govuk-yellow;
   -webkit-box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
 }
 
@@ -701,7 +704,7 @@ p {
 .breadcrumb-link {
   display: inline-block;
   position: relative;
-  color: #0b0c0c;
+  color: $govuk-black;
   font-size: 16px;
   text-decoration: underline;
   margin-top: 15px;
@@ -726,7 +729,7 @@ p {
   transform: rotate(225deg);
   border: solid;
   border-width: 1px 1px 0 0;
-  border-color: #505a5f;
+  border-color: $govuk-dark-grey;
 }
 
 .breadcrumb-link:hover {
@@ -735,18 +738,18 @@ p {
 
 .breadcrumb-link:focus {
   outline: 3px solid transparent;
-  background-color: #fd0;
+  background-color: $govuk-yellow;
   -webkit-box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
 }
 
 .confirmation-panel {
-  background: #00703c;
+  background: $govuk-green;
   width: 100%;
   margin-bottom: 15px;
   padding: 35px;
@@ -760,7 +763,7 @@ p {
 }
 
 .panel-title {
-  color: #fff;
+  color: $govuk-white;
   font-weight: 700px;
   font-size: 48px;
   margin-top: 0px;
@@ -768,27 +771,27 @@ p {
 }
 
 .panel-body {
-  color: #fff;
+  color: $govuk-white;
   font-size: 36px;
   line-height: 40px;
 }
 
 .panel-body-text {
-  color: #fff;
+  color: $govuk-white;
 }
 
 .input-container-error {
   padding-left: 15px;
-  border-left: 5px solid #d4351c;
+  border-left: 5px solid $govuk-red;
 }
 
 .input-label-error-message {
   font-size: 19px;
   margin-bottom: 15px;
-  color: #d4351c;
+  color: $govuk-red;
   font-weight: 700;
 }
 
 .text-input-error {
-  border-color: #d4351c;
+  border-color: $govuk-red;
 }

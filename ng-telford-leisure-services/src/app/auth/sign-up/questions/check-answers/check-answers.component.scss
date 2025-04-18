@@ -1,3 +1,5 @@
+@use './../../../../styles/colors.scss' as *;
+
 .check-answers-container {
   width: 80%;
 
@@ -25,7 +27,7 @@
 
 .summary-list-row {
   display: table-row;
-  border-bottom: 1px solid #b1b4b6;
+  border-bottom: 1px solid $govuk-mid-grey;
 
   @media screen and (max-width: 640px) {
     display: block;
@@ -91,21 +93,6 @@
     padding-bottom: 0px;
   }
 }
-
-// .standard-link {
-//   color: #1d70b8;
-//   font-size: 19px;
-//   text-decoration: underline;
-// }
-
-// .standard-link:focus {
-//   color: #0b0c0c;
-//   outline: 3px solid transparent;
-//   background-color: #fd0;
-//   -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-//   box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-//   text-decoration: none;
-// }
 
 .continue-btn-container {
   margin-top: 30px;
