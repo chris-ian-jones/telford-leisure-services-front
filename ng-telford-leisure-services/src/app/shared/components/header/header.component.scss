@@ -1,6 +1,9 @@
+@use './../../../styles/palette/colors.scss' as *;
+@use './../../../styles/abstracts/functions.scss' as *;
+
 .header-container {
   width: 100%;
-  background: #0b0c0c;
+  background: $govuk-black;
   display: flex;
   justify-content: center;
 
@@ -33,7 +36,7 @@
 .service-name {
   font-size: 24px;
   font-weight: 700;
-  color: #fff;
+  color: $govuk-white;
 }
 
 .accent-bar-container {
@@ -43,14 +46,14 @@
 }
 
 .accent-bar {
-  background-color: #1a747a;
+  background-color: $govuk-turquoise;
   height: 10px;
   max-width: 960px;
   width: 100%;
 }
 
 .system-message-container {
-  background-color: #d5e8f3;
+  background-color: tint($govuk-light-blue, 90%);
   display: flex;
   justify-content: center;
 
@@ -85,16 +88,16 @@
   width: 100%;
   margin-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #bfc1c3;
+  border-bottom: 1px solid shade($govuk-light-grey, 25%);
 }
 
 .status-tag {
-  background-color: #125ea5;
+  background-color: $govuk-blue;
 }
 
 .status-tag-label {
   padding: 7px;
-  color: white;
+  color: $govuk-white;
 }
 
 .status-feedback-container {
@@ -108,18 +111,22 @@
 
 .status-feedback-link {
   font-size: 16px;
-  color: #2b8cc4;
+  color: $govuk-blue;
   text-decoration: underline;
   margin-left: 10px;
   cursor: pointer;
 }
 
+.status-feedback-link:hover {
+  color: $govuk-dark-blue;
+}
+
 .status-feedback-link:focus {
-  color: #0b0c0c;
-  background-color: #fd0;
+  color: $govuk-black;
+  background-color: $govuk-yellow;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
   outline: 3px solid transparent;
 }

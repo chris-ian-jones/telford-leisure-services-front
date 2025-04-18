@@ -17,7 +17,8 @@ import {
   ERROR_MESSAGES,
   ErrorSummaryItem
 } from '../core/constants/form-errors';
-import { ErrorSummaryComponent } from '../shared/error-summary/error-summary.component';
+import { ErrorSummaryComponent } from './../shared/components/error-summary/error-summary.component';
+import { RemainingCharactersPipe } from '../shared/pipes/remaining-characters.pipe';
 
 interface SatisfactionForm {
   satisfaction: FormControl<string | null>;
@@ -33,7 +34,8 @@ interface SatisfactionForm {
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    ErrorSummaryComponent
+    ErrorSummaryComponent,
+    RemainingCharactersPipe
   ]
 })
 export default class FeedbackComponent implements OnInit {
@@ -47,9 +49,9 @@ export default class FeedbackComponent implements OnInit {
   veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
   satisfactionForm!: FormGroup;
-  remainingCharacters: number = 1200;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   errors: ErrorSummaryItem[] = [];
+  readonly MAX_FEEDBACK_LENGTH = 1200;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,13 +75,6 @@ export default class FeedbackComponent implements OnInit {
         validators: [Validators.maxLength(1200)]
       })
     });
-    this.satisfactionForm
-      .get('improvements')
-      .valueChanges.subscribe((textString) => {
-        const remainingCharactersConstant = 1200;
-        this.remainingCharacters =
-          remainingCharactersConstant - textString.length;
-      });
   }
 
   selectInput(value: string) {

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Url } from 'src/app/core/constants/urls';
-import { ChangePassword } from 'src/app/core/models/changePassword';
-import { ForgotMemberNumber } from 'src/app/core/models/forgotMemberNumber';
+import { Url } from './../../core/constants/urls';
+import { ChangePassword } from './../../core/models/changePassword';
+import { ForgotMemberNumber } from './../../core/models/forgotMemberNumber';
 import { Email } from './../../core/models/email';
 
 const authHeaders = new HttpHeaders({

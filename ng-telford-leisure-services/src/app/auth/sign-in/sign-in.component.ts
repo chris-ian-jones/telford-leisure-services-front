@@ -9,14 +9,14 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { SignIn } from 'src/app/core/models/signIn';
+import { SignIn } from './../../core/models/signIn';
 import { AuthService } from './../auth.service';
 import { lastValueFrom } from 'rxjs';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+import { ErrorSummaryComponent } from './../../shared/components/error-summary/error-summary.component';
 import {
   ErrorSummaryItem,
   ERROR_MESSAGES
-} from 'src/app/core/constants/form-errors';
+} from './../../core/constants/form-errors';
 
 interface SignInForm {
   memberNumber: FormControl<string | null>;

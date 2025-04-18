@@ -1,0 +1,21 @@
+@use './../palette/colors.scss' as *;
+
+.inset-link {
+  color: $govuk-blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.inset-link:hover {
+  color: $govuk-dark-blue;
+}
+
+.inset-link:focus {
+  color: $govuk-black;
+  background-color: $govuk-yellow;
+  box-shadow:
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
+  text-decoration: none;
+  outline: 3px solid transparent;
+}

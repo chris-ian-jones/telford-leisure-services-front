@@ -21,8 +21,8 @@ import { RouterModule } from '@angular/router';
 import {
   ERROR_MESSAGES,
   ErrorSummaryItem
-} from 'src/app/core/constants/form-errors';
-import { ErrorSummaryComponent } from 'src/app/shared/error-summary/error-summary.component';
+} from './../../../../core/constants/form-errors';
+import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 interface QuestionEightForm {
   membershipType: FormControl<string | null>;
 }

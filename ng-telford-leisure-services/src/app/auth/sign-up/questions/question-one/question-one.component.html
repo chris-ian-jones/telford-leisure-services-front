@@ -15,7 +15,7 @@
   (ngSubmit)="onClickContinue()"
 >
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionOneForm.get('firstName').errors ||
         questionOneForm.get('firstName').hasError('required')) &&
@@ -45,7 +45,7 @@
     </div>
   </div>
   <div
-    class="default-input-container"
+    class="input-container"
     [class.input-container-error]="
       (questionOneForm.get('lastName').errors ||
         questionOneForm.get('lastName').hasError('required')) &&

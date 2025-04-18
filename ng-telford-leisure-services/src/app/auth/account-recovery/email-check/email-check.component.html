@@ -7,10 +7,7 @@
         (focusField)="focusElement($event)"
       />
     }
-    <div
-      class="two-thirds-container"
-      [class.custom-padding]="errors.length === 0"
-    >
+    <div class="two-thirds-container" [class.mt-xxxl]="errors.length === 0">
       <h1 class="heading-large">Before recovering your Member Number</h1>
       <p class="body-text">
         Search your emails as your member number may be included in an email we
@@ -23,7 +20,7 @@
         (ngSubmit)="onClickContinue()"
       >
         <div
-          class="default-input-container custom-margin-bottom"
+          class="input-container custom-margin-bottom"
           [class.input-container-error]="
             (emailCheckForm.get('emailCheck').errors ||
               emailCheckForm.get('emailCheck').hasError('required')) &&

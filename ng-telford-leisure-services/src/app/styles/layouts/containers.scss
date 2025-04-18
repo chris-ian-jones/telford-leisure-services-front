@@ -1,0 +1,100 @@
+@use './../palette/colors.scss' as *;
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
+}
+
+.two-thirds-container {
+  width: 66%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 960px;
+  width: 100%;
+
+  @media screen and (max-width: 960px) {
+    width: calc(100% - 30px);
+    padding: 0px 15px;
+  }
+}
+
+.error-summary-container {
+  margin: 60px 0px 50px 0px;
+  padding: 20px;
+  border: 5px solid $govuk-red;
+  max-width: 600px;
+}
+
+.error-summary-container:focus {
+  outline: 3px solid $govuk-yellow;
+}
+
+.question-form-container {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.default-radio-input-container {
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  position: relative;
+  min-height: 40px;
+  margin-bottom: 10px;
+  padding-left: 40px;
+  clear: left;
+  width: fit-content;
+}
+
+.default-radio-input-container:focus-visible {
+  outline: none;
+
+  .radio-input-label:before {
+    border-width: 4px;
+    outline: 3px solid transparent;
+    outline-offset: 1px;
+    -webkit-box-shadow: 0 0 0 4px $govuk-yellow;
+    box-shadow: 0 0 0 4px $govuk-yellow;
+  }
+}
+
+.default-radio-input-container:focus {
+  .radio-input-label:before {
+    border-width: 4px;
+    outline: 3px solid transparent;
+    outline-offset: 1px;
+    -webkit-box-shadow: 0 0 0 4px $govuk-yellow;
+    box-shadow: 0 0 0 4px $govuk-yellow;
+  }
+}
+
+.input-container-error {
+  padding-left: 15px;
+  border-left: 5px solid $govuk-red;
+}
+
+.inset-container {
+  display: flex;
+  flex-direction: column;
+  border-left: 10px solid $govuk-mid-grey;
+}

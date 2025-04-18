@@ -1,3 +1,5 @@
-.custom-padding-bottom {
-  padding-bottom: 40px;
+@use './../../../styles/abstracts/mixins.scss' as *;
+
+.custom-padding {
+  @include custom-padding(0, 0, 40, 0);
 }

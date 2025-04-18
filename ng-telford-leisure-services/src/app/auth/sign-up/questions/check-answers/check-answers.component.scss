@@ -1,3 +1,5 @@
+@use './../../../../styles/palette/colors.scss' as *;
+
 .check-answers-container {
   width: 80%;
 
@@ -12,10 +14,6 @@
   }
 }
 
-.placeholder-margin {
-  margin-top: 45px;
-}
-
 .summary-list-container {
   display: table;
   width: 100%;
@@ -25,7 +23,7 @@
 
 .summary-list-row {
   display: table-row;
-  border-bottom: 1px solid #b1b4b6;
+  border-bottom: 1px solid $govuk-mid-grey;
 
   @media screen and (max-width: 640px) {
     display: block;
@@ -70,10 +68,6 @@
   }
 }
 
-.margin-top-small {
-  margin-top: 10px;
-}
-
 .summary-list-actions {
   width: 20%;
   margin-bottom: 15px;
@@ -90,24 +84,4 @@
     margin-inline-start: 0px;
     padding-bottom: 0px;
   }
-}
-
-// .standard-link {
-//   color: #1d70b8;
-//   font-size: 19px;
-//   text-decoration: underline;
-// }
-
-// .standard-link:focus {
-//   color: #0b0c0c;
-//   outline: 3px solid transparent;
-//   background-color: #fd0;
-//   -webkit-box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-//   box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
-//   text-decoration: none;
-// }
-
-.continue-btn-container {
-  margin-top: 30px;
-  margin-bottom: 60px;
 }

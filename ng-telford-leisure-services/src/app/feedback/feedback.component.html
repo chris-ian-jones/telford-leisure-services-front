@@ -22,7 +22,7 @@
         (ngSubmit)="onClickSendFeedback()"
       >
         <div
-          class="default-input-container custom-margin-bottom"
+          class="input-container mb-sm"
           [class.input-container-error]="
             (satisfactionForm.get('satisfaction').errors ||
               satisfactionForm.get('satisfaction').hasError('required')) &&
@@ -177,7 +177,7 @@
             </label>
           </div>
         </div>
-        <h3 class="heading-small-with-help-text">
+        <h3 class="mb-sm">
           Overall, how did you feel about the service you received today?
         </h3>
         <label class="question-help-text" for="improvements">
@@ -193,22 +193,23 @@
           formControlName="improvements"
           placehoder="some text"
         ></textarea>
-        @if (remainingCharacters >= 0) {
-          <p class="text-area-help-text">
-            You have {{ remainingCharacters }} character{{
-              remainingCharacters === 1 ? '' : 's'
-            }}
-            remaining
-          </p>
-        }
-        @if (remainingCharacters < 0) {
-          <p class="text-area-help-text text-area-error-text">
-            You have {{ -remainingCharacters }} character{{
-              remainingCharacters === -1 ? '' : 's'
-            }}
-            too many
-          </p>
-        }
+        <p
+          class="text-area-help-text"
+          [class.text-area-error-text]="
+            satisfactionForm.get('improvements')?.value?.length > 1200
+          "
+        >
+          {{
+            satisfactionForm.get('improvements')?.value || ''
+              | remainingCharacters: MAX_FEEDBACK_LENGTH
+          }}
+          {{
+            satisfactionForm.get('improvements')?.value?.length >
+            MAX_FEEDBACK_LENGTH
+              ? 'too many'
+              : 'remaining'
+          }}
+        </p>
         <div>
           <button class="default-btn" type="submit">Send feedback</button>
         </div>

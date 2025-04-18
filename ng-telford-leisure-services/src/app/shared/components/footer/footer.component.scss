@@ -1,9 +1,11 @@
+@use './../../../styles/palette/colors.scss' as *;
+
 .footer-container {
   display: flex;
   justify-content: center;
-  background-color: #dfe0e2;
+  background-color: $govuk-light-grey;
   width: 100%;
-  border-top: 1px solid #a0acb1;
+  border-top: 1px solid $govuk-mid-grey;
 
   @media screen and (max-width: 960px) {
     width: calc(100% - 30px);
@@ -33,7 +35,7 @@
 
 .footer-address {
   margin-top: 30px;
-  color: #454a4c;
+  color: $govuk-black;
   font-size: 16px;
 }
 
@@ -55,10 +57,10 @@
 
   .social-link:focus {
     outline: 3px solid transparent;
-    background-color: #fd0;
+    background-color: $govuk-yellow;
     box-shadow:
-      0 -2px #fd0,
-      0 4px #0b0c0c;
+      0 -2px $govuk-yellow,
+      0 4px $govuk-black;
     text-decoration: none;
     height: 20px;
     width: 20px;
@@ -81,17 +83,17 @@
   li {
     a {
       text-decoration: underline;
-      color: #454a4c;
+      color: $govuk-black;
       font-size: 16px;
       cursor: pointer;
     }
 
     a:focus {
-      color: #0b0c0c;
-      background-color: #fd0;
+      color: $govuk-black;
+      background-color: $govuk-yellow;
       box-shadow:
-        0 -2px #fd0,
-        0 4px #0b0c0c;
+        0 -2px $govuk-yellow,
+        0 4px $govuk-black;
       text-decoration: none;
       outline: 3px solid transparent;
     }
@@ -108,8 +110,14 @@
   }
 }
 
-.footer-copyright {
-  color: #454a4c;
+.footer-copyright-version-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copyright-version {
+  color: $govuk-black;
   font-size: 16px;
   margin-top: 15px;
   margin-bottom: 30px;

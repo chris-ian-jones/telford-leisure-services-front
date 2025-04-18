@@ -1,3 +1,5 @@
+@use './../../../../styles/palette/colors.scss' as *;
+
 .flex-column {
   flex-direction: column;
 }
@@ -8,34 +10,20 @@
   margin-bottom: 10px;
 }
 
-.details-summary {
-  font-size: 19px;
-  color: #035da5;
-  width: fit-content;
-  margin-bottom: 5px;
-  margin-left: 17px;
-  cursor: pointer;
-}
-
 .details-summary:focus {
   outline: 3px solid transparent;
-  color: #0b0c0c;
-  background-color: #fd0;
+  color: $govuk-black;
+  background-color: $govuk-yellow;
   -webkit-box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   box-shadow:
-    0 -2px #fd0,
-    0 4px #0b0c0c;
+    0 -2px $govuk-yellow,
+    0 4px $govuk-black;
   text-decoration: none;
 }
 
 .details-content-container {
-  font-size: 19px;
-  border-left: 5px solid #b1b4b6;
-  padding: 25px 0px 25px 20px;
-  margin-left: 17px;
-
   ul {
     margin-block-start: 15px;
     margin-block-end: 0px;
@@ -57,7 +45,7 @@
     border-width: 4px;
     outline: 3px solid transparent;
     outline-offset: 1px;
-    -webkit-box-shadow: 0 0 0 4px #fd0;
-    box-shadow: 0 0 0 4px #fd0;
+    -webkit-box-shadow: 0 0 0 4px $govuk-yellow;
+    box-shadow: 0 0 0 4px $govuk-yellow;
   }
 }
