@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="body-container">
-    @if (!changeAnswer) {
+    @if (!changeAnswer()) {
       <a
         class="breadcrumb-link"
         href="javascript:void(0)"
@@ -9,82 +9,82 @@
         >Back</a
       >
     }
-    @switch (currentPageNumber) {
+    @switch (currentPageNumber()) {
       @case (1) {
         <app-question-one
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerOneEvent)="receiveAnswer($event)"
         />
       }
       @case (2) {
         <app-question-two
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerTwoEvent)="receiveAnswer($event)"
         />
       }
       @case (3) {
         <app-question-three
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerThreeEvent)="receiveAnswer($event)"
         />
       }
       @case (4) {
         <app-question-four
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerFourEvent)="receiveAnswer($event)"
         />
       }
       @case (5) {
         <app-question-five
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerFiveEvent)="receiveAnswer($event)"
         />
       }
       @case (6) {
         <app-question-six
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerSixEvent)="receiveAnswer($event)"
         />
       }
       @case (7) {
         <app-question-seven
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerSevenEvent)="receiveAnswer($event)"
         />
       }
       @case (8) {
         <app-question-eight
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerEightEvent)="receiveAnswer($event)"
         />
       }
       @case (9) {
         <app-check-answers
-          [newMemberData]="newMemberData"
+          [newMemberData]="newMemberData()"
           (changeAnswerEvent)="receiveChangeAnswerPage($event)"
         />
       }
       @default {
         <app-question-one
-          [currentPage]="currentPageNumber"
-          [totalPages]="totalPageNumbers"
-          [newMemberData]="newMemberData"
+          [currentPage]="currentPageNumber()"
+          [totalPages]="totalPageNumbers()"
+          [newMemberData]="newMemberData()"
           (answerOneEvent)="receiveAnswer($event)"
         />
       }

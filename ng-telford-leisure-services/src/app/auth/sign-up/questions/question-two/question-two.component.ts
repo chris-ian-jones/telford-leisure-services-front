@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -23,9 +25,9 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 interface QuestionTwoForm {
-  day: FormControl<string | null>;
-  month: FormControl<string | null>;
-  year: FormControl<string | null>;
+  day: FormControl<string>;
+  month: FormControl<string>;
+  year: FormControl<string>;
 }
 
 @Component({
@@ -41,69 +43,77 @@ interface QuestionTwoForm {
   ],
   providers: [DatePipe]
 })
-export class QuestionTwoComponent implements OnInit {
+export class QuestionTwoComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  questionTwoForm!: FormGroup;
-  errors: ErrorSummaryItem[] = [];
-  @Output() answerTwoEvent = new EventEmitter<any>();
+
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
+
+  form = signal<FormGroup<QuestionTwoForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  dayErrors = computed(
+    () => this.form().get('day')?.errors && this.hasErrors()
+  );
+
+  monthErrors = computed(
+    () => this.form().get('month')?.errors && this.hasErrors()
+  );
+
+  yearErrors = computed(
+    () => this.form().get('year')?.errors && this.hasErrors()
+  );
+
+  sFormValid = computed(() => this.formValid());
+
+  @Output() answerTwoEvent = new EventEmitter<Partial<Member>>();
 
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService,
     private datePipe: DatePipe
-  ) {}
+  ) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData?.dateOfBirth) {
+        const dateOfBirth = new Date(memberData.dateOfBirth);
+        this.form().patchValue({
+          day: dateOfBirth.getDate().toString(),
+          month: (dateOfBirth.getMonth() + 1).toString(),
+          year: dateOfBirth.getFullYear().toString()
+        });
+        this.formValid.set(this.form().valid);
+      }
 
-  ngOnInit() {
-    this.initQuestionTwoForm();
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionTwoForm() {
-    this.questionTwoForm = this.formBuilder.group<QuestionTwoForm>(
+  private initForm(): FormGroup<QuestionTwoForm> {
+    return this.formBuilder.group(
       {
-        day: new FormControl('', {
-          nonNullable: false,
-          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
-        }),
-        month: new FormControl('', {
-          nonNullable: false,
-          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
-        }),
-        year: new FormControl('', {
-          nonNullable: false,
-          validators: [Validators.required, Validators.pattern('^[0-9]*$')]
-        })
+        day: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+        month: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+        year: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
       },
       { updateOn: 'submit' }
     );
-
-    if (this.newMemberData.dateOfBirth) {
-      const dateOfBirth = new Date(this.newMemberData.dateOfBirth);
-      const dayOfBirth = dateOfBirth.getDate();
-      const monthOfBirth = dateOfBirth.getMonth() + 1;
-      const yearOfBirth = dateOfBirth.getFullYear();
-
-      this.questionTwoForm.patchValue({
-        day: dayOfBirth,
-        month: monthOfBirth,
-        year: yearOfBirth
-      });
-    }
   }
 
-  onClickContinue() {
-    if (this.questionTwoForm.valid) {
-      this.signUpService.removeHashPathFromCurrentPath();
-      const day = this.questionTwoForm.get('day').value;
-      const month = this.questionTwoForm.get('month').value;
-      const year = this.questionTwoForm.get('year').value;
-      const dateString = `${year}-${month.toString().padStart(2, '0')}-${day
-        .toString()
-        .padStart(2, '0')}`;
+  onClickContinue(): void {
+    this.errors.set([]);
+    this.signUpService.removeHashPathFromCurrentPath();
 
+    if (this.form().valid) {
+      const { day, month, year } = this.form().getRawValue();
+      const dateString = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
       const dateOfBirth = new Date(dateString);
+
       const isValidDate =
         !isNaN(dateOfBirth.getTime()) &&
         dateOfBirth.getFullYear() === Number(year) &&
@@ -115,7 +125,7 @@ export class QuestionTwoComponent implements OnInit {
           dateOfBirth: this.datePipe.transform(dateOfBirth, 'yyyy-MM-dd')
         });
       } else {
-        this.questionTwoForm.controls['day'].setErrors({ invalid: true });
+        this.form().get('day')?.setErrors({ invalid: true });
         this.handleFormValidationErrors();
       }
     } else {
@@ -123,25 +133,27 @@ export class QuestionTwoComponent implements OnInit {
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionTwoForm.controls).forEach((control) => {
-      const controlErrors = this.questionTwoForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionTwoForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 

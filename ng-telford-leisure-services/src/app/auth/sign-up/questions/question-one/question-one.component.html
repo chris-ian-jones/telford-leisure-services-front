@@ -1,33 +1,25 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">What is your name?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionOneForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div
     class="input-container"
-    [class.input-container-error]="
-      (questionOneForm.get('firstName').errors ||
-        questionOneForm.get('firstName').hasError('required')) &&
-      this.errors.length > 0
-    "
+    [class.input-container-error]="hasFirstNameError()"
   >
     <label for="firstName" class="default-input-label"> First name(s) </label>
-    @if (
-      questionOneForm.get('firstName').errors &&
-      questionOneForm.get('firstName').hasError('required') &&
-      this.errors.length > 0
-    ) {
+    @if (hasFirstNameError()) {
       <label for="firstName" class="input-label-error-message">
         Enter your first name(s)
       </label>
@@ -38,26 +30,16 @@
         formControlName="firstName"
         type="text"
         class="default-text-input"
-        [class.text-input-error]="
-          questionOneForm.get('firstName').errors && this.errors.length > 0
-        "
+        [class.text-input-error]="hasFirstNameError()"
       />
     </div>
   </div>
   <div
     class="input-container"
-    [class.input-container-error]="
-      (questionOneForm.get('lastName').errors ||
-        questionOneForm.get('lastName').hasError('required')) &&
-      this.errors.length > 0
-    "
+    [class.input-container-error]="hasLastNameError()"
   >
     <label for="lastName" class="default-input-label"> Last name </label>
-    @if (
-      questionOneForm.get('lastName').errors &&
-      questionOneForm.get('lastName').hasError('required') &&
-      this.errors.length > 0
-    ) {
+    @if (hasLastNameError()) {
       <label for="lastName" class="input-label-error-message">
         Enter your last name
       </label>
@@ -68,9 +50,7 @@
         formControlName="lastName"
         type="text"
         class="default-text-input"
-        [class.text-input-error]="
-          questionOneForm.get('lastName').errors && this.errors.length > 0
-        "
+        [class.text-input-error]="hasLastNameError()"
       />
     </div>
   </div>

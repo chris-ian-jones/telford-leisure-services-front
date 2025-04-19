@@ -1,25 +1,22 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question-with-hint">What is your date of birth?</h1>
 <h3 class="hint-text">For example, 31 3 1980</h3>
 <form
   class="question-form-container"
-  [formGroup]="questionTwoForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div class="date-inputs-container">
-    <div
-      class="input-container"
-      [class.input-container-error]="this.errors.length > 0"
-    >
+    <div class="input-container" [class.input-container-error]="hasErrors()">
       <label for="day" class="default-input-label"> Day </label>
       <div>
         <input
@@ -27,9 +24,7 @@
           formControlName="day"
           type="text"
           class="default-text-input two-char-text-input"
-          [class.text-input-error]="
-            questionTwoForm.get('day').errors && this.errors.length > 0
-          "
+          [class.text-input-error]="dayErrors()"
         />
       </div>
     </div>
@@ -41,9 +36,7 @@
           formControlName="month"
           type="text"
           class="default-text-input two-char-text-input"
-          [class.text-input-error]="
-            questionTwoForm.get('month').errors && this.errors.length > 0
-          "
+          [class.text-input-error]="monthErrors()"
         />
       </div>
     </div>
@@ -55,9 +48,7 @@
           formControlName="year"
           type="text"
           class="default-text-input four-char-text-input"
-          [class.text-input-error]="
-            questionTwoForm.get('year').errors && this.errors.length > 0
-          "
+          [class.text-input-error]="yearErrors()"
         />
       </div>
     </div>
