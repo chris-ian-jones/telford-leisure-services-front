@@ -32,7 +32,7 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export default class SignUpComponent {
-  currentPageNumber = signal<number>(1);
+  currentPageNumber = signal<number>(3);
   readonly totalPageNumbers = signal<number>(8);
   changeAnswer = signal<boolean>(false);
 

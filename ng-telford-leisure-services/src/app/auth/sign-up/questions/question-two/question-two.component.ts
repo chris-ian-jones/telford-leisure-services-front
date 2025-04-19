@@ -67,8 +67,6 @@ export class QuestionTwoComponent {
     () => this.form().get('year')?.errors && this.hasErrors()
   );
 
-  sFormValid = computed(() => this.formValid());
-
   @Output() answerTwoEvent = new EventEmitter<Partial<Member>>();
 
   constructor(
@@ -99,7 +97,7 @@ export class QuestionTwoComponent {
       {
         day: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
         month: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        year: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+        year: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]]
       },
       { updateOn: 'submit' }
     );

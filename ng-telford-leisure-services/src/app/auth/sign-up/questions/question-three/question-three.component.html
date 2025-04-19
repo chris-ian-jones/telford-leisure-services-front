@@ -1,37 +1,27 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">What is your gender?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionThreeForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
-  <div
-    class="input-container"
-    [class.input-container-error]="
-      (questionThreeForm.get('gender').errors ||
-        questionThreeForm.get('gender').hasError('required')) &&
-      this.errors.length > 0
-    "
-  >
-    @if (
-      questionThreeForm.get('gender').errors &&
-      questionThreeForm.get('gender').hasError('required') &&
-      this.errors.length > 0
-    ) {
+  <div class="input-container" [class.input-container-error]="hasGenderError()">
+    @if (hasGenderError()) {
       <label for="gender" class="input-label-error-message">
         Select your gender
       </label>
     }
     <div
+      #maleInput
       id="maleInput"
       class="default-radio-input-container"
       tabindex="0"
@@ -39,7 +29,6 @@
       (keydown.space)="selectInput('Male')"
     >
       <input
-        #maleInput
         id="male"
         value="Male"
         formControlName="gender"
@@ -50,11 +39,7 @@
       <label
         for="male"
         class="radio-input-label"
-        [ngClass]="
-          questionThreeForm.get('gender').value === 'Male'
-            ? 'checked'
-            : 'unchecked'
-        "
+        [ngClass]="genderValue() === 'Male' ? 'checked' : 'unchecked'"
       >
         Male
       </label>
@@ -77,11 +62,7 @@
       <label
         for="female"
         class="radio-input-label"
-        [ngClass]="
-          questionThreeForm.get('gender').value === 'Female'
-            ? 'checked'
-            : 'unchecked'
-        "
+        [ngClass]="genderValue() === 'Female' ? 'checked' : 'unchecked'"
       >
         Female
       </label>

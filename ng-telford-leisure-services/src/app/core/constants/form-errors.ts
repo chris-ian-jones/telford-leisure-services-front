@@ -114,7 +114,7 @@ export const ERROR_MESSAGES: FormErrorMessages = {
       tabIndex: 4
     },
     pattern: {
-      message: 'Year must be a number',
+      message: 'Year must be a four digit number',
       focusElementId: 'year',
       tabIndex: 4
     }
