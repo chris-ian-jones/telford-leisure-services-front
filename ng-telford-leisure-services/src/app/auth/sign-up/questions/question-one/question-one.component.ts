@@ -94,10 +94,13 @@ export class QuestionOneComponent {
   }
 
   private initForm(): FormGroup<QuestionOneForm> {
-    return this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]]
-    });
+    return this.formBuilder.group(
+      {
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]]
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   onClickContinue() {

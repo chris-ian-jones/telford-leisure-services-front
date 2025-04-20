@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -23,8 +25,8 @@ import {
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 interface QuestionFourForm {
-  email: FormControl<string | null>;
-  phone: FormControl<string | null>;
+  email: FormControl<string>;
+  phone: FormControl<string>;
 }
 
 @Component({
@@ -39,76 +41,96 @@ interface QuestionFourForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionFourComponent implements OnInit {
+export class QuestionFourComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  questionFourForm!: FormGroup<QuestionFourForm>;
-  @Output() answerFourEvent = new EventEmitter<any>();
-  errors: ErrorSummaryItem[] = [];
+
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
+
+  form = signal<FormGroup<QuestionFourForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  emailErrors = computed(
+    () => this.form().get('email')?.errors && this.hasErrors()
+  );
+
+  phoneErrors = computed(
+    () => this.form().get('phone')?.errors && this.hasErrors()
+  );
+
+  @Output() answerFourEvent = new EventEmitter<Partial<Member>>();
 
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService
-  ) {}
+  ) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData?.email || memberData?.phone) {
+        this.form().patchValue({
+          email: memberData.email || '',
+          phone: memberData.phone || ''
+        });
+        this.formValid.set(this.form().valid);
+      }
 
-  ngOnInit() {
-    this.initQuestionFourForm();
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionFourForm() {
-    this.questionFourForm = this.formBuilder.group<QuestionFourForm>(
+  private initForm(): FormGroup<QuestionFourForm> {
+    return this.formBuilder.group(
       {
-        email: new FormControl(this.newMemberData.email, {
-          nonNullable: false,
-          validators: [Validators.required, Validators.email]
-        }),
-        phone: new FormControl(this.newMemberData.phone, {
-          nonNullable: false,
-          validators: [Validators.pattern('[- +()0-9]+')]
-        })
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.required, Validators.pattern('[- +()0-9]+')]]
       },
       { updateOn: 'submit' }
     );
   }
 
-  onClickContinue() {
-    this.errors.length = 0;
+  onClickContinue(): void {
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.questionFourForm.valid) {
-      this.answerFourEvent.emit(this.questionFourForm.value);
+
+    if (this.form().valid) {
+      const { email, phone } = this.form().getRawValue();
+      this.answerFourEvent.emit({ email, phone });
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionFourForm.controls).forEach((control) => {
-      const controlErrors = this.questionFourForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionFourForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }

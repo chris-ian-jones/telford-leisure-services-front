@@ -140,6 +140,11 @@ export const ERROR_MESSAGES: FormErrorMessages = {
     }
   },
   phone: {
+    required: {
+      message: 'Enter your phone number',
+      focusElementId: 'phone',
+      tabIndex: 4
+    },
     pattern: {
       message: 'Enter a valid phone number',
       focusElementId: 'phone',

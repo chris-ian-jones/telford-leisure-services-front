@@ -1,42 +1,27 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">What are your contact details?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionFourForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
-  <div
-    class="input-container"
-    [class.input-container-error]="
-      (questionFourForm.get('email').errors ||
-        questionFourForm.get('email').hasError('required')) &&
-      this.errors.length > 0
-    "
-  >
+  <div class="input-container" [class.input-container-error]="emailErrors()">
     <label for="email" class="default-input-label"> Email address </label>
-    @if (
-      questionFourForm.get('email').errors &&
-      questionFourForm.get('email').hasError('required') &&
-      this.errors.length > 0
-    ) {
+    @if (form().get('email')?.errors?.['required'] && hasErrors()) {
       <label for="email" class="input-label-error-message">
         Enter your email address
       </label>
     }
-    @if (
-      questionFourForm.get('email').errors &&
-      questionFourForm.get('email').hasError('email') &&
-      this.errors.length > 0
-    ) {
+    @if (form().get('email')?.errors?.['email'] && hasErrors()) {
       <label for="email" class="input-label-error-message">
         Enter the email address in the correct format, like name&#64;example.com
       </label>
@@ -47,27 +32,19 @@
         formControlName="email"
         type="text"
         class="default-text-input"
-        [class.text-input-error]="
-          questionFourForm.get('email').errors && this.errors.length > 0
-        "
+        [class.text-input-error]="emailErrors()"
       />
     </div>
   </div>
-  <div
-    class="input-container"
-    [class.input-container-error]="
-      questionFourForm.get('phone').errors && this.errors.length > 0
-    "
-  >
-    <label for="phone" class="default-input-label">
-      Phone number (Optional)
-    </label>
-    @if (
-      questionFourForm.get('phone').errors &&
-      questionFourForm.get('phone').hasError('pattern') &&
-      this.errors.length > 0
-    ) {
-      <label for="email" class="input-label-error-message">
+  <div class="input-container" [class.input-container-error]="phoneErrors()">
+    <label for="phone" class="default-input-label"> Phone number </label>
+    @if (form().get('phone')?.errors?.['required'] && hasErrors()) {
+      <label for="phone" class="input-label-error-message">
+        Enter your phone number
+      </label>
+    }
+    @if (form().get('phone')?.errors?.['pattern'] && hasErrors()) {
+      <label for="phone" class="input-label-error-message">
         Enter a valid phone number
       </label>
     }
@@ -77,9 +54,7 @@
         formControlName="phone"
         type="text"
         class="default-text-input three-quarters-text-input"
-        [class.text-input-error]="
-          questionFourForm.get('phone').errors && this.errors.length > 0
-        "
+        [class.text-input-error]="phoneErrors()"
       />
     </div>
   </div>
