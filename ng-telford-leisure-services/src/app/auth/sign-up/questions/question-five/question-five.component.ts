@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -44,41 +46,59 @@ interface QuestionFiveForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionFiveComponent implements OnInit {
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  @Output() answerFiveEvent = new EventEmitter<any>();
-  questionFiveForm!: FormGroup<QuestionFiveForm>;
-  errors: ErrorSummaryItem[] = [];
+export class QuestionFiveComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
+
+  form = signal<FormGroup<QuestionFiveForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  @Output() answerFiveEvent = new EventEmitter<any>();
 
   constructor(
     private formBuilder: FormBuilder,
     private signUpService: SignUpService
-  ) {}
+  ) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData) {
+        this.form().patchValue({
+          addressLineOne: memberData.addressLineOne,
+          addressLineTwo: memberData.addressLineTwo,
+          townOrCity: memberData.townOrCity,
+          county: memberData.county,
+          postcode: memberData.postcode
+        });
+        this.formValid.set(this.form().valid);
+      }
 
-  ngOnInit() {
-    this.initQuestionFiveForm();
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionFiveForm() {
-    this.questionFiveForm = this.formBuilder.group<QuestionFiveForm>(
+  private initForm(): FormGroup<QuestionFiveForm> {
+    return this.formBuilder.group<QuestionFiveForm>(
       {
-        addressLineOne: new FormControl(this.newMemberData.addressLineOne, {
+        addressLineOne: new FormControl('', {
           nonNullable: false,
           validators: [Validators.required]
         }),
-        addressLineTwo: new FormControl(this.newMemberData.addressLineTwo, {
+        addressLineTwo: new FormControl('', {
           nonNullable: false
         }),
-        townOrCity: new FormControl(this.newMemberData.townOrCity, {
+        townOrCity: new FormControl('', {
           nonNullable: false
         }),
-        county: new FormControl(this.newMemberData.county, {
+        county: new FormControl('', {
           nonNullable: false
         }),
-        postcode: new FormControl(this.newMemberData.postcode, {
+        postcode: new FormControl('', {
           nonNullable: false,
           validators: [
             Validators.required,
@@ -92,42 +112,43 @@ export class QuestionFiveComponent implements OnInit {
     );
   }
 
-  onClickContinue() {
-    this.errors.length = 0;
+  onClickContinue(): void {
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.questionFiveForm.valid) {
-      this.answerFiveEvent.emit(this.questionFiveForm.value);
+
+    if (this.form().valid) {
+      this.answerFiveEvent.emit(this.form().value);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionFiveForm.controls).forEach((control) => {
-      const controlErrors = this.questionFiveForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = this.form().get(controlName);
+      const controlErrors = control?.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }
