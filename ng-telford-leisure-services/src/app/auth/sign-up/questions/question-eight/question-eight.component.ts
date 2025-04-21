@@ -1,10 +1,12 @@
 import {
   Component,
+  computed,
+  effect,
   ElementRef,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -24,7 +26,7 @@ import {
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 interface QuestionEightForm {
-  membershipType: FormControl<string | null>;
+  membershipType: FormControl<string>;
 }
 
 @Component({
@@ -39,27 +41,42 @@ interface QuestionEightForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionEightComponent implements OnInit {
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  @Output() answerEightEvent = new EventEmitter<any>();
+export class QuestionEightComponent {
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('adtInput', { static: false }) adtInput: ElementRef;
   @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
   @ViewChild('haeInput', { static: false }) haeInput: ElementRef;
   @ViewChild('hccInput', { static: false }) hccInput: ElementRef;
-  questionEightForm!: FormGroup<QuestionEightForm>;
-  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
 
-  ngOnInit() {
-    this.initQuestionEightForm();
+  form = signal<FormGroup<QuestionEightForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  @Output() answerEightEvent = new EventEmitter<any>();
+
+  constructor(private formBuilder: FormBuilder) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData?.membershipType) {
+        this.form().patchValue({
+          membershipType: memberData.membershipType
+        });
+        this.formValid.set(this.form().valid);
+      }
+
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionEightForm() {
-    this.questionEightForm = this.formBuilder.group<QuestionEightForm>({
+  private initForm(): FormGroup<QuestionEightForm> {
+    return this.formBuilder.group<QuestionEightForm>({
       membershipType: new FormControl('', {
         nonNullable: false,
         validators: [Validators.required]
@@ -68,47 +85,33 @@ export class QuestionEightComponent implements OnInit {
   }
 
   selectInput(value: string) {
-    this.questionEightForm.controls['membershipType'].setValue(value);
-    this.errors.length = 0;
+    this.form().controls['membershipType'].setValue(value);
+    this.errors.set([]);
 
-    switch (value) {
-      case 'TLC Adt Resident 16+ - ADT': {
-        setTimeout(() => this.adtInput.nativeElement.focus());
-        break;
-      }
-      case 'Annual Cash Concession - HCO': {
-        setTimeout(() => this.hcoInput.nativeElement.focus());
-        break;
-      }
-      case 'Aspirations All Inclusive - HAE': {
-        setTimeout(() => this.haeInput.nativeElement.focus());
-        break;
-      }
-      case 'Aspirations No Contract - HCC': {
-        setTimeout(() => this.hccInput.nativeElement.focus());
-        break;
-      }
-      default: {
-        setTimeout(() => this.adtInput.nativeElement.focus());
-        break;
-      }
-    }
+    const elementMap: { [key: string]: ElementRef | undefined } = {
+      'TLC Adt Resident 16+ - ADT': this.adtInput,
+      'Annual Cash Concession - HCO': this.hcoInput,
+      'Aspirations All Inclusive - HAE': this.haeInput,
+      'Aspirations No Contract - HCC': this.hccInput
+    };
+
+    const element = elementMap[value] || this.adtInput;
+    setTimeout(() => element?.nativeElement.focus());
   }
 
-  onClickContinue() {
-    if (this.questionEightForm.valid) {
-      this.answerEightEvent.emit(this.questionEightForm.value);
+  onClickContinue(): void {
+    if (this.form().valid) {
+      this.answerEightEvent.emit(this.form().value);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
 
-    Object.keys(this.questionEightForm.controls).forEach((control) => {
-      const controlErrors = this.questionEightForm.get(control)?.errors;
+    Object.keys(this.form().controls).forEach((control) => {
+      const controlErrors = this.form().get(control)?.errors;
       if (!controlErrors) return;
 
       const controlErrorMessages = ERROR_MESSAGES[control];
@@ -121,14 +124,12 @@ export class QuestionEightComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }
