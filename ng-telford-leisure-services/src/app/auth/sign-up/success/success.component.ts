@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,14 +10,14 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export default class SuccessComponent {
-  memberNumber: string;
-  mainCenter: string;
+  memberNumber = signal<string>('');
+  mainCenter = signal<string>('');
 
   constructor(private router: Router) {
     const routeData = this.router.getCurrentNavigation().extras.state;
     if (routeData) {
-      this.memberNumber = routeData['memberNumber'];
-      this.mainCenter = routeData['mainCenter'];
+      this.memberNumber.set(routeData['memberNumber']);
+      this.mainCenter.set(routeData['mainCenter']);
     }
   }
 }
