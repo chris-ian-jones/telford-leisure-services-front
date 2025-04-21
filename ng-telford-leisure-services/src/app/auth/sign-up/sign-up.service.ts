@@ -1,31 +1,38 @@
-import { Injectable } from '@angular/core';
+import { HttpHeaders, httpResource } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Url } from './../../core/constants/urls';
 import { Member } from './../../core/models/member';
-
-const authHeaders = new HttpHeaders({
-  'Content-Type': 'application/json'
-});
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
-  constructor(
-    private location: Location,
-    private readonly http: HttpClient
-  ) {}
+  private readonly memberData = signal<Member | undefined>(undefined);
+
+  constructor(private location: Location) {}
+
+  signUpMemberResource = httpResource<Member>(() => {
+    const data = this.memberData();
+    if (!data) {
+      return undefined;
+    }
+    return {
+      method: 'POST',
+      url: `${Url.AUTH}/signup`,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: data
+    };
+  });
+
+  setMemberData(data: Member) {
+    this.memberData.set(data);
+  }
 
   removeHashPathFromCurrentPath() {
     const pathWithoutHash = this.location.path(false);
     this.location.replaceState(pathWithoutHash);
-  }
-
-  signUpMember(memberData: Member) {
-    return this.http.post(`${Url.AUTH}/signup`, memberData, {
-      headers: authHeaders,
-      observe: 'response'
-    });
   }
 }

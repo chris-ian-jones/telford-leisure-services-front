@@ -32,7 +32,7 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export default class SignUpComponent {
-  currentPageNumber = signal<number>(8);
+  currentPageNumber = signal<number>(1);
   readonly totalPageNumbers = signal<number>(8);
   changeAnswer = signal<boolean>(false);
 
@@ -76,10 +76,6 @@ export default class SignUpComponent {
       this.currentPageNumber.set(this.totalPageNumbers() + 1);
     } else {
       this.currentPageNumber.update((page) => page + 1);
-      console.log(
-        'receiveAnswer new currentPageNumber: ',
-        this.currentPageNumber()
-      );
     }
   }
 
