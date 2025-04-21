@@ -1,10 +1,12 @@
 import {
   Component,
+  computed,
+  effect,
   ElementRef,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -39,106 +41,99 @@ interface QuestionSixForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionSixComponent implements OnInit {
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  @Output() answerSixEvent = new EventEmitter<any>();
+export class QuestionSixComponent {
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('whiteInput', { static: false }) whiteInput: ElementRef;
   @ViewChild('asianInput', { static: false }) asianInput: ElementRef;
   @ViewChild('blackInput', { static: false }) blackInput: ElementRef;
   @ViewChild('chineseInput', { static: false }) chineseInput: ElementRef;
   @ViewChild('mixedInput', { static: false }) mixedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  questionSixForm!: FormGroup;
-  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
 
-  ngOnInit() {
-    this.initQuestionSixForm();
+  form = signal<FormGroup<QuestionSixForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  @Output() answerSixEvent = new EventEmitter<any>();
+
+  constructor(private formBuilder: FormBuilder) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData?.ethnicity) {
+        this.form().patchValue({
+          ethnicity: memberData.ethnicity
+        });
+        this.formValid.set(this.form().valid);
+      }
+
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionSixForm() {
-    this.questionSixForm = this.formBuilder.group<QuestionSixForm>({
-      ethnicity: new FormControl(this.newMemberData.ethnicity, {
-        nonNullable: false,
-        validators: [Validators.required]
-      })
+  private initForm(): FormGroup<QuestionSixForm> {
+    return this.formBuilder.group({
+      ethnicity: ['', [Validators.required]]
     });
   }
 
   selectInput(value: string) {
-    this.questionSixForm.controls['ethnicity'].setValue(value);
-    this.errors.length = 0;
+    this.form().controls['ethnicity'].setValue(value);
+    this.errors.set([]);
 
-    switch (value) {
-      case 'White UK/Irish/Euro': {
-        setTimeout(() => this.whiteInput.nativeElement.focus());
-        break;
-      }
-      case 'Asian/Asian British': {
-        setTimeout(() => this.asianInput.nativeElement.focus());
-        break;
-      }
-      case 'Black/Black British': {
-        setTimeout(() => this.blackInput.nativeElement.focus());
-        break;
-      }
-      case 'Chinese': {
-        setTimeout(() => this.chineseInput.nativeElement.focus());
-        break;
-      }
-      case 'Mixed/Dual': {
-        setTimeout(() => this.mixedInput.nativeElement.focus());
-        break;
-      }
-      case 'Other/Not Stated': {
-        setTimeout(() => this.otherInput.nativeElement.focus());
-        break;
-      }
-      default: {
-        setTimeout(() => this.whiteInput.nativeElement.focus());
-        break;
-      }
-    }
+    const elementMap: { [key: string]: ElementRef | undefined } = {
+      'White UK/Irish/Euro': this.whiteInput,
+      'Asian/Asian British': this.asianInput,
+      'Black/Black British': this.blackInput,
+      Chinese: this.chineseInput,
+      'Mixed/Dual': this.mixedInput,
+      'Other/Not Stated': this.otherInput
+    };
+
+    const element = elementMap[value] || this.whiteInput;
+    setTimeout(() => element?.nativeElement.focus());
   }
 
   onClickContinue() {
-    if (this.questionSixForm.valid) {
-      this.answerSixEvent.emit(this.questionSixForm.value);
+    if (this.form().valid) {
+      this.answerSixEvent.emit(this.form().value);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionSixForm.controls).forEach((control) => {
-      const controlErrors = this.questionSixForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionSixForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }
