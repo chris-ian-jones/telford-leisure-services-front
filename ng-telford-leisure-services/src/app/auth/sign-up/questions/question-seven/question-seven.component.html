@@ -1,31 +1,31 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">Which will be your main leisure center?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionSevenForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div
     class="input-container"
     [class.input-container-error]="
-      (questionSevenForm.get('mainCenter').errors ||
-        questionSevenForm.get('mainCenter').hasError('required')) &&
-      this.errors.length > 0
+      (form().get('mainCenter').errors ||
+        form().get('mainCenter').hasError('required')) &&
+      errors().length > 0
     "
   >
     @if (
-      questionSevenForm.get('mainCenter').errors &&
-      questionSevenForm.get('mainCenter').hasError('required') &&
-      this.errors.length > 0
+      form().get('mainCenter').errors &&
+      form().get('mainCenter').hasError('required') &&
+      errors().length > 0
     ) {
       <label for="mainCenter" class="input-label-error-message">
         Select your main leisure center
@@ -51,7 +51,7 @@
         for="abraham"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
+          form().get('mainCenter').value ===
           'Abraham Darby Sports and Leisure Center'
             ? 'checked'
             : 'unchecked'
@@ -80,8 +80,7 @@
         for="horsehay"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
-          'Horsehay Village Golf Club'
+          form().get('mainCenter').value === 'Horsehay Village Golf Club'
             ? 'checked'
             : 'unchecked'
         "
@@ -109,7 +108,7 @@
         for="newport"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value === 'Newport Swimming Pool'
+          form().get('mainCenter').value === 'Newport Swimming Pool'
             ? 'checked'
             : 'unchecked'
         "
@@ -137,8 +136,7 @@
         for="oakengates"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
-          'Oakengates Leisure Centre'
+          form().get('mainCenter').value === 'Oakengates Leisure Centre'
             ? 'checked'
             : 'unchecked'
         "
@@ -168,8 +166,7 @@
         for="phoenix"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
-          'Phoenix Sports and Leisure Centre'
+          form().get('mainCenter').value === 'Phoenix Sports and Leisure Centre'
             ? 'checked'
             : 'unchecked'
         "
@@ -197,8 +194,7 @@
         for="stirchley"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
-          'Stirchley Recreation Center'
+          form().get('mainCenter').value === 'Stirchley Recreation Center'
             ? 'checked'
             : 'unchecked'
         "
@@ -226,7 +222,7 @@
         for="wellington"
         class="radio-input-label"
         [ngClass]="
-          questionSevenForm.get('mainCenter').value ===
+          form().get('mainCenter').value ===
           'Wellington Civic and Leisure Centre'
             ? 'checked'
             : 'unchecked'

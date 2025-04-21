@@ -1,10 +1,12 @@
 import {
   Component,
+  computed,
+  effect,
   ElementRef,
   EventEmitter,
-  Input,
-  OnInit,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -39,11 +41,8 @@ interface QuestionSevenForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionSevenComponent implements OnInit {
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  @Output() answerSevenEvent = new EventEmitter<any>();
+export class QuestionSevenComponent {
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('abrahamInput', { static: false }) abrahamInput: ElementRef;
   @ViewChild('horsehayInput', { static: false }) horsehayInput: ElementRef;
   @ViewChild('newportInput', { static: false }) newportInput: ElementRef;
@@ -51,100 +50,97 @@ export class QuestionSevenComponent implements OnInit {
   @ViewChild('phoenixInput', { static: false }) phoenixInput: ElementRef;
   @ViewChild('stirchleyInput', { static: false }) stirchleyInput: ElementRef;
   @ViewChild('wellingtonInput', { static: false }) wellingtonInput: ElementRef;
-  questionSevenForm!: FormGroup;
-  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
 
-  ngOnInit() {
-    this.initQuestionSevenForm();
+  form = signal<FormGroup<QuestionSevenForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
+
+  mainCenterErrors = computed(
+    () => this.form().get('mainCenter')?.errors && this.hasErrors()
+  );
+
+  @Output() answerSevenEvent = new EventEmitter<any>();
+
+  constructor(private formBuilder: FormBuilder) {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData?.mainCenter) {
+        this.form().patchValue({
+          mainCenter: memberData.mainCenter
+        });
+        this.formValid.set(this.form().valid);
+      }
+
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      });
+    });
   }
 
-  initQuestionSevenForm() {
-    this.questionSevenForm = this.formBuilder.group<QuestionSevenForm>({
-      mainCenter: new FormControl(this.newMemberData.mainCenter, {
-        nonNullable: false,
-        validators: [Validators.required]
-      })
+  private initForm(): FormGroup<QuestionSevenForm> {
+    return this.formBuilder.group({
+      mainCenter: ['', [Validators.required]]
     });
   }
 
   selectInput(value: string) {
-    this.questionSevenForm.controls['mainCenter'].setValue(value);
-    this.errors.length = 0;
+    this.form().controls['mainCenter'].setValue(value);
+    this.errors.set([]);
 
-    switch (value) {
-      case 'Abraham Darby Sports and Leisure Center': {
-        setTimeout(() => this.abrahamInput.nativeElement.focus());
-        break;
-      }
-      case 'Horsehay Village Golf Club': {
-        setTimeout(() => this.horsehayInput.nativeElement.focus());
-        break;
-      }
-      case 'Newport Swimming Pool': {
-        setTimeout(() => this.newportInput.nativeElement.focus());
-        break;
-      }
-      case 'Oakengates Leisure Centre': {
-        setTimeout(() => this.oakengatesInput.nativeElement.focus());
-        break;
-      }
-      case 'Phoenix Sports and Leisure Centre': {
-        setTimeout(() => this.phoenixInput.nativeElement.focus());
-        break;
-      }
-      case 'Stirchley Recreation Center': {
-        setTimeout(() => this.stirchleyInput.nativeElement.focus());
-        break;
-      }
-      case 'Wellington Civic and Leisure Centre': {
-        setTimeout(() => this.wellingtonInput.nativeElement.focus());
-        break;
-      }
-      default: {
-        setTimeout(() => this.abrahamInput.nativeElement.focus());
-        break;
-      }
-    }
+    const elementMap: { [key: string]: ElementRef | undefined } = {
+      'Abraham Darby Sports and Leisure Center': this.abrahamInput,
+      'Horsehay Village Golf Club': this.horsehayInput,
+      'Newport Swimming Pool': this.newportInput,
+      'Oakengates Leisure Centre': this.oakengatesInput,
+      'Phoenix Sports and Leisure Centre': this.phoenixInput,
+      'Stirchley Recreation Center': this.stirchleyInput,
+      'Wellington Civic and Leisure Centre': this.wellingtonInput
+    };
+
+    const element = elementMap[value] || this.abrahamInput;
+    setTimeout(() => element?.nativeElement.focus());
   }
 
   onClickContinue() {
-    if (this.questionSevenForm.valid) {
-      this.answerSevenEvent.emit(this.questionSevenForm.value);
+    if (this.form().valid) {
+      this.answerSevenEvent.emit(this.form().value);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors(): void {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionSevenForm.controls).forEach((control) => {
-      const controlErrors = this.questionSevenForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionSevenForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 
   onClickMainCenterRequiredError() {
