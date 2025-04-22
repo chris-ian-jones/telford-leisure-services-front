@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   OnInit,
   signal,
@@ -47,18 +48,51 @@ export default class SignInComponent implements OnInit {
   private readonly authService = inject(AuthService);
 
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  signInForm!: FormGroup<SignInForm>;
 
-  readonly isLoading = signal(false);
-  private readonly errorState = signal<ErrorSummaryItem[]>([]);
-  readonly errors = computed(() => this.errorState());
+  form = signal<FormGroup<SignInForm>>(this.initForm());
+  errors = signal<ErrorSummaryItem[]>([]);
 
-  ngOnInit() {
-    this.initSignInForm();
+  readonly isLoading = computed(() =>
+    this.authService.signInResource.isLoading()
+  );
+  readonly hasErrors = computed(() => this.errors().length > 0);
+
+  constructor() {
+    effect(() => {
+      const result = this.authService.signInResource.value();
+      const error = this.authService.signInResource.error() as {
+        error: {
+          statusCode: number;
+          message: string;
+          error: string;
+        };
+      };
+      if (error) {
+        if (error.error.error === 'Unauthorized') {
+          this.form().controls['memberNumber'].setErrors({
+            unauthorized: true
+          });
+        } else {
+          this.form().controls['memberNumber'].setErrors({ error: true });
+        }
+        this.handleFormValidationErrors();
+        setTimeout(() => this.errorSummary.focusErrorSummary());
+      } else if (result) {
+        this.router.navigateByUrl('dashboard');
+      }
+    });
   }
 
-  initSignInForm() {
-    this.signInForm = this.formBuilder.group<SignInForm>(
+  ngOnInit() {
+    this.authService.setSignInData(undefined);
+    this.form.set(this.initForm());
+    this.form().controls['memberNumber'].setErrors(null);
+    this.form().controls['password'].setErrors(null);
+    this.errors.set([]);
+  }
+
+  private initForm(): FormGroup<SignInForm> {
+    return this.formBuilder.group<SignInForm>(
       {
         memberNumber: new FormControl('', {
           nonNullable: false,
@@ -74,50 +108,25 @@ export default class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.errorState.set([]);
+    this.errors.set([]);
 
-    if (this.signInForm.valid) {
-      const unformattedMemberNumber = this.signInForm.get('memberNumber').value;
+    if (this.form().valid) {
+      const unformattedMemberNumber = this.form().get('memberNumber')?.value;
       const payload: SignIn = {
-        memberNumber: unformattedMemberNumber.toString(),
-        password: this.signInForm.get('password').value
+        memberNumber: unformattedMemberNumber?.toString() || '',
+        password: this.form().get('password')?.value || ''
       };
-      this.memberSignIn(payload);
+      this.authService.setSignInData(payload);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  memberSignIn(payload: SignIn) {
-    this.isLoading.set(true);
-
-    this.authService.memberSignIn(payload).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        this.router.navigateByUrl('dashboard');
-      },
-      error: (error) => {
-        this.isLoading.set(false);
-
-        if (error.error.error === 'Unauthorized') {
-          this.signInForm.controls['memberNumber'].setErrors({
-            unauthorized: true
-          });
-        } else {
-          this.signInForm.controls['memberNumber'].setErrors({ error: true });
-        }
-
-        this.handleFormValidationErrors();
-        setTimeout(() => this.errorSummary.focusErrorSummary());
-      }
-    });
-  }
-
   handleFormValidationErrors() {
     const newErrors: ErrorSummaryItem[] = [];
 
-    Object.keys(this.signInForm.controls).forEach((control) => {
-      const controlErrors = this.signInForm.get(control)?.errors;
+    Object.keys(this.form().controls).forEach((control) => {
+      const controlErrors = this.form().get(control)?.errors;
       if (!controlErrors) return;
 
       const controlErrorMessages = ERROR_MESSAGES[control];
@@ -130,14 +139,12 @@ export default class SignInComponent implements OnInit {
       });
     });
 
-    this.errorState.set(newErrors);
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }

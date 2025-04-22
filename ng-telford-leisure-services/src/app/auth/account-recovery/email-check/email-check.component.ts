@@ -40,13 +40,13 @@ interface EmailCheckForm {
   ]
 })
 export class EmailCheckComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly formBuilder = inject(FormBuilder);
+
   @ViewChild('yesInput', { static: false }) yesInput: ElementRef;
   @ViewChild('noInput', { static: false }) noInput: ElementRef;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Output() changeComponentEvent = new EventEmitter<any>();
-
-  private readonly router = inject(Router);
-  private readonly formBuilder = inject(FormBuilder);
 
   form = signal<FormGroup<EmailCheckForm>>(this.initForm());
   errors = signal<ErrorSummaryItem[]>([]);
@@ -69,8 +69,8 @@ export class EmailCheckComponent implements OnInit {
     this.errors.set([]);
 
     const elementMap: { [key: string]: ElementRef | undefined } = {
-      'Yes': this.yesInput,
-      'No': this.noInput
+      Yes: this.yesInput,
+      No: this.noInput
     };
 
     const element = elementMap[value] || this.yesInput;

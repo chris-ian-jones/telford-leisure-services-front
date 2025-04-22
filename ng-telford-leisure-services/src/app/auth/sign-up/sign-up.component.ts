@@ -32,6 +32,8 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export default class SignUpComponent {
+  private readonly router = inject(Router);
+
   currentPageNumber = signal<number>(1);
   readonly totalPageNumbers = signal<number>(8);
   changeAnswer = signal<boolean>(false);
@@ -52,8 +54,6 @@ export default class SignUpComponent {
     mainCenter: '',
     membershipType: ''
   });
-
-  private readonly router = inject(Router);
 
   onClickBack() {
     if (this.currentPageNumber() === 1) {

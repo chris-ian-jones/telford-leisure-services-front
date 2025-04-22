@@ -42,24 +42,24 @@ interface EmailForm {
   ]
 })
 export class EmailConfirmComponent {
-  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Output() changeComponentEvent = new EventEmitter<any>();
-  @Output() emitMemberEmailEvent = new EventEmitter<any>();
-
   private readonly formBuilder = inject(FormBuilder);
   private readonly signUpService = inject(SignUpService);
   private readonly accountRecoveryService = inject(AccountRecoveryService);
+
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  @Output() changeComponentEvent = new EventEmitter<any>();
+  @Output() emitMemberEmailEvent = new EventEmitter<any>();
 
   form = signal<FormGroup<EmailForm>>(this.initForm());
   errors = signal<ErrorSummaryItem[]>([]);
 
   constructor() {
-
     this.accountRecoveryService.setConfirmationCodeData(undefined);
 
     effect(() => {
-      const confirmationCodeResource = this.accountRecoveryService.confirmationCodeResource;
-      
+      const confirmationCodeResource =
+        this.accountRecoveryService.confirmationCodeResource;
+
       const result = confirmationCodeResource.value();
       if (result || confirmationCodeResource.error()) {
         this.routeToNextStep();
@@ -82,7 +82,7 @@ export class EmailConfirmComponent {
   onClickContinue() {
     this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    
+
     const form = this.form();
     if (form.valid) {
       const email: Email = form.value as Email;
@@ -121,6 +121,6 @@ export class EmailConfirmComponent {
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-      element?.focus();
+    element?.focus();
   }
 }

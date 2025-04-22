@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,6 +26,8 @@ import {
   ERROR_MESSAGES,
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
+import { Subscription } from 'rxjs';
+
 interface QuestionTwoForm {
   day: FormControl<string>;
   month: FormControl<string>;
@@ -44,7 +47,12 @@ interface QuestionTwoForm {
   ],
   providers: [DatePipe]
 })
-export class QuestionTwoComponent {
+export class QuestionTwoComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private readonly datePipe = inject(DatePipe);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
 
   currentPage = input.required<number>();
@@ -70,10 +78,6 @@ export class QuestionTwoComponent {
 
   @Output() answerTwoEvent = new EventEmitter<Partial<Member>>();
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly signUpService = inject(SignUpService);
-  private readonly datePipe = inject(DatePipe);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -87,7 +91,7 @@ export class QuestionTwoComponent {
         this.formValid.set(this.form().valid);
       }
 
-      this.form().statusChanges.subscribe((status) => {
+      this.subscription = this.form().statusChanges.subscribe((status) => {
         this.formValid.set(status === 'VALID');
       });
     });
@@ -159,5 +163,9 @@ export class QuestionTwoComponent {
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
     element?.focus();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

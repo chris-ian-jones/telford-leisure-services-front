@@ -23,11 +23,11 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export class CheckAnswersComponent {
-  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  @Output() changeAnswerEvent = new EventEmitter<any>();
-
   private readonly router = inject(Router);
   private readonly signUpService = inject(SignUpService);
+
+  @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
+  @Output() changeAnswerEvent = new EventEmitter<any>();
 
   newMemberData = input.required<Member>();
   errorMessage = signal<string>('');

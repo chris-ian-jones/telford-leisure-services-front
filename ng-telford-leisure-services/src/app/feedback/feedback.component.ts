@@ -46,6 +46,11 @@ interface SatisfactionForm {
   ]
 })
 export default class FeedbackComponent {
+  private readonly router = inject(Router);
+  private readonly signUpService = inject(SignUpService);
+  private readonly feedbackService = inject(FeedbackService);
+  private readonly formBuilder = inject(FormBuilder);
+
   @ViewChild('verySatisfiedInput', { static: false })
   verySatisfiedInput: ElementRef;
   @ViewChild('satisfiedInput', { static: false }) satisfiedInput: ElementRef;
@@ -56,11 +61,6 @@ export default class FeedbackComponent {
   veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-
-  private readonly router = inject(Router);
-  private readonly signUpService = inject(SignUpService);
-  private readonly feedbackService = inject(FeedbackService);
-  private readonly formBuilder = inject(FormBuilder);
 
   readonly MAX_FEEDBACK_LENGTH = 1200;
 

@@ -8,9 +8,9 @@ import { Member } from './../../core/models/member';
   providedIn: 'root'
 })
 export class SignUpService {
-  private readonly memberData = signal<Member | undefined>(undefined);
-
   private readonly location = inject(Location);
+
+  private readonly memberData = signal<Member | undefined>(undefined);
 
   signUpMemberResource = httpResource<Member>(() => {
     const data = this.memberData();

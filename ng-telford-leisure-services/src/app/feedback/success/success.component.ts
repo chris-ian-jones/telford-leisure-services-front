@@ -11,5 +11,4 @@ import { RouterModule } from '@angular/router';
 })
 export default class SuccessComponent {
   private readonly router = inject(Router);
-
 }

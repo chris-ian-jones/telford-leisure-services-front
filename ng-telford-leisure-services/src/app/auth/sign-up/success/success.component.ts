@@ -10,11 +10,11 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export default class SuccessComponent {
+  private readonly router = inject(Router);
+
   memberNumber = signal<string>('');
   mainCenter = signal<string>('');
 
-  private readonly router = inject(Router);
-  
   constructor() {
     const routeData = this.router.getCurrentNavigation().extras.state;
     if (routeData) {
