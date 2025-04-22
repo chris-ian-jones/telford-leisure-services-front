@@ -61,7 +61,14 @@
           </div>
         </div>
         <div>
-          <button class="default-btn" type="submit">Continue</button>
+          <button
+            busyButton
+            class="default-btn"
+            [isLoading]="isLoading()"
+            type="submit"
+          >
+            Continue
+          </button>
         </div>
       </form>
     </div>

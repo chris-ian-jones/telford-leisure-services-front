@@ -135,7 +135,12 @@
     </div>
   </div>
   <div class="mt-xl mb-xxxxl">
-    <button class="default-btn" (click)="onClickCreateAccount()">
+    <button
+      busyButton
+      class="default-btn"
+      [isLoading]="isLoading()"
+      (click)="onClickCreateAccount()"
+    >
       Create account
     </button>
   </div>

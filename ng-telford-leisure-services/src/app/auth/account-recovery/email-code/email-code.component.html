@@ -106,7 +106,14 @@
           </div>
         </details>
         <div>
-          <button class="default-btn" type="submit">Confirm</button>
+          <button
+            busyButton
+            class="default-btn"
+            [isLoading]="isLoading()"
+            type="submit"
+          >
+            Confirm
+          </button>
         </div>
       </form>
     </div>

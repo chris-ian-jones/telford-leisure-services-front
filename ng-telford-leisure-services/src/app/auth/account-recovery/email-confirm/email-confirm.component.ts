@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   EventEmitter,
   inject,
@@ -24,6 +25,7 @@ import {
   ErrorSummaryItem
 } from '../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../shared/components/error-summary/error-summary.component';
+import { BusyButtonDirective } from '../../../shared/directives/busy-button.directive';
 
 interface EmailForm {
   email: FormControl<string | null>;
@@ -38,7 +40,8 @@ interface EmailForm {
     FormsModule,
     CommonModule,
     RouterModule,
-    ErrorSummaryComponent
+    ErrorSummaryComponent,
+    BusyButtonDirective
   ]
 })
 export class EmailConfirmComponent {
@@ -52,6 +55,10 @@ export class EmailConfirmComponent {
 
   form = signal<FormGroup<EmailForm>>(this.initForm());
   errors = signal<ErrorSummaryItem[]>([]);
+
+  readonly isLoading = computed(() =>
+    this.accountRecoveryService.confirmationCodeResource.isLoading()
+  );
 
   constructor() {
     this.accountRecoveryService.setConfirmationCodeData(undefined);
@@ -85,6 +92,10 @@ export class EmailConfirmComponent {
 
     const form = this.form();
     if (form.valid) {
+      if (this.isLoading()) {
+        return;
+      }
+
       const email: Email = form.value as Email;
       this.accountRecoveryService.setConfirmationCodeData(email);
     } else {

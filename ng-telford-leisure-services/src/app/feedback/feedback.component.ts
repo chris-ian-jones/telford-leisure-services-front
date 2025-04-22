@@ -26,7 +26,7 @@ import {
 } from '../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../shared/components/error-summary/error-summary.component';
 import { RemainingCharactersPipe } from '../shared/pipes/remaining-characters.pipe';
-
+import { BusyButtonDirective } from '../shared/directives/busy-button.directive';
 interface SatisfactionForm {
   satisfaction: FormControl<string | null>;
   improvements: FormControl<string | null>;
@@ -42,7 +42,8 @@ interface SatisfactionForm {
     ReactiveFormsModule,
     FormsModule,
     ErrorSummaryComponent,
-    RemainingCharactersPipe
+    RemainingCharactersPipe,
+    BusyButtonDirective
   ]
 })
 export default class FeedbackComponent {
@@ -74,6 +75,10 @@ export default class FeedbackComponent {
 
   improvementsErrors = computed(
     () => this.form().get('improvements')?.errors && this.hasErrors()
+  );
+
+  readonly isLoading = computed(() =>
+    this.feedbackService.createFeedbackResource.isLoading()
   );
 
   constructor() {
@@ -131,6 +136,10 @@ export default class FeedbackComponent {
     this.signUpService.removeHashPathFromCurrentPath();
 
     if (this.form().valid) {
+      if (this.isLoading()) {
+        return;
+      }
+
       const feedback: Feedback = {
         satisfaction: this.form().value.satisfaction!,
         improvements: this.form().value.improvements ?? ''

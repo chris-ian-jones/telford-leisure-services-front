@@ -15,12 +15,13 @@ import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { BusyButtonDirective } from '../../../../shared/directives/busy-button.directive';
 
 @Component({
   selector: 'app-check-answers',
   templateUrl: './check-answers.component.html',
   styleUrl: './check-answers.component.scss',
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule, BusyButtonDirective]
 })
 export class CheckAnswersComponent {
   private readonly router = inject(Router);
@@ -33,6 +34,10 @@ export class CheckAnswersComponent {
   errorMessage = signal<string>('');
 
   hasError = computed(() => !!this.errorMessage());
+
+  readonly isLoading = computed(() =>
+    this.signUpService.signUpMemberResource.isLoading()
+  );
 
   constructor() {
     effect(() => {
@@ -69,6 +74,11 @@ export class CheckAnswersComponent {
 
   onClickCreateAccount() {
     this.errorMessage.set('');
+
+    if (this.isLoading()) {
+      return;
+    }
+
     this.signUpService.setMemberData(this.newMemberData());
   }
 }

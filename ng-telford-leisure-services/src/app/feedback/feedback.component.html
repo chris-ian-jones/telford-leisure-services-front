@@ -209,7 +209,14 @@
           }}
         </p>
         <div>
-          <button class="default-btn" type="submit">Send feedback</button>
+          <button
+            busyButton
+            class="default-btn"
+            [isLoading]="isLoading()"
+            type="submit"
+          >
+            Send feedback
+          </button>
         </div>
       </form>
     </div>
