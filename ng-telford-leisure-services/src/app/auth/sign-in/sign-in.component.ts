@@ -24,7 +24,7 @@ import {
   ErrorSummaryItem,
   ERROR_MESSAGES
 } from './../../core/constants/form-errors';
-
+import { BusyButtonDirective } from './../../shared/directives/busy-button.directive';
 interface SignInForm {
   memberNumber: FormControl<string | null>;
   password: FormControl<string | null>;
@@ -39,7 +39,8 @@ interface SignInForm {
     FormsModule,
     CommonModule,
     RouterModule,
-    ErrorSummaryComponent
+    ErrorSummaryComponent,
+    BusyButtonDirective
   ]
 })
 export default class SignInComponent implements OnInit {

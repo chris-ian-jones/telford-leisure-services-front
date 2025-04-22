@@ -31,3 +31,40 @@
 .default-btn:active {
   top: 2px;
 }
+
+.default-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner-icon {
+  width: 20px;
+  height: 20px;
+  fill: $govuk-white;
+  animation: spin 1s linear infinite;
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button[busyButton] {
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:not(:empty) {
+    padding: 0.5rem 1rem;
+  }
+
+  &:empty {
+    padding: calc(0.5rem + 1px) 1rem;
+  }
+}

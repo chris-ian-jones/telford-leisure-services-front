@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   EventEmitter,
   inject,
@@ -25,7 +26,7 @@ import {
   ErrorSummaryItem
 } from './../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from '../../../shared/components/error-summary/error-summary.component';
-
+import { BusyButtonDirective } from '../../../shared/directives/busy-button.directive';
 interface PasswordForm {
   password: FormControl<string | null>;
   confirmPassword: FormControl<string | null>;
@@ -40,7 +41,8 @@ interface PasswordForm {
     FormsModule,
     CommonModule,
     RouterModule,
-    ErrorSummaryComponent
+    ErrorSummaryComponent,
+    BusyButtonDirective
   ]
 })
 export class ChangePasswordComponent {
@@ -56,6 +58,10 @@ export class ChangePasswordComponent {
 
   form = signal<FormGroup<PasswordForm>>(this.initForm());
   errors = signal<ErrorSummaryItem[]>([]);
+
+  readonly isLoading = computed(() =>
+    this.accountRecoveryService.changePasswordResource.isLoading()
+  );
 
   constructor() {
     effect(() => {
@@ -113,6 +119,10 @@ export class ChangePasswordComponent {
     const form = this.form();
 
     if (form.valid) {
+      if (this.isLoading()) {
+        return;
+      }
+
       const payload: ChangePassword = {
         email: this.memberEmail(),
         confirmationCode: this.confirmationCode(),

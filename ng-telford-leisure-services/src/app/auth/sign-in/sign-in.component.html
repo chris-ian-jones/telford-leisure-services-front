@@ -110,7 +110,12 @@
         </div>
       </div>
       <div>
-        <button class="default-btn" [disabled]="isLoading()" type="submit">
+        <button
+          busyButton
+          class="default-btn"
+          [isLoading]="isLoading()"
+          type="submit"
+        >
           Sign in
         </button>
       </div>
