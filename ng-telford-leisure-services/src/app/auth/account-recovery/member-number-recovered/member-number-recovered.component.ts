@@ -10,11 +10,11 @@ import { AccountRecoveryService } from '../account-recovery.service';
   imports: [CommonModule, RouterModule]
 })
 export class MemberNumberRecoveredComponent {
-  memberEmail = input.required<string>();
-  memberNumber = input.required<string>();
-
   private readonly router = inject(Router);
   private readonly accountRecoveryService = inject(AccountRecoveryService);
+
+  memberEmail = input.required<string>();
+  memberNumber = input.required<string>();
 
   routeToSignIn() {
     this.accountRecoveryService.setChangePasswordData(undefined);

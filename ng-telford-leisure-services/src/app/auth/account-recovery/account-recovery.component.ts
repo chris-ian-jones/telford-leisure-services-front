@@ -24,14 +24,14 @@ import { EmailCheckComponent } from './email-check/email-check.component';
   ]
 })
 export default class AccountRecoveryComponent {
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   shownComponent = signal<string>('');
   path = signal<string>('');
   memberEmail = signal<string>('');
   memberNumber = signal<string>('');
   confirmationCode = signal<string>('');
-
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
 
   constructor() {
     if (this.router.getCurrentNavigation().extras.state) {

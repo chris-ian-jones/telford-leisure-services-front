@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,7 +26,7 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
-
+import { Subscription } from 'rxjs';
 interface QuestionSevenForm {
   mainCenter: FormControl<string | null>;
 }
@@ -42,7 +43,10 @@ interface QuestionSevenForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionSevenComponent {
+export class QuestionSevenComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('abrahamInput', { static: false }) abrahamInput: ElementRef;
   @ViewChild('horsehayInput', { static: false }) horsehayInput: ElementRef;
@@ -67,8 +71,6 @@ export class QuestionSevenComponent {
 
   @Output() answerSevenEvent = new EventEmitter<any>();
 
-  private readonly formBuilder = inject(FormBuilder);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -79,7 +81,7 @@ export class QuestionSevenComponent {
         this.formValid.set(this.form().valid);
       }
 
-      this.form().statusChanges.subscribe((status) => {
+      this.subscription = this.form().statusChanges.subscribe((status) => {
         this.formValid.set(status === 'VALID');
       });
     });
@@ -148,5 +150,9 @@ export class QuestionSevenComponent {
 
   onClickMainCenterRequiredError() {
     setTimeout(() => this.abrahamInput.nativeElement.focus());
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

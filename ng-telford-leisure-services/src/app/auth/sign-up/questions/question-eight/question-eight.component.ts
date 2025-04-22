@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -26,6 +27,7 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
+import { Subscription } from 'rxjs';
 interface QuestionEightForm {
   membershipType: FormControl<string>;
 }
@@ -42,7 +44,10 @@ interface QuestionEightForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionEightComponent {
+export class QuestionEightComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('adtInput', { static: false }) adtInput: ElementRef;
   @ViewChild('hcoInput', { static: false }) hcoInput: ElementRef;
@@ -60,8 +65,6 @@ export class QuestionEightComponent {
 
   @Output() answerEightEvent = new EventEmitter<any>();
 
-  private readonly formBuilder = inject(FormBuilder);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -72,7 +75,7 @@ export class QuestionEightComponent {
         this.formValid.set(this.form().valid);
       }
 
-      this.form().statusChanges.subscribe((status) => {
+      this.subscription = this.form().statusChanges.subscribe((status) => {
         this.formValid.set(status === 'VALID');
       });
     });
@@ -134,5 +137,9 @@ export class QuestionEightComponent {
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
     element?.focus();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

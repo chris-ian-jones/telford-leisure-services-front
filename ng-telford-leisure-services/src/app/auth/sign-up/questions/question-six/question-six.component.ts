@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,7 +26,7 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
-
+import { Subscription } from 'rxjs';
 interface QuestionSixForm {
   ethnicity: FormControl<string | null>;
 }
@@ -42,7 +43,10 @@ interface QuestionSixForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionSixComponent {
+export class QuestionSixComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @ViewChild('whiteInput', { static: false }) whiteInput: ElementRef;
   @ViewChild('asianInput', { static: false }) asianInput: ElementRef;
@@ -62,8 +66,6 @@ export class QuestionSixComponent {
 
   @Output() answerSixEvent = new EventEmitter<any>();
 
-  private readonly formBuilder = inject(FormBuilder);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -74,7 +76,7 @@ export class QuestionSixComponent {
         this.formValid.set(this.form().valid);
       }
 
-      this.form().statusChanges.subscribe((status) => {
+      this.subscription = this.form().statusChanges.subscribe((status) => {
         this.formValid.set(status === 'VALID');
       });
     });
@@ -138,5 +140,9 @@ export class QuestionSixComponent {
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
     element?.focus();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

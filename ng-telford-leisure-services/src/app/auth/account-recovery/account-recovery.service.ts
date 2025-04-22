@@ -13,11 +13,9 @@ const authHeaders = new HttpHeaders({
   providedIn: 'root'
 })
 export class AccountRecoveryService {
-
   private readonly changePasswordData = signal<ChangePassword | undefined>(
     undefined
   );
-  
   private readonly confirmationCodeData = signal<Email | undefined>(undefined);
   private readonly validateCodeData = signal<ForgotMemberNumber | undefined>(
     undefined

@@ -21,38 +21,38 @@
         ></span
       >
     </div>
-    <form class="mt-xl" [formGroup]="signInForm" (ngSubmit)="signIn()">
+    <form class="mt-xl" [formGroup]="form()" (ngSubmit)="signIn()">
       <div
         class="input-container"
         [class.input-container-error]="
-          signInForm.get('memberNumber').errors && this.errors.length > 0
+          form().get('memberNumber').errors && this.errors().length > 0
         "
       >
         <label for="memberNumber" class="default-input-label">
           Member number
         </label>
         @if (
-          signInForm.get('memberNumber').errors &&
-          signInForm.get('memberNumber').hasError('required') &&
-          this.errors.length > 0
+          form().get('memberNumber').errors &&
+          form().get('memberNumber').hasError('required') &&
+          this.errors().length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Enter your member number
           </label>
         }
         @if (
-          signInForm.get('memberNumber').errors &&
-          signInForm.get('memberNumber').hasError('unauthorized') &&
-          this.errors.length > 0
+          form().get('memberNumber').errors &&
+          form().get('memberNumber').hasError('unauthorized') &&
+          this.errors().length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Incorrect member number or password
           </label>
         }
         @if (
-          signInForm.get('memberNumber').errors &&
-          signInForm.get('memberNumber').hasError('error') &&
-          this.errors.length > 0
+          form().get('memberNumber').errors &&
+          form().get('memberNumber').hasError('error') &&
+          this.errors().length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Server error
@@ -65,7 +65,7 @@
             type="number"
             class="default-text-input number-input"
             [class.text-input-error]="
-              signInForm.get('memberNumber').errors && this.errors.length > 0
+              form().get('memberNumber').errors && this.errors().length > 0
             "
           />
         </div>
@@ -73,25 +73,25 @@
       <div
         class="input-container"
         [class.input-container-error]="
-          (signInForm.get('password').errors ||
-            signInForm.get('memberNumber').hasError('unauthorized')) &&
-          this.errors.length > 0
+          (form().get('password').errors ||
+            form().get('memberNumber').hasError('unauthorized')) &&
+          this.errors().length > 0
         "
       >
         <label for="password" class="default-input-label"> Password </label>
         @if (
-          signInForm.get('password').errors &&
-          signInForm.get('password').hasError('required') &&
-          this.errors.length > 0
+          form().get('password').errors &&
+          form().get('password').hasError('required') &&
+          this.errors().length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Enter your password
           </label>
         }
         @if (
-          signInForm.get('memberNumber').errors &&
-          signInForm.get('memberNumber').hasError('unauthorized') &&
-          this.errors.length > 0
+          form().get('memberNumber').errors &&
+          form().get('memberNumber').hasError('unauthorized') &&
+          this.errors().length > 0
         ) {
           <label for="memberNumber" class="input-label-error-message">
             Incorrect member number or password
@@ -104,7 +104,7 @@
             type="password"
             class="default-text-input"
             [class.text-input-error]="
-              signInForm.get('password').errors && this.errors.length > 0
+              form().get('password').errors && this.errors().length > 0
             "
           />
         </div>

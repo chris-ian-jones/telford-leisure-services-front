@@ -43,6 +43,10 @@ interface ConfirmationCodeForm {
   ]
 })
 export class EmailCodeComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private readonly accountRecoveryService = inject(AccountRecoveryService);
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
@@ -51,17 +55,12 @@ export class EmailCodeComponent {
   memberEmail = input.required<string>();
   path = input.required<string>();
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly signUpService = inject(SignUpService);
-  private readonly accountRecoveryService = inject(AccountRecoveryService);
-
   form = signal<FormGroup<ConfirmationCodeForm>>(
     this.initConfirmationCodeForm()
   );
   errors = signal<ErrorSummaryItem[]>([]);
 
-  constructor()
-  {
+  constructor() {
     effect(() => {
       const forgotMemberResource =
         this.accountRecoveryService.forgotMemberResource;

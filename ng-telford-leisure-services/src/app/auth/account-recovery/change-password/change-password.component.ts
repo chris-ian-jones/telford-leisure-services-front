@@ -44,12 +44,12 @@ interface PasswordForm {
   ]
 })
 export class ChangePasswordComponent {
-  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Output() changeComponentEvent = new EventEmitter<any>();
-
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly accountRecoveryService = inject(AccountRecoveryService);
+
+  @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
+  @Output() changeComponentEvent = new EventEmitter<any>();
 
   memberEmail = input.required<string>();
   confirmationCode = input.required<string>();
@@ -57,8 +57,7 @@ export class ChangePasswordComponent {
   form = signal<FormGroup<PasswordForm>>(this.initForm());
   errors = signal<ErrorSummaryItem[]>([]);
 
-  constructor()
-  {
+  constructor() {
     effect(() => {
       const changePasswordResource =
         this.accountRecoveryService.changePasswordResource;

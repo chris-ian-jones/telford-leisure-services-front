@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,6 +26,7 @@ import {
   ERROR_MESSAGES,
   ErrorSummaryItem
 } from '../../../../core/constants/form-errors';
+import { Subscription } from 'rxjs';
 
 interface QuestionOneForm {
   firstName: FormControl<string | null>;
@@ -43,7 +45,11 @@ interface QuestionOneForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionOneComponent {
+export class QuestionOneComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   currentPage = input.required<number>();
   totalPages = input.required<number>();
@@ -74,9 +80,6 @@ export class QuestionOneComponent {
 
   @Output() answerOneEvent = new EventEmitter<Partial<Member>>();
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly signUpService = inject(SignUpService);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -89,7 +92,7 @@ export class QuestionOneComponent {
       }
     });
 
-    this.form().statusChanges.subscribe((status) => {
+    this.subscription = this.form().statusChanges.subscribe((status) => {
       this.formValid.set(status === 'VALID');
     });
   }
@@ -143,5 +146,9 @@ export class QuestionOneComponent {
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
     element?.focus();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

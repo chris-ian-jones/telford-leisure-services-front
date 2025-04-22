@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,6 +26,8 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
+import { Subscription } from 'rxjs';
+
 interface QuestionFourForm {
   email: FormControl<string>;
   phone: FormControl<string>;
@@ -42,7 +45,11 @@ interface QuestionFourForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionFourComponent {
+export class QuestionFourComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private subscription: Subscription;
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
 
   currentPage = input.required<number>();
@@ -64,9 +71,6 @@ export class QuestionFourComponent {
 
   @Output() answerFourEvent = new EventEmitter<Partial<Member>>();
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly signUpService = inject(SignUpService);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -78,7 +82,7 @@ export class QuestionFourComponent {
         this.formValid.set(this.form().valid);
       }
 
-      this.form().statusChanges.subscribe((status) => {
+      this.subscription = this.form().statusChanges.subscribe((status) => {
         this.formValid.set(status === 'VALID');
       });
     });
@@ -133,5 +137,9 @@ export class QuestionFourComponent {
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
     element?.focus();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   input,
+  OnDestroy,
   Output,
   signal,
   ViewChild
@@ -25,6 +26,7 @@ import {
   ErrorSummaryItem
 } from './../../../../core/constants/form-errors';
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
+import { Subscription } from 'rxjs';
 
 interface QuestionThreeForm {
   gender: FormControl<string>;
@@ -42,7 +44,10 @@ interface QuestionThreeForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionThreeComponent {
+export class QuestionThreeComponent implements OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  private subscriptions: Subscription[] = [];
+
   @ViewChild('maleInput', { static: false }) maleInput: ElementRef;
   @ViewChild('femaleInput', { static: false }) femaleInput: ElementRef;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
@@ -70,8 +75,6 @@ export class QuestionThreeComponent {
 
   @Output() answerThreeEvent = new EventEmitter<Partial<Member>>();
 
-  private readonly formBuilder = inject(FormBuilder);
-
   constructor() {
     effect(() => {
       const memberData = this.newMemberData();
@@ -83,15 +86,19 @@ export class QuestionThreeComponent {
       }
     });
 
-    this.form()
-      .get('gender')
-      ?.valueChanges.subscribe((value) => {
-        this.genderValue.set(value || '');
-      });
+    this.subscriptions.push(
+      this.form()
+        .get('gender')
+        ?.valueChanges.subscribe((value) => {
+          this.genderValue.set(value || '');
+        })
+    );
 
-    this.form().statusChanges.subscribe((status) => {
-      this.formValid.set(status === 'VALID');
-    });
+    this.subscriptions.push(
+      this.form().statusChanges.subscribe((status) => {
+        this.formValid.set(status === 'VALID');
+      })
+    );
   }
 
   private initForm(): FormGroup<QuestionThreeForm> {
@@ -153,5 +160,9 @@ export class QuestionThreeComponent {
     if (element) {
       element.focus();
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub?.unsubscribe());
   }
 }
