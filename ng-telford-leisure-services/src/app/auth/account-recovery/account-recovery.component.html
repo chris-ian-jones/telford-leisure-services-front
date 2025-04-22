@@ -1,4 +1,4 @@
-@switch (shownComponent) {
+@switch (shownComponent()) {
   @case ('email-check') {
     <app-email-check (changeComponentEvent)="receiveComponentChange($event)" />
   }
@@ -10,8 +10,8 @@
   }
   @case ('email-code') {
     <app-email-code
-      [memberEmail]="memberEmail"
-      [path]="path"
+      [memberEmail]="memberEmail()"
+      [path]="path()"
       (changeComponentEvent)="receiveComponentChange($event)"
       (emitMemberNumberEvent)="receiveMemberNumber($event)"
       (emitConfirmationCodeEvent)="receiveConfirmationCode($event)"
@@ -19,14 +19,14 @@
   }
   @case ('member-number-recovered') {
     <app-member-number-recovered
-      [memberEmail]="memberEmail"
-      [memberNumber]="memberNumber"
+      [memberEmail]="memberEmail()"
+      [memberNumber]="memberNumber()"
     />
   }
   @case ('change-password') {
     <app-change-password
-      [memberEmail]="memberEmail"
-      [confirmationCode]="confirmationCode"
+      [memberEmail]="memberEmail()"
+      [confirmationCode]="confirmationCode()"
       (changeComponentEvent)="receiveComponentChange($event)"
     />
   }

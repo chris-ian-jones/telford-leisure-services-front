@@ -1,9 +1,11 @@
 import {
   Component,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  inject,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -15,7 +17,6 @@ import {
 import { EmailCode } from '../../../core/models/emailCode';
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
-import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -41,28 +42,71 @@ interface ConfirmationCodeForm {
     ErrorSummaryComponent
   ]
 })
-export class EmailCodeComponent implements OnInit {
+export class EmailCodeComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Input() memberEmail!: string;
-  @Input() path: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberNumberEvent = new EventEmitter<any>();
   @Output() emitConfirmationCodeEvent = new EventEmitter<any>();
-  confirmationCodeForm!: FormGroup<ConfirmationCodeForm>;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService,
-    private accountRecoveryService: AccountRecoveryService
-  ) {}
+  memberEmail = input.required<string>();
+  path = input.required<string>();
 
-  ngOnInit() {
-    this.initConfirmationCodeForm();
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private readonly accountRecoveryService = inject(AccountRecoveryService);
+
+  form = signal<FormGroup<ConfirmationCodeForm>>(
+    this.initConfirmationCodeForm()
+  );
+  errors = signal<ErrorSummaryItem[]>([]);
+
+  constructor()
+  {
+    effect(() => {
+      const forgotMemberResource =
+        this.accountRecoveryService.forgotMemberResource;
+
+      const error = forgotMemberResource.error();
+      if (error) {
+        this.form().controls['confirmationCode'].setErrors({
+          incorrect: true
+        });
+        this.handleFormValidationErrors();
+        return;
+      }
+
+      const result = forgotMemberResource.value();
+      if (result) {
+        this.emitMemberNumberEvent.emit(result.memberNumber);
+        this.changeComponentEvent.emit('member-number-recovered');
+      }
+    });
+
+    effect(() => {
+      const validateCodeResource =
+        this.accountRecoveryService.validateCodeResource;
+
+      const error = validateCodeResource.error();
+      if (error) {
+        this.form().controls['confirmationCode'].setErrors({
+          incorrect: true
+        });
+        this.handleFormValidationErrors();
+        return;
+      }
+
+      const result = validateCodeResource.value();
+      if (result) {
+        this.emitConfirmationCodeEvent.emit(
+          this.form().controls['confirmationCode'].value
+        );
+        this.changeComponentEvent.emit('change-password');
+      }
+    });
   }
 
-  initConfirmationCodeForm() {
-    this.confirmationCodeForm = this.formBuilder.group<ConfirmationCodeForm>(
+  private initConfirmationCodeForm() {
+    return this.formBuilder.group<ConfirmationCodeForm>(
       {
         confirmationCode: new FormControl('', {
           nonNullable: false,
@@ -74,62 +118,32 @@ export class EmailCodeComponent implements OnInit {
   }
 
   onClickConfirm() {
-    this.errors.length = 0;
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.confirmationCodeForm.valid) {
+
+    const form = this.form();
+    if (form.valid) {
       const payload: EmailCode = {
-        email: this.memberEmail,
-        confirmationCode:
-          this.confirmationCodeForm.controls['confirmationCode'].value
+        email: this.memberEmail(),
+        confirmationCode: form.controls['confirmationCode'].value
       };
-      if (this.path === 'forgot-member-number') {
-        this.forgotMemberNumber(payload);
+
+      if (this.path() === 'forgot-member-number') {
+        this.accountRecoveryService.setForgotMemberData(payload);
       } else {
-        this.validateConfirmationCode(payload);
+        this.accountRecoveryService.setValidateCodeData(payload);
       }
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  async forgotMemberNumber(payload: EmailCode) {
-    try {
-      let response: any = await lastValueFrom(
-        this.accountRecoveryService.forgotMemberNumber(payload)
-      );
-      this.emitMemberNumberEvent.emit(response.body.memberNumber);
-      this.changeComponentEvent.emit('member-number-recovered');
-    } catch {
-      this.confirmationCodeForm.controls['confirmationCode'].setErrors({
-        incorrect: true
-      });
-      this.handleFormValidationErrors();
-    }
-  }
-
-  async validateConfirmationCode(payload: EmailCode) {
-    try {
-      let response: any = await lastValueFrom(
-        this.accountRecoveryService.validateConfirmationCode(payload)
-      );
-      this.emitConfirmationCodeEvent.emit(
-        this.confirmationCodeForm.controls['confirmationCode'].value
-      );
-      this.changeComponentEvent.emit('change-password');
-    } catch {
-      this.confirmationCodeForm.controls['confirmationCode'].setErrors({
-        incorrect: true
-      });
-      this.handleFormValidationErrors();
-    }
-  }
-
   handleFormValidationErrors() {
-    this.errors.length = 0;
     const newErrors: ErrorSummaryItem[] = [];
+    const form = this.form();
 
-    Object.keys(this.confirmationCodeForm.controls).forEach((control) => {
-      const controlErrors = this.confirmationCodeForm.get(control)?.errors;
+    Object.keys(form.controls).forEach((control) => {
+      const controlErrors = form.get(control)?.errors;
       if (!controlErrors) return;
 
       const controlErrorMessages = ERROR_MESSAGES[control];
@@ -142,7 +156,7 @@ export class EmailCodeComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
@@ -156,8 +170,6 @@ export class EmailCodeComponent implements OnInit {
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }

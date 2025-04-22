@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -11,8 +11,10 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 export class HeaderComponent {
   showSystemMessage = false;
 
-  constructor(private router: Router) {
-    router.events.subscribe((event: any) => {
+  private readonly router = inject(Router);
+
+  constructor() {
+    this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.router.url === '/sign-in'
           ? (this.showSystemMessage = true)

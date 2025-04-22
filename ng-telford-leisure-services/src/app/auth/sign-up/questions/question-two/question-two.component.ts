@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
@@ -69,11 +70,11 @@ export class QuestionTwoComponent {
 
   @Output() answerTwoEvent = new EventEmitter<Partial<Member>>();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService,
-    private datePipe: DatePipe
-  ) {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private readonly datePipe = inject(DatePipe);
+
+  constructor() {
     effect(() => {
       const memberData = this.newMemberData();
       if (memberData?.dateOfBirth) {

@@ -1,13 +1,13 @@
 <div class="main-container">
   <div class="body-container">
-    @if (errors.length > 0) {
+    @if (errors().length > 0) {
       <app-error-summary
-        [errors]="errors"
+        [errors]="errors()"
         [tabIndex]="1"
         (focusField)="focusElement($event)"
       />
     }
-    <div class="two-thirds-container" [class.mt-xxxl]="errors.length === 0">
+    <div class="two-thirds-container" [class.mt-xxxl]="errors().length === 0">
       <h1 class="heading-large">
         Enter the email address associated with your Telford Leisure Services
         account
@@ -17,31 +17,31 @@
       </p>
       <form
         class="question-form-container"
-        [formGroup]="emailForm"
+        [formGroup]="form()"
         (ngSubmit)="onClickContinue()"
       >
         <div
           class="input-container"
           [class.input-container-error]="
-            (emailForm.get('email').errors ||
-              emailForm.get('email').hasError('required')) &&
-            this.errors.length > 0
+            (form().get('email').errors ||
+              form().get('email').hasError('required')) &&
+            this.errors().length > 0
           "
         >
           <label for="email" class="default-input-label"> Email address </label>
           @if (
-            emailForm.get('email').errors &&
-            emailForm.get('email').hasError('required') &&
-            this.errors.length > 0
+            form().get('email').errors &&
+            form().get('email').hasError('required') &&
+            this.errors().length > 0
           ) {
             <label for="email" class="input-label-error-message">
               Enter your email address
             </label>
           }
           @if (
-            emailForm.get('email').errors &&
-            emailForm.get('email').hasError('email') &&
-            this.errors.length > 0
+            form().get('email').errors &&
+            form().get('email').hasError('email') &&
+            this.errors().length > 0
           ) {
             <label for="email" class="input-label-error-message">
               Enter the email address in the correct format, like
@@ -55,7 +55,7 @@
               type="text"
               class="default-text-input"
               [class.text-input-error]="
-                emailForm.get('email').errors && this.errors.length > 0
+                form().get('email').errors && this.errors().length > 0
               "
             />
           </div>

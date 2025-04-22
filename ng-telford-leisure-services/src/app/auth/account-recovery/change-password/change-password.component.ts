@@ -1,9 +1,11 @@
 import {
   Component,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  inject,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -15,7 +17,6 @@ import {
 import { Router } from '@angular/router';
 import { ChangePassword } from './../../../core/models/changePassword';
 import { AccountRecoveryService } from '../account-recovery.service';
-import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -42,26 +43,42 @@ interface PasswordForm {
     ErrorSummaryComponent
   ]
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Input() memberEmail!: string;
-  @Input() confirmationCode!: string;
   @Output() changeComponentEvent = new EventEmitter<any>();
-  passwordForm!: FormGroup<PasswordForm>;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private accountRecoveryService: AccountRecoveryService,
-    private router: Router
-  ) {}
+  private readonly router = inject(Router);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly accountRecoveryService = inject(AccountRecoveryService);
 
-  ngOnInit() {
-    this.initPasswordForm();
+  memberEmail = input.required<string>();
+  confirmationCode = input.required<string>();
+
+  form = signal<FormGroup<PasswordForm>>(this.initForm());
+  errors = signal<ErrorSummaryItem[]>([]);
+
+  constructor()
+  {
+    effect(() => {
+      const changePasswordResource =
+        this.accountRecoveryService.changePasswordResource;
+
+      const error = changePasswordResource.error();
+      if (error) {
+        this.form().controls['password'].setErrors({ token: true });
+        this.handleFormValidationErrors();
+        return;
+      }
+
+      const result = changePasswordResource.value();
+      if (result) {
+        this.changeComponentEvent.emit('password-reset');
+      }
+    });
   }
 
-  initPasswordForm() {
-    this.passwordForm = this.formBuilder.group<PasswordForm>(
+  private initForm() {
+    return this.formBuilder.group<PasswordForm>(
       {
         password: new FormControl('', {
           nonNullable: false,
@@ -83,46 +100,37 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   checkPasswords() {
-    const password = this.passwordForm.controls['password'].value;
-    const confirmPassword = this.passwordForm.controls['confirmPassword'].value;
+    const form = this.form();
+    const password = form.controls['password'].value;
+    const confirmPassword = form.controls['confirmPassword'].value;
 
     if (password !== confirmPassword) {
-      this.passwordForm.controls['confirmPassword'].setErrors({ match: true });
+      form.controls['confirmPassword'].setErrors({ match: true });
     }
   }
 
   onClickContinue() {
     this.checkPasswords();
-    if (this.passwordForm.valid) {
+    const form = this.form();
+
+    if (form.valid) {
       const payload: ChangePassword = {
-        email: this.memberEmail,
-        confirmationCode: this.confirmationCode,
-        password: this.passwordForm.controls['password'].value
+        email: this.memberEmail(),
+        confirmationCode: this.confirmationCode(),
+        password: form.controls['password'].value
       };
-      this.changePassword(payload);
+      this.accountRecoveryService.setChangePasswordData(payload);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  async changePassword(payload: ChangePassword) {
-    try {
-      let response: any = await lastValueFrom(
-        this.accountRecoveryService.changePassword(payload)
-      );
-      this.changeComponentEvent.emit('password-reset');
-    } catch {
-      this.passwordForm.controls['password'].setErrors({ token: true });
-      this.handleFormValidationErrors();
-    }
-  }
-
   handleFormValidationErrors() {
-    this.errors.length = 0;
     const newErrors: ErrorSummaryItem[] = [];
+    const form = this.form();
 
-    Object.keys(this.passwordForm.controls).forEach((control) => {
-      const controlErrors = this.passwordForm.get(control)?.errors;
+    Object.keys(form.controls).forEach((control) => {
+      const controlErrors = form.get(control)?.errors;
       if (!controlErrors) return;
 
       const controlErrorMessages = ERROR_MESSAGES[control];
@@ -135,7 +143,7 @@ export class ChangePasswordComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
@@ -153,9 +161,8 @@ export class ChangePasswordComponent implements OnInit {
       this.reloadCurrentRoute();
     } else {
       const element = document.getElementById(elementId);
-      if (element) {
-        element.focus();
-      }
+
+      element?.focus();
     }
   }
 }

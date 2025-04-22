@@ -1,4 +1,4 @@
-import { Component, Output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Member } from './../../core/models/member';
@@ -53,7 +53,7 @@ export default class SignUpComponent {
     membershipType: ''
   });
 
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   onClickBack() {
     if (this.currentPageNumber() === 1) {

@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
@@ -59,10 +60,10 @@ export class QuestionFiveComponent {
 
   @Output() answerFiveEvent = new EventEmitter<any>();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService
-  ) {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+
+  constructor() {
     effect(() => {
       const memberData = this.newMemberData();
       if (memberData) {

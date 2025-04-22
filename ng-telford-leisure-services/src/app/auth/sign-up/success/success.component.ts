@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,7 +13,9 @@ export default class SuccessComponent {
   memberNumber = signal<string>('');
   mainCenter = signal<string>('');
 
-  constructor(private router: Router) {
+  private readonly router = inject(Router);
+  
+  constructor() {
     const routeData = this.router.getCurrentNavigation().extras.state;
     if (routeData) {
       this.memberNumber.set(routeData['memberNumber']);

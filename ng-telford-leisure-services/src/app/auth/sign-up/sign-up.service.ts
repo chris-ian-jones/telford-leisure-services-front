@@ -1,5 +1,5 @@
 import { HttpHeaders, httpResource } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { Url } from './../../core/constants/urls';
 import { Member } from './../../core/models/member';
@@ -10,7 +10,7 @@ import { Member } from './../../core/models/member';
 export class SignUpService {
   private readonly memberData = signal<Member | undefined>(undefined);
 
-  constructor(private location: Location) {}
+  private readonly location = inject(Location);
 
   signUpMemberResource = httpResource<Member>(() => {
     const data = this.memberData();

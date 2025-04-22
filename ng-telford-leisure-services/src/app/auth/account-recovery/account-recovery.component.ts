@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EmailCodeComponent } from './email-code/email-code.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -24,40 +24,40 @@ import { EmailCheckComponent } from './email-check/email-check.component';
   ]
 })
 export default class AccountRecoveryComponent {
-  shownComponent: string = '';
-  path: string = '';
-  memberEmail: string = '';
-  memberNumber: string = '';
-  confirmationCode: string = '';
+  shownComponent = signal<string>('');
+  path = signal<string>('');
+  memberEmail = signal<string>('');
+  memberNumber = signal<string>('');
+  confirmationCode = signal<string>('');
 
-  constructor(
-    public activatedRoute: ActivatedRoute,
-    public router: Router
-  ) {
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
+  constructor() {
     if (this.router.getCurrentNavigation().extras.state) {
-      this.shownComponent =
-        this.router.getCurrentNavigation().extras.state['route'];
-      this.path = this.router.getCurrentNavigation().extras.state['path'];
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      this.shownComponent.set(state['route']);
+      this.path.set(state['path']);
     } else {
-      this.shownComponent = 'email-check';
-      this.path = 'forgot-member-number';
+      this.shownComponent.set('email-check');
+      this.path.set('forgot-member-number');
     }
   }
 
-  receiveComponentChange($event: any) {
-    this.shownComponent = $event;
+  receiveComponentChange(component: string) {
+    this.shownComponent.set(component);
     window.scrollTo(0, 0);
   }
 
-  receiveMemberEmail($event: any) {
-    this.memberEmail = $event;
+  receiveMemberEmail(email: string) {
+    this.memberEmail.set(email);
   }
 
-  receiveMemberNumber($event: any) {
-    this.memberNumber = $event;
+  receiveMemberNumber(number: string) {
+    this.memberNumber.set(number);
   }
 
-  receiveConfirmationCode($event: any) {
-    this.confirmationCode = $event;
+  receiveConfirmationCode(code: string) {
+    this.confirmationCode.set(code);
   }
 }

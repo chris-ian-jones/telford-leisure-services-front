@@ -4,6 +4,7 @@ import {
   effect,
   ElementRef,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
@@ -69,7 +70,9 @@ export class QuestionThreeComponent {
 
   @Output() answerThreeEvent = new EventEmitter<Partial<Member>>();
 
-  constructor(private formBuilder: FormBuilder) {
+  private readonly formBuilder = inject(FormBuilder);
+
+  constructor() {
     effect(() => {
       const memberData = this.newMemberData();
       if (memberData) {

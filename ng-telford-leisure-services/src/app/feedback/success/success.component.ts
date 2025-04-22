@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,5 +10,6 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export default class SuccessComponent {
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
+
 }

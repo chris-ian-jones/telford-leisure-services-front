@@ -4,6 +4,7 @@ import {
   effect,
   ElementRef,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
@@ -66,7 +67,9 @@ export class QuestionSevenComponent {
 
   @Output() answerSevenEvent = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder) {
+  private readonly formBuilder = inject(FormBuilder);
+
+  constructor() {
     effect(() => {
       const memberData = this.newMemberData();
       if (memberData?.mainCenter) {

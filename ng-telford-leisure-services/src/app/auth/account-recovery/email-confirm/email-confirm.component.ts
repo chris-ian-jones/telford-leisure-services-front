@@ -1,8 +1,10 @@
 import {
   Component,
+  effect,
   EventEmitter,
-  OnInit,
+  inject,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -14,7 +16,6 @@ import {
 import { SignUpService } from '../../sign-up/sign-up.service';
 import { AccountRecoveryService } from '../account-recovery.service';
 import { Email } from './../../../core/models/email';
-import { lastValueFrom } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -40,25 +41,34 @@ interface EmailForm {
     ErrorSummaryComponent
   ]
 })
-export class EmailConfirmComponent implements OnInit {
+export class EmailConfirmComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   @Output() changeComponentEvent = new EventEmitter<any>();
   @Output() emitMemberEmailEvent = new EventEmitter<any>();
-  emailForm!: FormGroup<EmailForm>;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService,
-    private accountRecoveryService: AccountRecoveryService
-  ) {}
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+  private readonly accountRecoveryService = inject(AccountRecoveryService);
 
-  ngOnInit() {
-    this.initEmailForm();
+  form = signal<FormGroup<EmailForm>>(this.initForm());
+  errors = signal<ErrorSummaryItem[]>([]);
+
+  constructor() {
+
+    this.accountRecoveryService.setConfirmationCodeData(undefined);
+
+    effect(() => {
+      const confirmationCodeResource = this.accountRecoveryService.confirmationCodeResource;
+      
+      const result = confirmationCodeResource.value();
+      if (result || confirmationCodeResource.error()) {
+        this.routeToNextStep();
+      }
+    });
   }
 
-  initEmailForm() {
-    this.emailForm = this.formBuilder.group<EmailForm>(
+  private initForm() {
+    return this.formBuilder.group<EmailForm>(
       {
         email: new FormControl('', {
           nonNullable: false,
@@ -70,38 +80,29 @@ export class EmailConfirmComponent implements OnInit {
   }
 
   onClickContinue() {
-    this.errors.length = 0;
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.emailForm.valid) {
-      const email: Email = this.emailForm.value as Email;
-      this.sendConfirmationCodeEmail(email);
+    
+    const form = this.form();
+    if (form.valid) {
+      const email: Email = form.value as Email;
+      this.accountRecoveryService.setConfirmationCodeData(email);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  async sendConfirmationCodeEmail(email: Email) {
-    try {
-      let response: any = await lastValueFrom(
-        this.accountRecoveryService.sendConfirmationCodeEmail(email)
-      );
-      this.routeToNextStep();
-    } catch {
-      this.routeToNextStep();
-    }
-  }
-
-  routeToNextStep() {
-    this.emitMemberEmailEvent.emit(this.emailForm.controls['email'].value);
+  private routeToNextStep() {
+    this.emitMemberEmailEvent.emit(this.form().controls['email'].value);
     this.changeComponentEvent.emit('email-code');
   }
 
   handleFormValidationErrors() {
-    this.errors.length = 0;
     const newErrors: ErrorSummaryItem[] = [];
+    const form = this.form();
 
-    Object.keys(this.emailForm.controls).forEach((control) => {
-      const controlErrors = this.emailForm.get(control)?.errors;
+    Object.keys(form.controls).forEach((control) => {
+      const controlErrors = form.get(control)?.errors;
       if (!controlErrors) return;
 
       const controlErrorMessages = ERROR_MESSAGES[control];
@@ -114,14 +115,12 @@ export class EmailConfirmComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+      element?.focus();
   }
 }
