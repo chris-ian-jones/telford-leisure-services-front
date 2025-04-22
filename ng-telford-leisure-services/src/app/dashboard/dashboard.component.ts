@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import confetti from 'canvas-confetti';
   imports: [CommonModule, RouterModule]
 })
 export default class DashboardComponent implements AfterViewInit {
-  constructor(private authService: AuthService) {}
+  private readonly authService = inject(AuthService);
 
   ngAfterViewInit() {
     this.showConfetti();

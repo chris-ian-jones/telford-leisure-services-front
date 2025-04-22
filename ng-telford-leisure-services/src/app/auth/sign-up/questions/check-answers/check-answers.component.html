@@ -1,10 +1,10 @@
-@if (errorMessage) {
+@if (errorMessage()) {
   <div #errorSummary class="error-summary-container" tabindex="2">
     <h2 class="error-summary-title">There is a problem</h2>
     <ul class="error-summary-list">
       <li>
         <a routerLink="/sign-in" class="error-link" tabindex="3">
-          {{ errorMessage }}
+          {{ errorMessage() }}
         </a>
       </li>
     </ul>
@@ -18,8 +18,8 @@
     <div class="summary-list-row">
       <dt class="summary-list-key">Name</dt>
       <dd class="summary-list-value">
-        {{ newMemberData?.firstName | titlecase }}
-        {{ newMemberData?.lastName | titlecase }}
+        {{ newMemberData()?.firstName | titlecase }}
+        {{ newMemberData()?.lastName | titlecase }}
       </dd>
       <dd class="summary-list-actions">
         <a
@@ -34,7 +34,7 @@
     <div class="summary-list-row">
       <dt class="summary-list-key">Date of birth</dt>
       <dd class="summary-list-value">
-        {{ newMemberData?.dateOfBirth | date: 'dd MMMM yyyy' }}
+        {{ newMemberData()?.dateOfBirth | date: 'dd MMMM yyyy' }}
       </dd>
       <dd class="summary-list-actions">
         <a
@@ -48,7 +48,7 @@
     </div>
     <div class="summary-list-row">
       <dt class="summary-list-key">Gender</dt>
-      <dd class="summary-list-value">{{ newMemberData?.gender }}</dd>
+      <dd class="summary-list-value">{{ newMemberData()?.gender }}</dd>
       <dd class="summary-list-actions">
         <a
           class="standard-link"
@@ -62,8 +62,8 @@
     <div class="summary-list-row">
       <dt class="summary-list-key">Contact details</dt>
       <dd class="summary-list-value">
-        <p>{{ newMemberData?.email }}</p>
-        <p class="mt-sm">{{ newMemberData?.phone }}</p>
+        <p>{{ newMemberData()?.email }}</p>
+        <p class="mt-sm">{{ newMemberData()?.phone }}</p>
       </dd>
       <dd class="summary-list-actions">
         <a
@@ -78,11 +78,11 @@
     <div class="summary-list-row">
       <dt class="summary-list-key">Address</dt>
       <dd class="summary-list-value">
-        <p>{{ newMemberData?.addressLineOne }}</p>
-        <p>{{ newMemberData?.addressLineTwo }}</p>
-        <p>{{ newMemberData?.townOrCity }}</p>
-        <p>{{ newMemberData?.county }}</p>
-        <p>{{ newMemberData?.postcode }}</p>
+        <p>{{ newMemberData()?.addressLineOne }}</p>
+        <p>{{ newMemberData()?.addressLineTwo }}</p>
+        <p>{{ newMemberData()?.townOrCity }}</p>
+        <p>{{ newMemberData()?.county }}</p>
+        <p>{{ newMemberData()?.postcode }}</p>
       </dd>
       <dd class="summary-list-actions">
         <a
@@ -96,7 +96,7 @@
     </div>
     <div class="summary-list-row">
       <dt class="summary-list-key">Ethnicity</dt>
-      <dd class="summary-list-value">{{ newMemberData?.ethnicity }}</dd>
+      <dd class="summary-list-value">{{ newMemberData()?.ethnicity }}</dd>
       <dd class="summary-list-actions">
         <a
           class="standard-link"
@@ -109,7 +109,7 @@
     </div>
     <div class="summary-list-row">
       <dt class="summary-list-key">Main leisure center</dt>
-      <dd class="summary-list-value">{{ newMemberData?.mainCenter }}</dd>
+      <dd class="summary-list-value">{{ newMemberData()?.mainCenter }}</dd>
       <dd class="summary-list-actions">
         <a
           class="standard-link"
@@ -122,7 +122,7 @@
     </div>
     <div class="summary-list-row">
       <dt class="summary-list-key">Membership type</dt>
-      <dd class="summary-list-value">{{ newMemberData?.membershipType }}</dd>
+      <dd class="summary-list-value">{{ newMemberData()?.membershipType }}</dd>
       <dd class="summary-list-actions">
         <a
           class="standard-link"

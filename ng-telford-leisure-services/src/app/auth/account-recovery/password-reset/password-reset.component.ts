@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, RouterModule]
 })
 export class PasswordResetComponent {
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   routeToSignIn() {
     this.router.navigateByUrl('/sign-in');

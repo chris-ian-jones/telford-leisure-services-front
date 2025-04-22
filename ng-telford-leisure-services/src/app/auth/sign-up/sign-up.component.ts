@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Member } from './../../core/models/member';
@@ -32,9 +32,11 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export default class SignUpComponent {
-  currentPageNumber: number = 1;
-  totalPageNumbers: number = 8;
-  @Output() newMemberData: Member = {
+  currentPageNumber = signal<number>(1);
+  readonly totalPageNumbers = signal<number>(8);
+  changeAnswer = signal<boolean>(false);
+
+  newMemberData = signal<Member>({
     firstName: '',
     lastName: '',
     dateOfBirth: '',
@@ -49,33 +51,37 @@ export default class SignUpComponent {
     ethnicity: '',
     mainCenter: '',
     membershipType: ''
-  };
-  @Output() changeAnswer: boolean = false;
+  });
 
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   onClickBack() {
-    if (this.currentPageNumber === 1) {
+    if (this.currentPageNumber() === 1) {
       this.router.navigateByUrl(`/sign-in`);
     } else {
-      this.currentPageNumber--;
+      this.currentPageNumber.update((page) => page - 1);
     }
   }
 
-  receiveAnswer($event: any) {
-    Object.assign(this.newMemberData, $event);
+  receiveAnswer($event: Partial<Member>) {
+    this.newMemberData.update((data) => ({
+      ...data,
+      ...$event
+    }));
+
     window.scrollTo(0, 0);
-    if (this.changeAnswer) {
-      this.changeAnswer = false;
-      this.currentPageNumber = this.totalPageNumbers + 1;
+
+    if (this.changeAnswer()) {
+      this.changeAnswer.set(false);
+      this.currentPageNumber.set(this.totalPageNumbers() + 1);
     } else {
-      this.currentPageNumber++;
+      this.currentPageNumber.update((page) => page + 1);
     }
   }
 
   receiveChangeAnswerPage($event: any) {
     window.scrollTo(0, 0);
-    this.currentPageNumber = $event;
-    this.changeAnswer = true;
+    this.currentPageNumber.set($event);
+    this.changeAnswer.set(true);
   }
 }

@@ -2,12 +2,12 @@
   <div class="body-container">
     @if (errors.length > 0) {
       <app-error-summary
-        [errors]="errors"
+        [errors]="errors()"
         [tabIndex]="1"
         (focusField)="focusElement($event)"
       />
     }
-    <div class="two-thirds-container" [class.mt-xxxl]="errors.length === 0">
+    <div class="two-thirds-container" [class.mt-xxxl]="errors().length === 0">
       <h1 class="heading-large">Before recovering your Member Number</h1>
       <p class="body-text">
         Search your emails as your member number may be included in an email we
@@ -16,21 +16,21 @@
       </p>
       <form
         class="question-form-container sub-heading-custom-margin"
-        [formGroup]="emailCheckForm"
+        [formGroup]="form()"
         (ngSubmit)="onClickContinue()"
       >
         <div
           class="input-container custom-margin-bottom"
           [class.input-container-error]="
-            (emailCheckForm.get('emailCheck').errors ||
-              emailCheckForm.get('emailCheck').hasError('required')) &&
-            this.errors.length > 0
+            (form().get('emailCheck').errors ||
+              form().get('emailCheck').hasError('required')) &&
+            this.errors().length > 0
           "
         >
           @if (
-            emailCheckForm.get('emailCheck').errors &&
-            emailCheckForm.get('emailCheck').hasError('required') &&
-            this.errors.length > 0
+            form().get('emailCheck').errors &&
+            form().get('emailCheck').hasError('required') &&
+            this.errors().length > 0
           ) {
             <label for="emailCheck" class="input-label-error-message">
               Select yes if you have found your member number
@@ -56,7 +56,7 @@
               for="yes"
               class="radio-input-label"
               [ngClass]="
-                emailCheckForm.get('emailCheck').value === 'Yes'
+                form().get('emailCheck').value === 'Yes'
                   ? 'checked'
                   : 'unchecked'
               "
@@ -83,7 +83,7 @@
               for="no"
               class="radio-input-label"
               [ngClass]="
-                emailCheckForm.get('emailCheck').value === 'No'
+                form().get('emailCheck').value === 'No'
                   ? 'checked'
                   : 'unchecked'
               "

@@ -1,4 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,7 +17,6 @@ import { Router } from '@angular/router';
 import { SignUpService } from '../auth/sign-up/sign-up.service';
 import { Feedback } from '../core/models/feedback';
 import { FeedbackService } from './feedback.service';
-import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -38,7 +45,7 @@ interface SatisfactionForm {
     RemainingCharactersPipe
   ]
 })
-export default class FeedbackComponent implements OnInit {
+export default class FeedbackComponent {
   @ViewChild('verySatisfiedInput', { static: false })
   verySatisfiedInput: ElementRef;
   @ViewChild('satisfiedInput', { static: false }) satisfiedInput: ElementRef;
@@ -48,24 +55,50 @@ export default class FeedbackComponent implements OnInit {
   @ViewChild('veryDissatisfiedInput', { static: false })
   veryDissatisfiedInput: ElementRef;
   @ViewChild('otherInput', { static: false }) otherInput: ElementRef;
-  satisfactionForm!: FormGroup;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  errors: ErrorSummaryItem[] = [];
+
+  private readonly router = inject(Router);
+  private readonly signUpService = inject(SignUpService);
+  private readonly feedbackService = inject(FeedbackService);
+  private readonly formBuilder = inject(FormBuilder);
+
   readonly MAX_FEEDBACK_LENGTH = 1200;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService,
-    private feedbackService: FeedbackService,
-    private router: Router
-  ) {}
+  form = signal<FormGroup<SatisfactionForm>>(this.initForm());
+  errors = signal<ErrorSummaryItem[]>([]);
+  hasErrors = computed(() => this.errors().length > 0);
 
-  ngOnInit() {
-    this.initSatisfactionForm();
+  satisfactionErrors = computed(
+    () => this.form().get('satisfaction')?.errors && this.hasErrors()
+  );
+
+  improvementsErrors = computed(
+    () => this.form().get('improvements')?.errors && this.hasErrors()
+  );
+
+  constructor() {
+    effect(() => {
+      const feedbackResource = this.feedbackService.createFeedbackResource;
+
+      const error = feedbackResource.error();
+      if (error) {
+        this.form().controls['satisfaction'].setErrors({
+          required: true
+        });
+        this.handleFormValidationErrors();
+        return;
+      }
+
+      const result = feedbackResource.value();
+      if (result) {
+        this.router.navigateByUrl('/feedback/success');
+        this.feedbackService.setFeedbackData(undefined);
+      }
+    });
   }
 
-  initSatisfactionForm() {
-    this.satisfactionForm = this.formBuilder.group<SatisfactionForm>({
+  private initForm(): FormGroup<SatisfactionForm> {
+    return this.formBuilder.group<SatisfactionForm>({
       satisfaction: new FormControl('', {
         nonNullable: false,
         validators: [Validators.required]
@@ -78,69 +111,45 @@ export default class FeedbackComponent implements OnInit {
   }
 
   selectInput(value: string) {
-    this.satisfactionForm.controls['satisfaction'].setValue(value);
-    this.errors.length = 0;
+    this.form().controls['satisfaction'].setValue(value);
+    this.errors.set([]);
 
-    switch (value) {
-      case 'Very satisfied': {
-        setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
-        break;
-      }
-      case 'Satisfied': {
-        setTimeout(() => this.satisfiedInput.nativeElement.focus());
-        break;
-      }
-      case 'Neither satisfied or dissatisfied': {
-        setTimeout(() => this.neitherInput.nativeElement.focus());
-        break;
-      }
-      case 'Dissatisfied': {
-        setTimeout(() => this.dissatisfiedInput.nativeElement.focus());
-        break;
-      }
-      case 'Very dissatisfied': {
-        setTimeout(() => this.veryDissatisfiedInput.nativeElement.focus());
-        break;
-      }
-      default: {
-        setTimeout(() => this.verySatisfiedInput.nativeElement.focus());
-        break;
-      }
-    }
+    const elementMap: { [key: string]: ElementRef | undefined } = {
+      'Very satisfied': this.verySatisfiedInput,
+      Satisfied: this.satisfiedInput,
+      'Neither satisfied or dissatisfied': this.neitherInput,
+      Dissatisfied: this.dissatisfiedInput,
+      'Very dissatisfied': this.veryDissatisfiedInput
+    };
+
+    const element = elementMap[value] || this.verySatisfiedInput;
+    setTimeout(() => element?.nativeElement.focus());
   }
 
   onClickSendFeedback() {
-    this.errors.length = 0;
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.satisfactionForm.valid) {
-      this.createNewFeedback(this.satisfactionForm.value);
+
+    if (this.form().valid) {
+      const feedback: Feedback = {
+        satisfaction: this.form().value.satisfaction!,
+        improvements: this.form().value.improvements ?? ''
+      };
+      this.feedbackService.setFeedbackData(feedback);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  async createNewFeedback(feedback: Feedback) {
-    try {
-      let response: any = await lastValueFrom(
-        this.feedbackService.createNewFeedback(feedback)
-      );
-      this.router.navigateByUrl('/feedback/success');
-    } catch {
-      this.satisfactionForm.controls['satisfaction'].setErrors({
-        required: true
-      });
-    }
-  }
-
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors() {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.satisfactionForm.controls).forEach((control) => {
-      const controlErrors = this.satisfactionForm.get(control)?.errors;
+    Object.keys(controls).forEach((controlName) => {
+      const controlErrors = this.form().get(controlName)?.errors;
       if (!controlErrors) return;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
+      const controlErrorMessages = ERROR_MESSAGES[controlName];
       if (!controlErrorMessages) return;
 
       Object.keys(controlErrors).forEach((errorType) => {
@@ -150,14 +159,12 @@ export default class FeedbackComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }

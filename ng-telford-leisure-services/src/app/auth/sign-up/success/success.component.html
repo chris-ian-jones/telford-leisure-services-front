@@ -5,7 +5,7 @@
         <h1 class="panel-title">Application complete</h1>
         <div class="panel-body">
           <p class="panel-body-text">Your member number</p>
-          <p class="panel-body-text">{{ memberNumber }}</p>
+          <p class="panel-body-text">{{ memberNumber() }}</p>
         </div>
       </div>
       <p class="body-text">
@@ -14,7 +14,7 @@
       </p>
       <h2 class="heading-medium">What happens next</h2>
       <p class="body-text">
-        We have sent your application to {{ mainCenter }}.
+        We have sent your application to {{ mainCenter() }}.
       </p>
       <p class="body-text">
         They will contact you either to confirm your registration, or to ask for

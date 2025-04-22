@@ -1,15 +1,18 @@
 import {
   Component,
+  computed,
+  effect,
   ElementRef,
   EventEmitter,
-  Input,
+  inject,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpService } from '../../sign-up.service';
 import { Member } from './../../../../core/models/member';
-import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -20,39 +23,52 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule]
 })
 export class CheckAnswersComponent {
-  @Input() newMemberData!: Member;
-  @Output() changeAnswerEvent = new EventEmitter<any>();
   @ViewChild('errorSummary', { static: false }) errorSummaryDiv!: ElementRef;
-  errorMessage: string = '';
+  @Output() changeAnswerEvent = new EventEmitter<any>();
 
-  constructor(
-    private signUpService: SignUpService,
-    private router: Router
-  ) {}
+  private readonly router = inject(Router);
+  private readonly signUpService = inject(SignUpService);
+
+  newMemberData = input.required<Member>();
+  errorMessage = signal<string>('');
+
+  hasError = computed(() => !!this.errorMessage());
+
+  constructor() {
+    effect(() => {
+      const signUpResource = this.signUpService.signUpMemberResource;
+
+      const error = signUpResource.error();
+      if (error) {
+        this.errorMessage.set(
+          (error as any).error?.message || 'An error occurred'
+        );
+        setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
+        return;
+      }
+
+      const result = signUpResource.value();
+
+      if (result) {
+        const response = result as any;
+        this.router.navigate(['sign-up/success'], {
+          state: {
+            memberNumber: response.memberNumber,
+            mainCenter: response.mainCenter
+          }
+        });
+      }
+    });
+  }
 
   onClickChange(pageNumber: number) {
+    this.errorMessage.set('');
+    this.signUpService.setMemberData(undefined);
     this.changeAnswerEvent.emit(pageNumber);
   }
 
   onClickCreateAccount() {
-    this.errorMessage = '';
-    this.signUpMember(this.newMemberData);
-  }
-
-  async signUpMember(newMemberData: Member) {
-    try {
-      let response: any = await lastValueFrom(
-        this.signUpService.signUpMember(newMemberData)
-      );
-      this.router.navigate(['sign-up/success'], {
-        state: {
-          memberNumber: response.body.memberNumber,
-          mainCenter: response.body.mainCenter
-        }
-      });
-    } catch (error: any) {
-      this.errorMessage = error.error.message;
-      setTimeout(() => this.errorSummaryDiv.nativeElement.focus());
-    }
+    this.errorMessage.set('');
+    this.signUpService.setMemberData(this.newMemberData());
   }
 }

@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpHeaders, httpResource } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { Url } from './../../core/constants/urls';
 import { ChangePassword } from './../../core/models/changePassword';
 import { ForgotMemberNumber } from './../../core/models/forgotMemberNumber';
@@ -13,33 +13,76 @@ const authHeaders = new HttpHeaders({
   providedIn: 'root'
 })
 export class AccountRecoveryService {
-  constructor(private readonly http: HttpClient) {}
 
-  sendConfirmationCodeEmail(email: Email) {
-    return this.http.post(`${Url.AUTH}/generate-confirmation-code`, email, {
+  private readonly changePasswordData = signal<ChangePassword | undefined>(
+    undefined
+  );
+  
+  private readonly confirmationCodeData = signal<Email | undefined>(undefined);
+  private readonly validateCodeData = signal<ForgotMemberNumber | undefined>(
+    undefined
+  );
+  private readonly forgotMemberData = signal<ForgotMemberNumber | undefined>(
+    undefined
+  );
+
+  changePasswordResource = httpResource<ChangePassword>(() => {
+    const data = this.changePasswordData();
+    if (!data) return undefined;
+    return {
+      method: 'POST',
+      url: `${Url.AUTH}/change-password`,
       headers: authHeaders,
-      observe: 'response'
-    });
+      body: data
+    };
+  });
+
+  confirmationCodeResource = httpResource<Email>(() => {
+    const data = this.confirmationCodeData();
+    if (!data) return undefined;
+    return {
+      method: 'POST',
+      url: `${Url.AUTH}/generate-confirmation-code`,
+      headers: authHeaders,
+      body: data
+    };
+  });
+
+  validateCodeResource = httpResource<ForgotMemberNumber>(() => {
+    const data = this.validateCodeData();
+    if (!data) return undefined;
+    return {
+      method: 'POST',
+      url: `${Url.AUTH}/validate-confirmation-code`,
+      headers: authHeaders,
+      body: data
+    };
+  });
+
+  forgotMemberResource = httpResource<ForgotMemberNumber>(() => {
+    const data = this.forgotMemberData();
+    if (!data) return undefined;
+    return {
+      method: 'POST',
+      url: `${Url.AUTH}/forgot-member-number`,
+      headers: authHeaders,
+      body: data
+    };
+  });
+
+  setChangePasswordData(data: ChangePassword | undefined) {
+    this.changePasswordData.set(data);
   }
 
-  validateConfirmationCode(payload: ForgotMemberNumber) {
-    return this.http.post(`${Url.AUTH}/validate-confirmation-code`, payload, {
-      headers: authHeaders,
-      observe: 'response'
-    });
+  setConfirmationCodeData(data: Email | undefined) {
+    this.confirmationCodeData.set(data);
   }
 
-  forgotMemberNumber(payload: ForgotMemberNumber) {
-    return this.http.post(`${Url.AUTH}/forgot-member-number`, payload, {
-      headers: authHeaders,
-      observe: 'response'
-    });
+  setValidateCodeData(data: ForgotMemberNumber | undefined) {
+    this.validateCodeData.set(data);
   }
 
-  changePassword(payload: ChangePassword) {
-    return this.http.post(`${Url.AUTH}/change-password`, payload, {
-      headers: authHeaders,
-      observe: 'response'
-    });
+  setForgotMemberData(data: ForgotMemberNumber | undefined) {
+    this.forgotMemberData.set(data);
   }
 }

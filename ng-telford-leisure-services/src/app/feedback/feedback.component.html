@@ -4,9 +4,9 @@
       <div class="backlink-container">
         <a class="breadcrumb-link no-arrow" routerLink="/">Home</a>
       </div>
-      @if (errors.length > 0) {
+      @if (errors().length > 0) {
         <app-error-summary
-          [errors]="errors"
+          [errors]="errors()"
           [tabIndex]="1"
           (focusField)="focusElement($event)"
         />
@@ -18,21 +18,21 @@
       </h3>
       <form
         class="question-form-container sub-heading-custom-margin"
-        [formGroup]="satisfactionForm"
+        [formGroup]="form()"
         (ngSubmit)="onClickSendFeedback()"
       >
         <div
           class="input-container mb-sm"
           [class.input-container-error]="
-            (satisfactionForm.get('satisfaction').errors ||
-              satisfactionForm.get('satisfaction').hasError('required')) &&
-            this.errors.length > 0
+            (form().get('satisfaction').errors ||
+              form().get('satisfaction').hasError('required')) &&
+            errors().length > 0
           "
         >
           @if (
-            satisfactionForm.get('satisfaction').errors &&
-            satisfactionForm.get('satisfaction').hasError('required') &&
-            this.errors.length > 0
+            form().get('satisfaction').errors &&
+            form().get('satisfaction').hasError('required') &&
+            errors().length > 0
           ) {
             <label for="satisfaction" class="input-label-error-message">
               Select how you felt about the service you received today
@@ -58,7 +58,7 @@
               for="verySatisfied"
               class="radio-input-label"
               [ngClass]="
-                satisfactionForm.get('satisfaction').value === 'Very satisfied'
+                form().get('satisfaction').value === 'Very satisfied'
                   ? 'checked'
                   : 'unchecked'
               "
@@ -85,7 +85,7 @@
               for="satisfied"
               class="radio-input-label"
               [ngClass]="
-                satisfactionForm.get('satisfaction').value === 'Satisfied'
+                form().get('satisfaction').value === 'Satisfied'
                   ? 'checked'
                   : 'unchecked'
               "
@@ -112,7 +112,7 @@
               for="neither"
               class="radio-input-label"
               [ngClass]="
-                satisfactionForm.get('satisfaction').value ===
+                form().get('satisfaction').value ===
                 'Neither satisfied or dissatisfied'
                   ? 'checked'
                   : 'unchecked'
@@ -140,7 +140,7 @@
               for="dissatisfied"
               class="radio-input-label"
               [ngClass]="
-                satisfactionForm.get('satisfaction').value === 'Dissatisfied'
+                form().get('satisfaction').value === 'Dissatisfied'
                   ? 'checked'
                   : 'unchecked'
               "
@@ -167,8 +167,7 @@
               for="veryDissatisfied"
               class="radio-input-label"
               [ngClass]="
-                satisfactionForm.get('satisfaction').value ===
-                'Very dissatisfied'
+                form().get('satisfaction').value === 'Very dissatisfied'
                   ? 'checked'
                   : 'unchecked'
               "
@@ -196,16 +195,15 @@
         <p
           class="text-area-help-text"
           [class.text-area-error-text]="
-            satisfactionForm.get('improvements')?.value?.length > 1200
+            form().get('improvements')?.value?.length > 1200
           "
         >
           {{
-            satisfactionForm.get('improvements')?.value || ''
+            form().get('improvements')?.value || ''
               | remainingCharacters: MAX_FEEDBACK_LENGTH
           }}
           {{
-            satisfactionForm.get('improvements')?.value?.length >
-            MAX_FEEDBACK_LENGTH
+            form().get('improvements')?.value?.length > MAX_FEEDBACK_LENGTH
               ? 'too many'
               : 'remaining'
           }}

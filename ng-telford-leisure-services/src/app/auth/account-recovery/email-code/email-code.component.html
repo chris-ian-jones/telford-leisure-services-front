@@ -10,21 +10,21 @@
           >Back</a
         >
       </div>
-      @if (errors.length > 0) {
+      @if (errors().length > 0) {
         <app-error-summary
-          [errors]="errors"
+          [errors]="errors()"
           [tabIndex]="1"
           (focusField)="focusElement($event)"
         />
       }
       <h1
         class="heading-large mb-xxxl"
-        [class.custom-padding]="errors.length === 0"
+        [class.custom-padding]="errors().length === 0"
       >
         Enter code to confirm your email address
       </h1>
       <p class="body-text">
-        We have sent a code to: <strong>{{ memberEmail }}</strong>
+        We have sent a code to: <strong>{{ memberEmail() }}</strong>
       </p>
       <p class="body-text">The code will expire in 30 minutes.</p>
       <div class="warning-text-container">
@@ -36,17 +36,15 @@
       </div>
       <form
         class="question-form-container"
-        [formGroup]="confirmationCodeForm"
+        [formGroup]="form()"
         (ngSubmit)="onClickConfirm()"
       >
         <div
           class="input-container"
           [class.input-container-error]="
-            (confirmationCodeForm.get('confirmationCode').errors ||
-              confirmationCodeForm
-                .get('confirmationCode')
-                .hasError('required')) &&
-            this.errors.length > 0
+            (form()?.get('confirmationCode')?.errors ||
+              form()?.get('confirmationCode')?.hasError('required')) &&
+            this.errors().length > 0
           "
         >
           <label
@@ -57,20 +55,18 @@
           </label>
           <p class="label-hint-text custom-label-margin">For example, DNCLRK</p>
           @if (
-            confirmationCodeForm.get('confirmationCode').errors &&
-            confirmationCodeForm.get('confirmationCode').hasError('required') &&
-            this.errors.length > 0
+            form()?.get('confirmationCode')?.errors &&
+            form()?.get('confirmationCode')?.hasError('required') &&
+            this.errors().length > 0
           ) {
             <label for="confirmationCode" class="input-label-error-message">
               Enter the 6 character confirmation code
             </label>
           }
           @if (
-            confirmationCodeForm.get('confirmationCode').errors &&
-            confirmationCodeForm
-              .get('confirmationCode')
-              .hasError('incorrect') &&
-            this.errors.length > 0
+            form()?.get('confirmationCode')?.errors &&
+            form()?.get('confirmationCode')?.hasError('incorrect') &&
+            this.errors().length > 0
           ) {
             <label for="confirmationCode" class="input-label-error-message">
               Enter correct confirmation code
@@ -83,8 +79,8 @@
               type="text"
               class="default-text-input"
               [class.text-input-error]="
-                confirmationCodeForm.get('confirmationCode').errors &&
-                this.errors.length > 0
+                form()?.get('confirmationCode')?.errors &&
+                this.errors().length > 0
               "
             />
           </div>

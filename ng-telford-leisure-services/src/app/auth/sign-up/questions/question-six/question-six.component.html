@@ -1,31 +1,31 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">What is your ethnicity?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionSixForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div
     class="input-container"
     [class.input-container-error]="
-      (questionSixForm.get('ethnicity').errors ||
-        questionSixForm.get('ethnicity').hasError('required')) &&
-      this.errors.length > 0
+      (form().get('ethnicity').errors ||
+        form().get('ethnicity').hasError('required')) &&
+      hasErrors()
     "
   >
     @if (
-      questionSixForm.get('ethnicity').errors &&
-      questionSixForm.get('ethnicity').hasError('required') &&
-      this.errors.length > 0
+      form().get('ethnicity').errors &&
+      form().get('ethnicity').hasError('required') &&
+      hasErrors()
     ) {
       <label for="ethnicity" class="input-label-error-message">
         Select your ethnicity
@@ -51,7 +51,7 @@
         for="white"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'White UK/Irish/Euro'
+          form().get('ethnicity').value === 'White UK/Irish/Euro'
             ? 'checked'
             : 'unchecked'
         "
@@ -78,7 +78,7 @@
         for="asian"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'Asian/Asian British'
+          form().get('ethnicity').value === 'Asian/Asian British'
             ? 'checked'
             : 'unchecked'
         "
@@ -105,7 +105,7 @@
         for="black"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'Black/Black British'
+          form().get('ethnicity').value === 'Black/Black British'
             ? 'checked'
             : 'unchecked'
         "
@@ -132,9 +132,7 @@
         for="chinese"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'Chinese'
-            ? 'checked'
-            : 'unchecked'
+          form().get('ethnicity').value === 'Chinese' ? 'checked' : 'unchecked'
         "
       >
         Chinese
@@ -159,7 +157,7 @@
         for="mixed"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'Mixed/Dual'
+          form().get('ethnicity').value === 'Mixed/Dual'
             ? 'checked'
             : 'unchecked'
         "
@@ -186,7 +184,7 @@
         for="other"
         class="radio-input-label"
         [ngClass]="
-          questionSixForm.get('ethnicity').value === 'Other/Not Stated'
+          form().get('ethnicity').value === 'Other/Not Stated'
             ? 'checked'
             : 'unchecked'
         "

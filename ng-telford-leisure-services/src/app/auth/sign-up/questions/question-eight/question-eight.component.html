@@ -1,31 +1,31 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">Which will be your membership type?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionEightForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div
     class="input-container"
     [class.input-container-error]="
-      (questionEightForm.get('membershipType').errors ||
-        questionEightForm.get('membershipType').hasError('required')) &&
-      this.errors.length > 0
+      (form().get('membershipType').errors ||
+        form().get('membershipType').hasError('required')) &&
+      errors().length > 0
     "
   >
     @if (
-      questionEightForm.get('membershipType').errors &&
-      questionEightForm.get('membershipType').hasError('required') &&
-      this.errors.length > 0
+      form().get('membershipType').errors &&
+      form().get('membershipType').hasError('required') &&
+      errors().length > 0
     ) {
       <label for="membershipType" class="input-label-error-message">
         Select your membership type
@@ -55,8 +55,7 @@
           for="adt"
           class="radio-input-label"
           [ngClass]="
-            questionEightForm.get('membershipType').value ===
-            'TLC Adt Resident 16+ - ADT'
+            form().get('membershipType').value === 'TLC Adt Resident 16+ - ADT'
               ? 'checked'
               : 'unchecked'
           "
@@ -102,7 +101,7 @@
           for="hco"
           class="radio-input-label"
           [ngClass]="
-            questionEightForm.get('membershipType').value ===
+            form().get('membershipType').value ===
             'Annual Cash Concession - HCO'
               ? 'checked'
               : 'unchecked'
@@ -150,7 +149,7 @@
           for="hae"
           class="radio-input-label"
           [ngClass]="
-            questionEightForm.get('membershipType').value ===
+            form().get('membershipType').value ===
             'Aspirations All Inclusive - HAE'
               ? 'checked'
               : 'unchecked'
@@ -198,7 +197,7 @@
           for="hcc"
           class="radio-input-label"
           [ngClass]="
-            questionEightForm.get('membershipType').value ===
+            form().get('membershipType').value ===
             'Aspirations No Contract - HCC'
               ? 'checked'
               : 'unchecked'

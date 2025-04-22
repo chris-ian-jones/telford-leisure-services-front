@@ -1,9 +1,12 @@
 import {
   Component,
+  computed,
+  effect,
   EventEmitter,
-  Input,
-  OnInit,
+  inject,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -40,76 +43,105 @@ interface QuestionOneForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionOneComponent implements OnInit {
+export class QuestionOneComponent {
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  questionOneForm!: FormGroup<QuestionOneForm>;
-  errors: ErrorSummaryItem[] = [];
-  @Output() answerOneEvent = new EventEmitter<any>();
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
+  form = signal<FormGroup<QuestionOneForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signUpService: SignUpService
-  ) {}
+  hasFirstNameError = computed(() => {
+    const control = this.form().get('firstName');
+    return (
+      control?.errors &&
+      control?.hasError('required') &&
+      this.errors().length > 0
+    );
+  });
 
-  ngOnInit() {
-    this.initQuestionOneForm();
+  hasLastNameError = computed(() => {
+    const control = this.form().get('lastName');
+    return (
+      control?.errors &&
+      control?.hasError('required') &&
+      this.errors().length > 0
+    );
+  });
+
+  isFormValid = computed(() => this.formValid());
+
+  @Output() answerOneEvent = new EventEmitter<Partial<Member>>();
+
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly signUpService = inject(SignUpService);
+
+  constructor() {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData) {
+        this.form().patchValue({
+          firstName: memberData.firstName || '',
+          lastName: memberData.lastName || ''
+        });
+        this.formValid.set(this.form().valid);
+      }
+    });
+
+    this.form().statusChanges.subscribe((status) => {
+      this.formValid.set(status === 'VALID');
+    });
   }
 
-  initQuestionOneForm() {
-    this.questionOneForm = this.formBuilder.group<QuestionOneForm>(
+  private initForm(): FormGroup<QuestionOneForm> {
+    return this.formBuilder.group(
       {
-        firstName: new FormControl(this.newMemberData.firstName, {
-          nonNullable: false,
-          validators: [Validators.required]
-        }),
-        lastName: new FormControl(this.newMemberData.lastName, {
-          nonNullable: false,
-          validators: [Validators.required]
-        })
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]]
       },
       { updateOn: 'submit' }
     );
   }
 
   onClickContinue() {
-    this.errors.length = 0;
+    this.errors.set([]);
     this.signUpService.removeHashPathFromCurrentPath();
-    if (this.questionOneForm.valid) {
-      this.answerOneEvent.emit(this.questionOneForm.value);
+
+    if (this.isFormValid()) {
+      const formValue = this.form().getRawValue();
+      this.answerOneEvent.emit(formValue);
     } else {
       this.handleFormValidationErrors();
     }
   }
 
   handleFormValidationErrors() {
-    this.errors.length = 0;
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionOneForm.controls).forEach((control) => {
-      const controlErrors = this.questionOneForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionOneForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 
   focusElement(elementId: string) {
     const element = document.getElementById(elementId);
-    if (element) {
-      element.focus();
-    }
+    element?.focus();
   }
 }

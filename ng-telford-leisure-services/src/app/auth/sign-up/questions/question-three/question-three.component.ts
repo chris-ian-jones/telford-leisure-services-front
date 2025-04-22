@@ -1,10 +1,13 @@
 import {
   Component,
+  computed,
+  effect,
   ElementRef,
   EventEmitter,
-  Input,
-  OnInit,
+  inject,
+  input,
   Output,
+  signal,
   ViewChild
 } from '@angular/core';
 import {
@@ -24,7 +27,7 @@ import {
 import { ErrorSummaryComponent } from './../../../../shared/components/error-summary/error-summary.component';
 
 interface QuestionThreeForm {
-  gender: FormControl<string | null>;
+  gender: FormControl<string>;
 }
 
 @Component({
@@ -39,71 +42,109 @@ interface QuestionThreeForm {
     ErrorSummaryComponent
   ]
 })
-export class QuestionThreeComponent implements OnInit {
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
-  @Input() newMemberData!: Member;
-  @Output() answerThreeEvent = new EventEmitter<any>();
-  questionThreeForm!: FormGroup;
+export class QuestionThreeComponent {
   @ViewChild('maleInput', { static: false }) maleInput: ElementRef;
   @ViewChild('femaleInput', { static: false }) femaleInput: ElementRef;
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  currentPage = input.required<number>();
+  totalPages = input.required<number>();
+  newMemberData = input.required<Member>();
 
-  ngOnInit() {
-    this.initQuestionThreeForm();
+  genderValue = signal<string>('');
+
+  form = signal<FormGroup<QuestionThreeForm>>(this.initForm());
+  formValid = signal<boolean>(false);
+  errors = signal<ErrorSummaryItem[]>([]);
+
+  hasGenderError = computed(() => {
+    const control = this.form().get('gender');
+    return (
+      control?.errors &&
+      control?.hasError('required') &&
+      this.errors().length > 0
+    );
+  });
+
+  isFormValid = computed(() => this.formValid());
+
+  @Output() answerThreeEvent = new EventEmitter<Partial<Member>>();
+
+  private readonly formBuilder = inject(FormBuilder);
+
+  constructor() {
+    effect(() => {
+      const memberData = this.newMemberData();
+      if (memberData) {
+        this.form().patchValue({
+          gender: memberData.gender || ''
+        });
+        this.formValid.set(this.form().valid);
+      }
+    });
+
+    this.form()
+      .get('gender')
+      ?.valueChanges.subscribe((value) => {
+        this.genderValue.set(value || '');
+      });
+
+    this.form().statusChanges.subscribe((status) => {
+      this.formValid.set(status === 'VALID');
+    });
   }
 
-  initQuestionThreeForm() {
-    this.questionThreeForm = this.formBuilder.group<QuestionThreeForm>({
-      gender: new FormControl(this.newMemberData.gender, {
-        nonNullable: false,
-        validators: [Validators.required]
-      })
+  private initForm(): FormGroup<QuestionThreeForm> {
+    return this.formBuilder.group({
+      gender: ['', [Validators.required]]
     });
   }
 
   selectInput(value: string) {
-    this.questionThreeForm.controls['gender'].setValue(value);
-    this.errors.length = 0;
-    if (value === 'Male') {
-      setTimeout(() => this.maleInput.nativeElement.focus());
-    } else if (value === 'Female') {
-      setTimeout(() => this.femaleInput.nativeElement.focus());
+    const control = this.form().get('gender');
+    if (control) {
+      control.setValue(value, { emitEvent: true });
+      control.markAsDirty();
+      if (value === 'Male') {
+        setTimeout(() => this.maleInput?.nativeElement.focus());
+      } else if (value === 'Female') {
+        setTimeout(() => this.femaleInput?.nativeElement.focus());
+      }
     }
+    this.errors.set([]);
   }
 
   onClickContinue() {
-    if (this.questionThreeForm.valid) {
+    if (this.isFormValid()) {
       this.answerThreeEvent.emit({
-        gender: this.questionThreeForm.controls['gender'].value
+        gender: this.form().get('gender')?.value
       });
     } else {
       this.handleFormValidationErrors();
     }
   }
 
-  handleFormValidationErrors() {
-    this.errors.length = 0;
+  private handleFormValidationErrors() {
     const newErrors: ErrorSummaryItem[] = [];
+    const controls = this.form().controls;
 
-    Object.keys(this.questionThreeForm.controls).forEach((control) => {
-      const controlErrors = this.questionThreeForm.get(control)?.errors;
-      if (!controlErrors) return;
+    Object.keys(controls).forEach((controlName) => {
+      const control = controls[controlName as keyof QuestionThreeForm];
+      const controlErrors = control.errors;
 
-      const controlErrorMessages = ERROR_MESSAGES[control];
-      if (!controlErrorMessages) return;
-
-      Object.keys(controlErrors).forEach((errorType) => {
-        if (controlErrorMessages[errorType]) {
-          newErrors.push(controlErrorMessages[errorType]);
+      if (controlErrors) {
+        const errorMessages = ERROR_MESSAGES[controlName];
+        if (errorMessages) {
+          Object.keys(controlErrors).forEach((errorType) => {
+            if (errorMessages[errorType]) {
+              newErrors.push(errorMessages[errorType]);
+            }
+          });
         }
-      });
+      }
     });
 
-    this.errors = newErrors;
+    this.errors.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 

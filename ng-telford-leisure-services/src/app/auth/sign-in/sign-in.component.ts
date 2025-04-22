@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+  ViewChild
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { SignIn } from './../../core/models/signIn';
 import { AuthService } from './../auth.service';
-import { lastValueFrom } from 'rxjs';
 import { ErrorSummaryComponent } from './../../shared/components/error-summary/error-summary.component';
 import {
   ErrorSummaryItem,
@@ -36,15 +42,16 @@ interface SignInForm {
   ]
 })
 export default class SignInComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+
   @ViewChild(ErrorSummaryComponent) errorSummary!: ErrorSummaryComponent;
   signInForm!: FormGroup<SignInForm>;
-  errors: ErrorSummaryItem[] = [];
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private authService: AuthService
-  ) {}
+  readonly isLoading = signal(false);
+  private readonly errorState = signal<ErrorSummaryItem[]>([]);
+  readonly errors = computed(() => this.errorState());
 
   ngOnInit() {
     this.initSignInForm();
@@ -67,7 +74,8 @@ export default class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.errors.length = 0;
+    this.errorState.set([]);
+
     if (this.signInForm.valid) {
       const unformattedMemberNumber = this.signInForm.get('memberNumber').value;
       const payload: SignIn = {
@@ -80,28 +88,32 @@ export default class SignInComponent implements OnInit {
     }
   }
 
-  async memberSignIn(payload: SignIn) {
-    try {
-      let response: any = await lastValueFrom(
-        this.authService.memberSignIn(payload)
-      );
-      this.router.navigateByUrl('dashboard');
-    } catch (error: any) {
-      if (error.error.error === 'Unauthorized') {
-        this.signInForm.controls['memberNumber'].setErrors({
-          unauthorized: true
-        });
+  memberSignIn(payload: SignIn) {
+    this.isLoading.set(true);
+
+    this.authService.memberSignIn(payload).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.router.navigateByUrl('dashboard');
+      },
+      error: (error) => {
+        this.isLoading.set(false);
+
+        if (error.error.error === 'Unauthorized') {
+          this.signInForm.controls['memberNumber'].setErrors({
+            unauthorized: true
+          });
+        } else {
+          this.signInForm.controls['memberNumber'].setErrors({ error: true });
+        }
+
         this.handleFormValidationErrors();
-      } else {
-        this.signInForm.controls['memberNumber'].setErrors({ error: true });
-        this.handleFormValidationErrors();
+        setTimeout(() => this.errorSummary.focusErrorSummary());
       }
-      setTimeout(() => this.errorSummary.focusErrorSummary());
-    }
+    });
   }
 
   handleFormValidationErrors() {
-    this.errors.length = 0;
     const newErrors: ErrorSummaryItem[] = [];
 
     Object.keys(this.signInForm.controls).forEach((control) => {
@@ -118,7 +130,7 @@ export default class SignInComponent implements OnInit {
       });
     });
 
-    this.errors = newErrors;
+    this.errorState.set(newErrors);
     setTimeout(() => this.errorSummary.focusErrorSummary());
   }
 

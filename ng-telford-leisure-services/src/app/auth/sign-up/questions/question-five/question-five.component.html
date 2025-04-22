@@ -1,34 +1,34 @@
-@if (errors.length > 0) {
+@if (errors().length > 0) {
   <app-error-summary
-    [errors]="errors"
+    [errors]="errors()"
     [tabIndex]="1"
     (focusField)="focusElement($event)"
   />
 }
 <h2 class="page-question-number">
-  Question {{ currentPage }} of {{ totalPages }}
+  Question {{ currentPage() }} of {{ totalPages() }}
 </h2>
 <h1 class="page-question">What is your residential address?</h1>
 <form
   class="question-form-container"
-  [formGroup]="questionFiveForm"
+  [formGroup]="form()"
   (ngSubmit)="onClickContinue()"
 >
   <div
     class="input-container"
     [class.input-container-error]="
-      (questionFiveForm.get('addressLineOne').errors ||
-        questionFiveForm.get('addressLineOne').hasError('required')) &&
-      this.errors.length > 0
+      (form().get('addressLineOne').errors ||
+        form().get('addressLineOne').hasError('required')) &&
+      hasErrors()
     "
   >
     <label for="addressLineOne" class="default-input-label">
       Address line 1
     </label>
     @if (
-      questionFiveForm.get('addressLineOne').errors &&
-      questionFiveForm.get('addressLineOne').hasError('required') &&
-      this.errors.length > 0
+      form().get('addressLineOne').errors &&
+      form().get('addressLineOne').hasError('required') &&
+      hasErrors()
     ) {
       <label for="addressLineOne" class="input-label-error-message">
         Enter your address line 1
@@ -41,8 +41,7 @@
         type="text"
         class="default-text-input"
         [class.text-input-error]="
-          questionFiveForm.get('addressLineOne').errors &&
-          this.errors.length > 0
+          form().get('addressLineOne').errors && hasErrors()
         "
       />
     </div>
@@ -87,25 +86,25 @@
   <div
     class="input-container"
     [class.input-container-error]="
-      (questionFiveForm.get('postcode').errors ||
-        questionFiveForm.get('postcode').hasError('required')) &&
-      this.errors.length > 0
+      (form().get('postcode').errors ||
+        form().get('postcode').hasError('required')) &&
+      hasErrors()
     "
   >
     <label for="postcode" class="default-input-label"> Postcode </label>
     @if (
-      questionFiveForm.get('postcode').errors &&
-      questionFiveForm.get('postcode').hasError('required') &&
-      this.errors.length > 0
+      form().get('postcode').errors &&
+      form().get('postcode').hasError('required') &&
+      hasErrors()
     ) {
       <label for="postcode" class="input-label-error-message">
         Enter your postcode
       </label>
     }
     @if (
-      questionFiveForm.get('postcode').errors &&
-      questionFiveForm.get('postcode').hasError('pattern') &&
-      this.errors.length > 0
+      form().get('postcode').errors &&
+      form().get('postcode').hasError('pattern') &&
+      hasErrors()
     ) {
       <label for="postcode" class="input-label-error-message">
         Enter a real postcode
@@ -117,9 +116,7 @@
         formControlName="postcode"
         type="text"
         class="default-text-input one-half-text-input"
-        [class.text-input-error]="
-          questionFiveForm.get('postcode').errors && this.errors.length > 0
-        "
+        [class.text-input-error]="form().get('postcode').errors && hasErrors()"
       />
     </div>
   </div>
