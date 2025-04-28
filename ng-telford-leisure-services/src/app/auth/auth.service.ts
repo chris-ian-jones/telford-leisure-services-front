@@ -70,7 +70,7 @@ export class AuthService {
 
   private setAuthentication(response: any) {
     if ('token' in response) {
-      const token = response.body.token;
+      const token = response.token;
       localStorage.setItem('sessionToken', token);
       this.authToken.set(token);
     }
